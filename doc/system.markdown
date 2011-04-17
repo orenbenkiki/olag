@@ -13,8 +13,8 @@ The overall Rakefile structure is as follows:
 
 * The next line imports Olag's `rake` support module.
 
-* This is followed by setting up the gem specification, which is automated by
-  the Olag::GemSpecification class.
+* This is followed by setting up the gem specification, which is enhanced by
+  Olag using monkey-patching.
 
 * Finally, Olag::Rake sets up the following tasks (as reported by `rake -T`):
       rake all               # Version, verify, document, package
@@ -50,14 +50,12 @@ The overall Rakefile structure is as follows:
 
 ### Gem Specification ###
 
-The gem specification is provided as usual, except for using
-Olag::GemSpecification instead of the Gem::Specification class:
+The gem specification is provided as usual:
 
 [[Gem specification|named_chunk_with_containers]]
 
-The Olag::GemSpecification class automatically sets several of the
-specification fields, assuming a certain directory structure and other
-conventions:
+However, the Gem::Specification class is monkey-patched to automatically
+several of the specification fields, and adding some new ones:
 
 [[lib/olag/gem_specification.rb|named_chunk_with_containers]]
 
@@ -161,7 +159,7 @@ data to match the surrounding code. There are other cases where it is useful to
 
 And here is the implementation extending the built-in String class:
 
-[[lib/olag/core_ext/string.rb|named_chunk_with_containers]]
+[[lib/olag/string_unindent.rb|named_chunk_with_containers]]
 
 ### Accessing gem data files ###
 
@@ -197,7 +195,7 @@ demonstrating using this ability:
 
 And here is the implementation:
 
-[[lib/olag/core_ext/hash.rb|named_chunk_with_containers]]
+[[lib/olag/hash_struct.rb|named_chunk_with_containers]]
 
 ### Collecting errors ###
 

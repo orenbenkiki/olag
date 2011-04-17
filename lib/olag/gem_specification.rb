@@ -1,7 +1,7 @@
-module Olag
+module Gem
 
-  # Automated gem specifications.
-  class GemSpecification < Gem::Specification
+  # Enhanced automated gem specification.
+  class Specification
 
     # The title of the gem for documentation (by default, the capitalized
     # name).
@@ -11,11 +11,13 @@ module Olag
     # +lib+/_name_/+version+.+rb+).
     attr_accessor :version_file
 
+    alias_method :original_initialize, :initialize
+
     # Create the gem specification. Requires a block to set up the basic gem
     # information (name, version, author, email, description). In addition, the
     # block may override default properties (e.g. title).
     def initialize(&block)
-      super(block)
+      original_initialize(&block)
       setup_default_members
       add_development_dependencies
       setup_file_members

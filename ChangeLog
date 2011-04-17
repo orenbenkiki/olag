@@ -1,5 +1,6 @@
 2011-04-17	Oren Ben-Kiki <github-oren@ben-kiki.org>
 
+	* Fix gem installation problem.
 	* Exclude tests from RDoc documentation.
 	* Fix commit process.
 	* Refactor out of Codnar.

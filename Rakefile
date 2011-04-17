@@ -4,7 +4,7 @@ require "olag/rake"
 
 # {{{ Gem specification
 
-spec = Olag::GemSpecification.new do |spec|
+spec = Gem::Specification.new do |spec|
   spec.name = "olag"
   spec.version = Olag.version
   spec.author = "Oren Ben-Kiki"

@@ -1,7 +1,7 @@
 require "fileutils"
-require "olag/core_ext/string"
 require "olag/errors"
 require "olag/globals"
+require "olag/string_unindent.rb"
 require "olag/version"
 require "optparse"
 

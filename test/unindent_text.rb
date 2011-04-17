@@ -1,4 +1,4 @@
-require "olag/core_ext/string"
+require "olag/string_unindent"
 require "test/spec"
 
 # Test unindenting a multi-line text.

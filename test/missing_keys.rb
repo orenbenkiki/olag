@@ -1,4 +1,4 @@
-require "olag/core_ext/hash"
+require "olag/hash_struct"
 require "test/spec"
 
 # Test accessing missing keys as members.

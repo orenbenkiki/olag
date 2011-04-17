@@ -29,10 +29,15 @@ module Olag
 
     # Define a task that does "everything".
     def define_all_task
-      define_desc_task("Verify, document, package", :all => [ :verify, :doc, :package ])
+      define_desc_task("Version, verify, document, package", :all => [ :version, :verify, :doc, :package ])
       define_verify_task
       define_doc_task
       define_commit_task
+      # This is a problem. If the version number gets updated, GemPackageTask
+      # fails. This is better than if it used the old version number, I
+      # suppose, but not as nice as if it just used @spec.version everywhere.
+      # The solution for this is to do a dry run before doing the final +rake+
+      # +commit+, which is a good idea in general.
       ::Rake::GemPackageTask.new(@spec) { |package| }
     end
 
@@ -205,11 +210,12 @@ module Olag
 
     # {{{ Automate Git commit process
 
+    # Define a task that commit changes to Git.
     def define_commit_task
-      define_desc_task("Git commit process", :commit => [ :version, :all, :first_commit, :changelog, :amend_commit ])
+      define_desc_task("Git commit process", :commit => [ :all, :first_commit, :changelog, :second_commit ])
       define_desc_task("Update version file from Git", :version) { update_version_file }
-      define_desc_task("Update version file from Git", :first_commit) { run_git_first_commit }
-      define_desc_task("Update version file from Git", :second_commit) { run_git_second_commit }
+      define_desc_task("Perform the 1st (main) Git commit", :first_commit) { run_git_first_commit }
+      define_desc_task("Perform the 2nd (amend) Git commit", :second_commit) { run_git_second_commit }
       define_desc_task("Update ChangeLog from Git", :changelog) { Olag::ChangeLog.new("ChangeLog") }
     end
 
@@ -224,13 +230,13 @@ module Olag
     # Run the first Git commit. The user will be given an editor to review the
     # commit and enter a commit message.
     def run_git_first_commit
-      raise "Git 1st commit failed" unless system("git commit")
+      raise "Git 1st commit failed" unless system("set +x; git commit")
     end
 
     # Run the second Git commit. This amends the first commit with the updated
     # ChangeLog.
     def run_git_second_commit
-      raise "Git 2nd commit failed" unless system("EDITOR=true git commit --amend ChangeLog")
+      raise "Git 2nd commit failed" unless system("set +x; EDITOR=true git commit --amend ChangeLog")
     end
 
     # }}}

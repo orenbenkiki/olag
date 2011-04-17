@@ -17,31 +17,36 @@ The overall Rakefile structure is as follows:
   the Olag::GemSpecification class.
 
 * Finally, Olag::Rake sets up the following tasks (as reported by `rake -T`):
-      rake all              # Verify, document, package
-      rake analyze          # Analyze source code
-      rake clean            # Remove any temporary products.
-      rake clean_codnar     # Clean all split chunks
-      rake clobber          # Remove any generated file.
-      rake clobber_codnar   # Remove woven HTML documentation
-      rake clobber_package  # Remove package products
-      rake clobber_rcov     # Remove rcov products for rcov
-      rake clobber_rdoc     # Remove rdoc products
-      rake codnar           # Build the code narrative HTML
-      rake codnar_split     # Split all files into chunks
-      rake codnar_weave     # Weave chunks into HTML
-      rake doc              # Generate all documentation
-      rake flay             # Check for duplicated code with Flay
-      rake gem              # Build the gem file olag-0.1.2.gem
-      rake package          # Build all the packages
-      rake rcov             # Test code covarage with RCov
-      rake rdoc             # Build the rdoc HTML Files
-      rake reek             # Check for smelly code with Reek
-      rake repackage        # Force a rebuild of the package files
-      rake rerdoc           # Force a rebuild of the RDOC files
-      rake roodi            # Check for smelly code with Roodi
-      rake saikuro          # Check for complex code with Saikuro
-      rake test             # Run tests for test
-      rake verify           # Test, coverage, analyze code
+      rake all               # Version, verify, document, package
+      rake analyze           # Analyze source code
+      rake changelog         # Update ChangeLog from Git
+      rake clean             # Remove any temporary products.
+      rake clean_codnar      # Clean all split chunks
+      rake clobber           # Remove any generated file.
+      rake clobber_codnar    # Remove woven HTML documentation
+      rake clobber_coverage  # Remove rcov products for coverage
+      rake clobber_package   # Remove package products
+      rake clobber_rdoc      # Remove rdoc products
+      rake codnar            # Build the code narrative HTML
+      rake codnar_split      # Split all files into chunks
+      rake codnar_weave      # Weave chunks into HTML
+      rake commit            # Git commit process
+      rake coverage          # Test code covarage with RCov
+      rake doc               # Generate all documentation
+      rake first_commit      # Perform the 1st (main) Git commit
+      rake flay              # Check for duplicated code with Flay
+      rake gem               # Build the gem file olag-0.1.2.gem
+      rake package           # Build all the packages
+      rake rdoc              # Build the rdoc HTML Files
+      rake reek              # Check for smelly code with Reek
+      rake repackage         # Force a rebuild of the package files
+      rake rerdoc            # Force a rebuild of the RDOC files
+      rake roodi             # Check for smelly code with Roodi
+      rake saikuro           # Check for complex code with Saikuro
+      rake second_commit     # Perform the 2nd (amend) Git commit
+      rake test              # Run tests for test
+      rake verify            # Test, coverage, analyze code
+      rake version           # Update version file from Git
 
 ### Gem Specification ###
 

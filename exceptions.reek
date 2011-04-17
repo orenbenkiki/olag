@@ -1,0 +1,7 @@
+FeatureEnvy: # LowCohesion
+  exclude:
+  - !ruby/regexp /configure_.*_task/
+  - !ruby/regexp /Test/
+UtilityFunction: # LowCohesion
+  exclude:
+  - !ruby/regexp /Test/

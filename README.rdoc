@@ -1,0 +1,17 @@
+= Olag
+
+Olag - Oren's Library/Application Gem framework
+
+== TL;DR
+
+=== Description
+
+Olag is Oren's set of utilities for creating a well-behaved gem. This is very
+opinionated code; it eliminates a lot of the boilerplate, at the cost of making
+many decisions which may not be suitable for everyone (directory structure,
+code verification, Codnar for documentation, etc.).
+
+=== Installation
+
+A simple <tt>gem install olag</tt> should do the trick, assuming you have
+Ruby gems set up.

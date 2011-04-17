@@ -125,7 +125,7 @@ module Olag
 
     # Configure a task to build the RDoc documentation.
     def configure_rdoc_task(task)
-      task.rdoc_files += @ruby_sources - [ "Rakefile" ] + [ "LICENSE", "README.rdoc" ]
+      task.rdoc_files += @ruby_sources.reject { |file| file =~ /^test|Rakefile/ } + [ "LICENSE", "README.rdoc" ]
       task.main = "README.rdoc"
       task.rdoc_dir = "rdoc"
       task.options = @spec.rdoc_options

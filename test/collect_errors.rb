@@ -5,7 +5,7 @@ require "test/spec"
 # Test collecting errors.
 class TestCollectErrors < Test::Unit::TestCase
 
-  include Olag::Test::WithErrors
+  include Test::WithErrors
 
   def test_one_error
     @errors << "Oops"

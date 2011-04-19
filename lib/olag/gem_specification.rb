@@ -1,3 +1,4 @@
+# Monkey-patch within the Gem module.
 module Gem
 
   # Enhanced automated gem specification.
@@ -43,7 +44,8 @@ module Gem
     def setup_file_members
       # These should cover all the gem's files, except for the extra rdoc
       # files.
-      setup_file_member(:files, "{Rakefile,codnar.html,{lib,doc}/**/*}")
+      setup_file_member(:files, "{lib,doc}/**/*")
+      self.files << "Rakefile" << "codnar.html"
       setup_file_member(:executables, "bin/*") { |path| path.sub("bin/", "") }
       setup_file_member(:test_files, "test/**/*")
     end

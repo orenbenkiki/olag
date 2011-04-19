@@ -235,9 +235,20 @@ when running applications inside unit tests):
 
 When running external programs, actually generating a temporary disk file is
 sometimes inevitable. Of course, such files need to be cleaned up when the test
-is done. Here is a mix-in that helps writing tests using such temporary files:
+is done. If we need more than just one such file, it is easier to create a
+whole temporary directory which is easily cleaned up in one operation.
+
+Here is a mix-in that helps writing tests using temporary files and folders:
 
 [[lib/olag/test/with_tempfile.rb|named_chunk_with_containers]]
+
+### Testing Rake tasks ###
+
+Testing Rake tasks is tricky because tests may be run in the context of Rake.
+Therefore, the best practice is to create a new Rake application and restore
+the original when the test is done:
+
+[[lib/olag/test/with_rake.rb|named_chunk_with_containers]]
 
 ### Testing in general ###
 

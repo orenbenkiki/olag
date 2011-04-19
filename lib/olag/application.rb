@@ -17,9 +17,9 @@ module Olag
     end
 
     # Run the Olag application, returning its status.
-    def run(&block)
+    def run(*arguments, &block)
       parse_options
-      yield if block_given?
+      yield(*arguments) if block_given?
       return print_errors
     rescue ExitException => exception
       return exception.status
@@ -39,10 +39,20 @@ module Olag
     # Parse the command line options of the program.
     def parse_options
       parser = OptionParser.new do |options|
-        @options = options
+        (@options = options).banner = banner + "\n\nOPTIONS:\n\n"
         define_flags
       end
       parser.parse!
+      parse_arguments
+    end
+
+    # Parse remaining command-line file arguments. This is expected to be
+    # overriden by the concrete application sub-class. By default assumes there
+    # are no such arguments.
+    def parse_arguments
+      return if ARGV.size == 0
+      $stderr.puts("#{$0}: Expects no command line file arguments.")
+      exit(1)
     end
 
     # Define application flags. This is expected to be overriden by the
@@ -52,33 +62,53 @@ module Olag
       define_version_flag
       define_redirect_flag("$stdout", "output", "w")
       define_redirect_flag("$stderr", "error", "w")
-      define_redirect_flag("$stdin", "input", "i")
+      #! Most scripts do not use this, but they can add it.
+      #! define_redirect_flag("$stdin", "input", "r")
     end
 
     # Define the standard help flag.
     def define_help_flag
       @options.on("-h", "--help", "Print this help message and exit.") do
-        print_help_before_options
         puts(@options)
-        print_help_after_options
+        print_additional_help
         exit(0)
       end
     end
 
-    # Print the part of the help message before the list of options. This is
-    # expected to be overriden by the concrete application sub-class.
-    def print_help_before_options
+    # Print additional help message. This includes both the command line file
+    # arguments, if any, and a short description of the program.
+    def print_additional_help
+      arguments_name, arguments_description = arguments
+      puts(format("    %-33s%s", arguments_name, arguments_description)) if arguments_name
+      print("\nDESCRIPTION:\n\n")
+      print(description)
     end
 
-    # Print the part of the help message after the list of options. This is
-    # expected to be overriden by the concrete application sub-class.
-    def print_help_after_options
+    # Return the banner line of the help message. This is expected to be
+    # overriden by the concrete application sub-class. By default returns the
+    # path name of thje executed program.
+    def banner
+      return $0
+    end
+
+    # Return the name and description of any final command-line file arguments,
+    # if any. This is expected to be overriden by the concrete application
+    # sub-class. By default, assume there are no final command-line file
+    # arguments (however, `parse_options` does not enforce this by default).
+    def arguments
+      return nil, nil
+    end
+
+    # Return a short description of the program. This is expected to be
+    # overriden by the concrete application sub-class. By default, provide 
+    def description
+      return "Sample description\n"
     end
 
     # Define the standard version flag.
     def define_version_flag
       version_number = version
-      @options.on("-v", "--version", "Print the version number #{version_number} and exit.") do
+      @options.on("-v", "--version", "Print the version number (#{version_number}) and exit.") do
         puts("#{$0}: Version: #{version_number}")
         exit(0)
       end

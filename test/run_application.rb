@@ -15,10 +15,15 @@ end
 # Test running a Olag Application.
 class TestRunApplication < Test::Unit::TestCase
 
-  include Olag::Test::WithFakeFS
+  include Test::WithFakeFS
 
   def test_do_nothing
-    Olag::Application.with_argv(%w(dummy)) { Olag::Application.new(true).run }.should == 0
+    Olag::Application.with_argv([]) { Olag::Application.new(true).run }.should == 0
+  end
+
+  def test_extra_arguments
+    Olag::Application.with_argv(%w(-e stderr dummy)) { Olag::Application.new(true).run }.should == 1
+    File.read("stderr").should.include?("Expects no command line file arguments")
   end
 
   def test_print_version
@@ -28,7 +33,7 @@ class TestRunApplication < Test::Unit::TestCase
 
   def test_print_help
     Olag::Application.with_argv(%w(-o stdout -h -v)) { Olag::Application.new(true).run }.should == 0
-    File.read("stdout").should.include?("Usage")
+    File.read("stdout").should.include?("DESCRIPTION:")
   end
 
   def test_print_errors

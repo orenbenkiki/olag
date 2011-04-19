@@ -19,7 +19,8 @@ module Olag
     # Define all the Rake tasks.
     def initialize(spec)
       @spec = spec
-      @ruby_sources = [ "Rakefile" ] + (@spec.files + @spec.test_files).find_all { |file| file =~ /\.rb$/ }
+      @ruby_sources = @spec.files.find_all { |file| file =~ /^Rakefile$|\.rb$/ }
+      @weave_configurations = [ :weave_include, :weave_named_chunk_with_containers ]
       task(:default => :all)
       define_all_task
       CLOBBER << "saikuro"
@@ -106,7 +107,7 @@ module Olag
     # Run Saikuro to ensure there are no overly complex functions.
     def run_saikuro_task
       dirs = %w(bin lib test).find_all { |dir| File.exist?(dir) }
-      system("saikuro -c -t -y 0 -e 10 -o saikuro/ -i #{dirs.join('-i ')} > /dev/null")
+      system("saikuro -c -t -y 0 -e 10 -o saikuro/ -i #{dirs.join(' -i ')} > /dev/null")
       result = File.read("saikuro/index_cyclo.html")
       raise "Saikuro found complicated code." if result.include?("Errors and Warnings")
     end
@@ -151,7 +152,7 @@ module Olag
         # fast splitting but slow viewing. Using GVim is the reverse.
         "Rakefile|.*\.rb|bin/.*",
         "classify_source_code:ruby",
-        "format_code_sunlight:ruby",
+        "format_code_gvim_css:ruby",
         "classify_shell_comments",
         "format_rdoc_comments",
         "chunk_by_vim_regions",
@@ -172,19 +173,11 @@ module Olag
 
     # Define a task to build the Codnar documentation.
     def define_codnar_task
-      Rake.define_split_tasks(@spec.extra_rdoc_files)
-      Rake.define_split_tasks(@spec.files)
-      Rake.define_split_tasks(@spec.test_files)
-      Rake.define_split_tasks(@spec.executables)
-      Codnar::Rake::WeaveTask.new("doc/root.html", [ :weave_include, :weave_named_chunk_with_containers ])
-    end
-
-    # Define split tasks for a list of files based on CODNAR_CONFIGURATIONS.
-    def self.define_split_tasks(files)
-      files.each do |file|
+      @spec.files.each do |file|
         configurations = Rake.split_configurations(file)
         Codnar::Rake::SplitTask.new([ file ], configurations) unless configurations == []
       end
+      Codnar::Rake::WeaveTask.new("doc/root.html", [ :weave_include, :weave_named_chunk_with_containers ])
     end
 
     # Find the Codnar split configurations for a file.

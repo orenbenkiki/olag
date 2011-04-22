@@ -35,7 +35,7 @@ The overall Rakefile structure is as follows:
       rake doc               # Generate all documentation
       rake first_commit      # Perform the 1st (main) Git commit
       rake flay              # Check for duplicated code with Flay
-      rake gem               # Build the gem file olag-0.1.2.gem
+      rake gem               # Build the gem file olag-<version>.gem
       rake package           # Build all the packages
       rake rdoc              # Build the rdoc HTML Files
       rake reek              # Check for smelly code with Reek

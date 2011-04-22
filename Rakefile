@@ -9,7 +9,7 @@ spec = Gem::Specification.new do |spec|
   spec.version = Olag::VERSION
   spec.author = "Oren Ben-Kiki"
   spec.email = "rubygems-oren@ben-kiki.org"
-  spec.homepage = "http://olag.rubygems.org"
+  spec.homepage = "https://rubygems.org/gems/olag"
   spec.summary = "Olag - Oren's Library/Application Gem framework"
   spec.description = (<<-EOF).gsub(/^\s+/, "").chomp.gsub("\n", " ")
     Olag is Oren's set of utilities for creating a well-behaved gem. This is

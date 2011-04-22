@@ -6,7 +6,7 @@ require "olag/rake"
 
 spec = Gem::Specification.new do |spec|
   spec.name = "olag"
-  spec.version = Olag.version
+  spec.version = Olag::VERSION
   spec.author = "Oren Ben-Kiki"
   spec.email = "rubygems-oren@ben-kiki.org"
   spec.homepage = "http://olag.rubygems.org"

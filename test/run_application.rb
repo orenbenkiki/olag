@@ -28,7 +28,7 @@ class TestRunApplication < Test::Unit::TestCase
 
   def test_print_version
     Olag::Application.with_argv(%w(-o nested/stdout -v -h)) { Olag::Application.new(true).run }.should == 0
-    File.read("nested/stdout").should == "#{$0}: Version: #{Olag.version}\n"
+    File.read("nested/stdout").should == "#{$0}: Version: #{Olag::VERSION}\n"
   end
 
   def test_print_help

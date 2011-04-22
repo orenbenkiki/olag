@@ -10,7 +10,7 @@ module Test
 
         alias_method :rake_original_setup, :setup
 
-        # Automatically create an fresh Rake application.
+        # Automatically create a fresh Rake application.
         def setup
           rake_original_setup
           @original_rake = Rake.application

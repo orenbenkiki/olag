@@ -9,7 +9,7 @@ module Gem
     attr_accessor :title
 
     # The name of the file containing the gem's version (by default,
-    # +lib+/_name_/+version+.+rb+).
+    # <tt>lib/_name_/version.rb</tt>).
     attr_accessor :version_file
 
     alias_method :original_initialize, :initialize
@@ -35,6 +35,7 @@ module Gem
 
     # Add dependencies required for developing the gem.
     def add_development_dependencies
+      add_dependency("olag") unless self.name == "olag"
       %w(Saikuro codnar fakefs flay rake rcov rdoc reek roodi test-spec).each do |gem|
         add_development_dependency(gem)
       end

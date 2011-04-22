@@ -1,3 +1,5 @@
+require "fileutils"
+
 module Test
 
   # Mix-in for tests that write a temporary disk file.

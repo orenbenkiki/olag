@@ -58,7 +58,11 @@ module Olag
     def self.configure_coverage_task(task)
       task.test_files = FileList["test/*.rb"]
       task.libs << "lib" << "test/lib"
-      task.rcov_opts << "--failure-threshold" << "100"
+      task.rcov_opts << "--failure-threshold" << "100" \
+                     << "--exclude" << "^/"
+      # Strangely, on some occasions, RCov crazily tries to compute coverage
+      # for files inside Ruby's gem repository. Excluding all absolute paths
+      # prevents this.
     end
 
     # Configure a task to just run the tests without verifying coverage.
@@ -100,7 +104,7 @@ module Olag
       dirs = %w(bin lib test/lib).find_all { |dir| File.exist?(dir) }
       result = IO.popen("flay " + dirs.join(' '), "r").read.chomp
       return if result == "Total score (lower is better) = 0\n"
-      print(result)
+      puts(result)
       raise "Flay found code duplication."
     end
 
@@ -216,8 +220,8 @@ module Olag
     # build number.
     def update_version_file
       version_file = @spec.version_file
-      @spec.version = Olag::Version::update(version_file)
-      load(version_file)
+      updated_version = Olag::Version::update(version_file)
+      abort("Updated gem version; re-run rake") if @spec.version.to_s != updated_version
     end
 
     # Run the first Git commit. The user will be given an editor to review the

@@ -132,7 +132,7 @@ module Olag
     # concrete application sub-class. In the base class, we just return Olag's
     # version which only useful for Olag's tests.
     def version
-      return Olag.version
+      return Olag::VERSION
     end
 
     # Print all the collected errors.

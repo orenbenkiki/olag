@@ -1,3 +1,5 @@
+require "olag/errors"
+
 module Test
 
   # Mix-in for tests that collect Errors.

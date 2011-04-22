@@ -742,7 +742,7 @@ The gem specification is provided as usual:
 
 spec = <span class="Type">Gem</span>::<span class="Type">Specification</span>.new <span class="Statement">do</span> |<span class="Identifier">spec</span>|
   spec.name = <span class="Special">&quot;</span><span class="Constant">olag</span><span class="Special">&quot;</span>
-  spec.version = <span class="Type">Olag</span>.version
+  spec.version = <span class="Type">Olag</span>::<span class="Type">VERSION</span>
   spec.author = <span class="Special">&quot;</span><span class="Constant">Oren Ben-Kiki</span><span class="Special">&quot;</span>
   spec.email = <span class="Special">&quot;</span><span class="Constant">rubygems-oren@ben-kiki.org</span><span class="Special">&quot;</span>
   spec.homepage = <span class="Special">&quot;</span><span class="Constant"><a href="http://olag.rubygems.org">http://olag.rubygems.org</a></span><span class="Special">&quot;</span>
@@ -842,7 +842,7 @@ The title of the gem for documentation (by default, the capitalized name).
 <div class='rdoc comment markup'>
 <p>
 The name of the file containing the gem’s version (by default,
-<tt>lib</tt>/<em>name</em>/<tt>version</tt>.<tt>rb</tt>).
+<tt>lib/<em>name</em>/version.rb</tt>).
 </p>
 </div>
 </td>
@@ -919,6 +919,7 @@ Add dependencies required for developing the gem.
 </table>
 <pre class='ruby code syntax'>
     <span class="PreProc">def</span> <span class="Identifier">add_development_dependencies</span>
+      add_dependency(<span class="Special">&quot;</span><span class="Constant">olag</span><span class="Special">&quot;</span>) <span class="Statement">unless</span> <span class="Constant">self</span>.name == <span class="Special">&quot;</span><span class="Constant">olag</span><span class="Special">&quot;</span>
       <span class="Special">%w(</span><span class="Constant">Saikuro codnar fakefs flay rake rcov rdoc reek roodi test-spec</span><span class="Special">)</span>.each <span class="Statement">do</span> |<span class="Identifier">gem</span>|
         add_development_dependency(gem)
       <span class="Statement">end</span>
@@ -1316,8 +1317,27 @@ at all from any of the tests.
 <span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">configure_coverage_task</span>(task)
   task.test_files = <span class="Type">FileList</span>[<span class="Special">&quot;</span><span class="Constant">test/*.rb</span><span class="Special">&quot;</span>]
   task.libs &lt;&lt; <span class="Special">&quot;</span><span class="Constant">lib</span><span class="Special">&quot;</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">test/lib</span><span class="Special">&quot;</span>
-  task.rcov_opts &lt;&lt; <span class="Special">&quot;</span><span class="Constant">--failure-threshold</span><span class="Special">&quot;</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">100</span><span class="Special">&quot;</span>
-<span class="PreProc">end</span>
+  task.rcov_opts &lt;&lt; <span class="Special">&quot;</span><span class="Constant">--failure-threshold</span><span class="Special">&quot;</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">100</span><span class="Special">&quot;</span> \
+                 &lt;&lt; <span class="Special">&quot;</span><span class="Constant">--exclude</span><span class="Special">&quot;</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">^/</span><span class="Special">&quot;</span>
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Strangely, on some occasions, RCov crazily tries to compute coverage for
+files inside Ruby’s gem repository. Excluding all absolute paths prevents
+this.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+end
 
 </pre>
 <table class='layout'>
@@ -1459,7 +1479,7 @@ Run Flay to ensure there are no duplicated code fragments.
   dirs = <span class="Special">%w(</span><span class="Constant">bin lib test/lib</span><span class="Special">)</span>.find_all { |<span class="Identifier">dir</span>| <span class="Type">File</span>.exist?(dir) }
   result = <span class="Type">IO</span>.popen(<span class="Special">&quot;</span><span class="Constant">flay </span><span class="Special">&quot;</span> + dirs.join(<span class="Special">'</span><span class="Constant"> </span><span class="Special">'</span>), <span class="Special">&quot;</span><span class="Constant">r</span><span class="Special">&quot;</span>).read.chomp
   <span class="Statement">return</span> <span class="Statement">if</span> result == <span class="Special">&quot;</span><span class="Constant">Total score (lower is better) = 0</span><span class="Special">\n</span><span class="Special">&quot;</span>
-  print(result)
+  puts(result)
   <span class="Statement">raise</span> <span class="Special">&quot;</span><span class="Constant">Flay found code duplication.</span><span class="Special">&quot;</span>
 <span class="PreProc">end</span>
 
@@ -1871,8 +1891,8 @@ build number.
 <pre class='ruby code syntax'>
 <span class="PreProc">def</span> <span class="Identifier">update_version_file</span>
   version_file = <span class="Identifier">@spec</span>.version_file
-  <span class="Identifier">@spec</span>.version = <span class="Type">Olag</span>::<span class="Type">Version</span>::update(version_file)
-  <span class="PreProc">load</span>(version_file)
+  updated_version = <span class="Type">Olag</span>::<span class="Type">Version</span>::update(version_file)
+  <span class="Statement">abort</span>(<span class="Special">&quot;</span><span class="Constant">Updated gem version; re-run rake</span><span class="Special">&quot;</span>) <span class="Statement">if</span> <span class="Identifier">@spec</span>.version.to_s != updated_version
 <span class="PreProc">end</span>
 
 </pre>
@@ -1968,16 +1988,14 @@ This module contains all the Olag code.
 <div class='rdoc comment markup'>
 <p>
 This version number. The third number is automatically updated to track the
-number of Git commits by running <tt>rake</tt> <tt>version</tt>.
+number of Git commits by running <tt>rake version</tt>.
 </p>
 </div>
 </td>
 </tr>
 </table>
 <pre class='ruby code syntax'>
-  <span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">version</span>
-    <span class="Statement">return</span> <span class="Special">&quot;</span><span class="Constant">0.1.6</span><span class="Special">&quot;</span>
-  <span class="PreProc">end</span>
+  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.7</span><span class="Special">&quot;</span>
 
 end
 </pre>
@@ -2013,10 +2031,10 @@ unnecessary documentation regeneration:
 <div class='rdoc comment markup'>
 <p>
 Update the file containing the gem’s version. The file is expected to
-contain a line in the format: <tt>return</tt>
-“<tt>major</tt>.<tt>minor</tt>.<tt>commits</tt>”. The third number is
-updated according to the number of Git commits. This works well as long as
-we are working in the master branch.
+contain a line in the format: <tt>VERSION =
+&quot;<em>major</em>.<em>minor</em>.<em>commits</em>&quot;</tt>. The third
+number is updated according to the number of Git commits. This works well
+as long as we are working in the master branch.
 </p>
 </div>
 </td>
@@ -2078,7 +2096,7 @@ numbers, and the suffix containing the commits number.
 </table>
 <pre class='ruby code syntax'>
     <span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">extract_version</span>(path, file_contents)
-      <span class="Statement">abort</span>(<span class="Special">&quot;</span><span class="Special">#{</span>path<span class="Special">}</span><span class="Constant">: Does not contain a valid VERSION line.</span><span class="Special">&quot;</span>) <span class="Statement">unless</span> file_contents =~ <span class="Special">/</span><span class="Constant">return </span><span class="Special">[</span><span class="Constant">&quot;'</span><span class="Special">]</span><span class="Special">(</span><span class="Special">\d</span><span class="Special">+</span><span class="Special">\.</span><span class="Special">\d</span><span class="Special">+</span><span class="Special">\.</span><span class="Special">)(</span><span class="Special">\d</span><span class="Special">+</span><span class="Special">)</span><span class="Special">[</span><span class="Constant">&quot;'</span><span class="Special">]</span><span class="Special">/</span>
+      <span class="Statement">abort</span>(<span class="Special">&quot;</span><span class="Special">#{</span>path<span class="Special">}</span><span class="Constant">: Does not contain a valid VERSION line.</span><span class="Special">&quot;</span>) <span class="Statement">unless</span> file_contents =~ <span class="Special">/</span><span class="Constant">VERSION</span><span class="Special">\s</span><span class="Special">+</span><span class="Constant">=</span><span class="Special">\s</span><span class="Special">+</span><span class="Special">[</span><span class="Constant">&quot;'</span><span class="Special">]</span><span class="Special">(</span><span class="Special">\d</span><span class="Special">+</span><span class="Special">\.</span><span class="Special">\d</span><span class="Special">+</span><span class="Special">\.</span><span class="Special">)(</span><span class="Special">\d</span><span class="Special">+</span><span class="Special">)</span><span class="Special">[</span><span class="Constant">&quot;'</span><span class="Special">]</span><span class="Special">/</span>
       <span class="Statement">return</span> [ <span class="Identifier">$1</span>, <span class="Identifier">$2</span> ]
     <span class="PreProc">end</span>
 
@@ -2658,7 +2676,8 @@ Extend the core Hash class.
 <td class='html'>
 <div class='rdoc comment markup'>
 <p>
-Provide OpenStruct/JavaScript-like implicit .key and .key= methods.
+Provide OpenStruct/JavaScript-like implicit <tt>.key</tt> and
+<tt>.key=</tt> methods.
 </p>
 </div>
 </td>
@@ -2762,6 +2781,8 @@ Which uses a mix-in that helps writing tests that use errors:
 </div>
 <div class="chunk html">
 <pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/errors</span><span class="Special">&quot;</span>
+
 <span class="PreProc">module</span> <span class="Type">Test</span>
 
 </pre>
@@ -3121,6 +3142,8 @@ Here is a mix-in that helps writing tests using temporary files and folders:
 </div>
 <div class="chunk html">
 <pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">fileutils</span><span class="Special">&quot;</span>
+
 <span class="PreProc">module</span> <span class="Type">Test</span>
 
 </pre>
@@ -3313,7 +3336,7 @@ executed in the context of the class.
 <td class='html'>
 <div class='rdoc comment markup'>
 <p>
-Automatically create an fresh Rake application.
+Automatically create a fresh Rake application.
 </p>
 </div>
 </td>
@@ -3374,7 +3397,6 @@ convenient to just <code>require "olag/test"</code> and be done:
 </div>
 <div class="chunk html">
 <pre class='ruby code syntax'>
-<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">fileutils</span><span class="Special">&quot;</span>
 <span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/test/with_errors</span><span class="Special">&quot;</span>
 <span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/test/with_fakefs</span><span class="Special">&quot;</span>
 <span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/test/with_rake</span><span class="Special">&quot;</span>
@@ -3389,7 +3411,7 @@ convenient to just <code>require "olag/test"</code> and be done:
 <td class='html'>
 <div class='rdoc comment markup'>
 <p>
-Enhance the global test module with additional classes.
+Enhance the global test module with additional mix-in modules.
 </p>
 </div>
 </td>
@@ -3495,7 +3517,7 @@ Test running a Olag Application.
 
   <span class="PreProc">def</span> <span class="Identifier">test_print_version</span>
     <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv(<span class="Special">%w(</span><span class="Constant">-o nested/stdout -v -h</span><span class="Special">)</span>) { <span class="Type">Olag</span>::<span class="Type">Application</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">0</span>
-    <span class="Type">File</span>.read(<span class="Special">&quot;</span><span class="Constant">nested/stdout</span><span class="Special">&quot;</span>).should == <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Version: </span><span class="Special">#{</span><span class="Type">Olag</span>.version<span class="Special">}</span><span class="Special">\n</span><span class="Special">&quot;</span>
+    <span class="Type">File</span>.read(<span class="Special">&quot;</span><span class="Constant">nested/stdout</span><span class="Special">&quot;</span>).should == <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Version: </span><span class="Special">#{</span><span class="Type">Olag</span>::<span class="Type">VERSION</span><span class="Special">}</span><span class="Special">\n</span><span class="Special">&quot;</span>
   <span class="PreProc">end</span>
 
   <span class="PreProc">def</span> <span class="Identifier">test_print_help</span>
@@ -3899,7 +3921,7 @@ version which only useful for Olag’s tests.
 </table>
 <pre class='ruby code syntax'>
     <span class="PreProc">def</span> <span class="Identifier">version</span>
-      <span class="Statement">return</span> <span class="Type">Olag</span>.version
+      <span class="Statement">return</span> <span class="Type">Olag</span>::<span class="Type">VERSION</span>
     <span class="PreProc">end</span>
 
 </pre>

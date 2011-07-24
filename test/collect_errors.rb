@@ -15,7 +15,8 @@ class TestCollectErrors < Test::Unit::TestCase
   def test_path_error
     @errors.in_path("foo") do
       @errors << "Eeek"
-    end
+      "result"
+    end.should == "result"
     @errors << "Oops"
     @errors.should == [ "#{$0}: Eeek in file: foo", "#{$0}: Oops" ]
   end

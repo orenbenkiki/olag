@@ -1,3 +1,7 @@
+2011-07-24	Oren Ben-Kiki <github-oren@ben-kiki.org>
+
+	* Allow in_path error blocks to return a value.
+
 2011-04-22	Oren Ben-Kiki <github-oren@ben-kiki.org>
 
 	* Fix homepage specification.

@@ -1995,7 +1995,7 @@ number of Git commits by running <tt>rake version</tt>.
 </tr>
 </table>
 <pre class='ruby code syntax'>
-  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.8</span><span class="Special">&quot;</span>
+  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.9</span><span class="Special">&quot;</span>
 
 end
 </pre>
@@ -2750,7 +2750,8 @@ Test collecting errors.
   <span class="PreProc">def</span> <span class="Identifier">test_path_error</span>
     <span class="Identifier">@errors</span>.in_path(<span class="Special">&quot;</span><span class="Constant">foo</span><span class="Special">&quot;</span>) <span class="Statement">do</span>
       <span class="Identifier">@errors</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Eeek</span><span class="Special">&quot;</span>
-    <span class="Statement">end</span>
+      <span class="Special">&quot;</span><span class="Constant">result</span><span class="Special">&quot;</span>
+    <span class="Statement">end</span>.should == <span class="Special">&quot;</span><span class="Constant">result</span><span class="Special">&quot;</span>
     <span class="Identifier">@errors</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Oops</span><span class="Special">&quot;</span>
     <span class="Identifier">@errors</span>.should == [ <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Eeek in file: foo</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Oops</span><span class="Special">&quot;</span> ]
   <span class="PreProc">end</span>
@@ -2928,8 +2929,9 @@ Associate all errors collected by a block with a specific disk file.
     <span class="PreProc">def</span> <span class="Identifier">in_path</span>(path, &amp;block)
       prev_path, prev_line = <span class="Identifier">@path</span>, <span class="Identifier">@line</span>
       <span class="Identifier">@path</span>, <span class="Identifier">@line</span> = path, <span class="Constant">nil</span>
-      block.call
+      result = block.call
       <span class="Identifier">@path</span>, <span class="Identifier">@line</span> = prev_path, prev_line
+      <span class="Statement">return</span> result
     <span class="PreProc">end</span>
 
 </pre>

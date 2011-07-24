@@ -13,8 +13,9 @@ module Olag
     def in_path(path, &block)
       prev_path, prev_line = @path, @line
       @path, @line = path, nil
-      block.call
+      result = block.call
       @path, @line = prev_path, prev_line
+      return result
     end
 
     # Set the line number for any errors collected from here on.

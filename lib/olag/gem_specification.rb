@@ -53,14 +53,13 @@ module Gem
 
     # Initialize a standard gem specification file list member to the files
     # matching a pattern. If a block is given, it is used to map the file
-    # paths. This will not override the file list member if it has already been
+    # paths. This will append to the file list member if it has already been
     # set by the gem specification block.
     def setup_file_member(member, pattern, &block)
-      value = send(member)
-      return unless value == []
-      value = FileList[pattern].find_all { |path| File.file?(path) }
-      value.map!(&block) if block
-      send("#{member}=", value)
+      old_value = instance_variable_get("@#{member}")
+      new_value = FileList[pattern].find_all { |path| File.file?(path) }
+      new_value.map!(&block) if block
+      instance_variable_set("@#{member}", old_value + new_value)
     end
 
     # Setup RDOC options in the gem specification.

@@ -975,8 +975,8 @@ These should cover all the gem’s files, except for the extra rdoc files.
 <p>
 Initialize a standard gem specification file list member to the files
 matching a pattern. If a block is given, it is used to map the file paths.
-This will not override the file list member if it has already been set by
-the gem specification block.
+This will append to the file list member if it has already been set by the
+gem specification block.
 </p>
 </div>
 </td>
@@ -984,11 +984,10 @@ the gem specification block.
 </table>
 <pre class='ruby code syntax'>
     <span class="PreProc">def</span> <span class="Identifier">setup_file_member</span>(member, pattern, &amp;block)
-      value = send(member)
-      <span class="Statement">return</span> <span class="Statement">unless</span> value == []
-      value = <span class="Type">FileList</span>[pattern].find_all { |<span class="Identifier">path</span>| <span class="Type">File</span>.file?(path) }
-      value.map!(&amp;block) <span class="Statement">if</span> block
-      send(<span class="Special">&quot;</span><span class="Special">#{</span>member<span class="Special">}</span><span class="Constant">=</span><span class="Special">&quot;</span>, value)
+      old_value = instance_variable_get(<span class="Special">&quot;</span><span class="Constant">@</span><span class="Special">#{</span>member<span class="Special">}</span><span class="Special">&quot;</span>)
+      new_value = <span class="Type">FileList</span>[pattern].find_all { |<span class="Identifier">path</span>| <span class="Type">File</span>.file?(path) }
+      new_value.map!(&amp;block) <span class="Statement">if</span> block
+      instance_variable_set(<span class="Special">&quot;</span><span class="Constant">@</span><span class="Special">#{</span>member<span class="Special">}</span><span class="Special">&quot;</span>, old_value + new_value)
     <span class="PreProc">end</span>
 
 </pre>
@@ -1995,7 +1994,7 @@ number of Git commits by running <tt>rake version</tt>.
 </tr>
 </table>
 <pre class='ruby code syntax'>
-  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.9</span><span class="Special">&quot;</span>
+  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.10</span><span class="Special">&quot;</span>
 
 end
 </pre>

@@ -1994,7 +1994,7 @@ number of Git commits by running <tt>rake version</tt>.
 </tr>
 </table>
 <pre class='ruby code syntax'>
-  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.11</span><span class="Special">&quot;</span>
+  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.12</span><span class="Special">&quot;</span>
 
 end
 </pre>
@@ -3612,6 +3612,27 @@ Run the error application.
     <span class="Statement">super</span> { <span class="Identifier">@errors</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Oops!</span><span class="Special">&quot;</span> }
   <span class="PreProc">end</span>
 
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Test minimal number of arguments.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">def</span> <span class="Identifier">parse_arguments</span>
+    expect_at_least(<span class="Constant">2</span>, <span class="Special">&quot;</span><span class="Constant">fake arguments</span><span class="Special">&quot;</span>)
+    expect_at_most(<span class="Constant">3</span>, <span class="Special">&quot;</span><span class="Constant">fake arguments</span><span class="Special">&quot;</span>)
+  <span class="PreProc">end</span>
+
 end
 
 </pre>
@@ -3638,9 +3659,19 @@ Test running a Olag Application.
     <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv([]) { <span class="Type">Olag</span>::<span class="Type">Application</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">0</span>
   <span class="PreProc">end</span>
 
+  <span class="PreProc">def</span> <span class="Identifier">test_inexact_arguments</span>
+    <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv(<span class="Special">%w(</span><span class="Constant">-e stderr foo</span><span class="Special">)</span>) { <span class="Type">Olag</span>::<span class="Type">Application</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">1</span>
+    <span class="Type">File</span>.read(<span class="Special">&quot;</span><span class="Constant">stderr</span><span class="Special">&quot;</span>).should.include?(<span class="Special">&quot;</span><span class="Constant">Expects no arguments</span><span class="Special">&quot;</span>)
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_missing_arguments</span>
+    <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv(<span class="Special">%w(</span><span class="Constant">-e stderr foo</span><span class="Special">)</span>) { <span class="Type">ErrorApplication</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">1</span>
+    <span class="Type">File</span>.read(<span class="Special">&quot;</span><span class="Constant">stderr</span><span class="Special">&quot;</span>).should.include?(<span class="Special">&quot;</span><span class="Constant">Expects at least 2 fake arguments</span><span class="Special">&quot;</span>)
+  <span class="PreProc">end</span>
+
   <span class="PreProc">def</span> <span class="Identifier">test_extra_arguments</span>
-    <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv(<span class="Special">%w(</span><span class="Constant">-e stderr dummy</span><span class="Special">)</span>) { <span class="Type">Olag</span>::<span class="Type">Application</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">1</span>
-    <span class="Type">File</span>.read(<span class="Special">&quot;</span><span class="Constant">stderr</span><span class="Special">&quot;</span>).should.include?(<span class="Special">&quot;</span><span class="Constant">Expects no command line file arguments</span><span class="Special">&quot;</span>)
+    <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv(<span class="Special">%w(</span><span class="Constant">-e stderr foo bar baz bad</span><span class="Special">)</span>) { <span class="Type">ErrorApplication</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">1</span>
+    <span class="Type">File</span>.read(<span class="Special">&quot;</span><span class="Constant">stderr</span><span class="Special">&quot;</span>).should.include?(<span class="Special">&quot;</span><span class="Constant">Expects at most 3 fake arguments</span><span class="Special">&quot;</span>)
   <span class="PreProc">end</span>
 
   <span class="PreProc">def</span> <span class="Identifier">test_print_version</span>
@@ -3654,7 +3685,7 @@ Test running a Olag Application.
   <span class="PreProc">end</span>
 
   <span class="PreProc">def</span> <span class="Identifier">test_print_errors</span>
-    <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv(<span class="Special">%w(</span><span class="Constant">-e stderr</span><span class="Special">)</span>) { <span class="Type">ErrorApplication</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">1</span>
+    <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv(<span class="Special">%w(</span><span class="Constant">-e stderr foo bar</span><span class="Special">)</span>) { <span class="Type">ErrorApplication</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">1</span>
     <span class="Type">File</span>.read(<span class="Special">&quot;</span><span class="Constant">stderr</span><span class="Special">&quot;</span>).should.include?(<span class="Special">&quot;</span><span class="Constant">Oops!</span><span class="Special">&quot;</span>)
   <span class="PreProc">end</span>
 
@@ -3807,6 +3838,90 @@ Parse the command line options of the program.
 <td class='html'>
 <div class='rdoc comment markup'>
 <p>
+Expect a limited number of remaining arguments (verified by the block).
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">expect_limited_arguments</span>(message_prefix, arguments_limit, argument_type, &amp;block)
+      <span class="Statement">if</span> !<span class="Statement">yield</span>(<span class="Identifier">ARGV</span>.size)
+        <span class="Identifier">$stderr</span>.puts(<span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: </span><span class="Special">#{</span>message_prefix<span class="Special">}</span><span class="Constant"> </span><span class="Special">#{</span>arguments_limit<span class="Special">}</span><span class="Constant"> </span><span class="Special">#{</span>argument_type<span class="Special">}</span><span class="Constant">.</span><span class="Special">&quot;</span>)
+        <span class="Statement">exit</span>(<span class="Constant">1</span>)
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Ensure we have got at least a certain number of command line arguments.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">expect_at_least</span>(minimal_arguments, argument_type)
+      expect_limited_arguments(<span class="Special">&quot;</span><span class="Constant">Expects at least</span><span class="Special">&quot;</span>, minimal_arguments, argument_type) { |<span class="Identifier">remaining_arguments</span>| remaining_arguments &gt;= minimal_arguments }
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Ensure we have got at least a certain number of command line arguments.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">expect_at_most</span>(maximal_arguments, argument_type)
+      expect_limited_arguments(<span class="Special">&quot;</span><span class="Constant">Expects at most</span><span class="Special">&quot;</span>, maximal_arguments, argument_type) { |<span class="Identifier">remaining_arguments</span>| remaining_arguments &lt;= maximal_arguments }
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Ensure we have got an exact number of command line arguments.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">expect_exactly</span>(exact_arguments, argument_type)
+      arguments_limit = exact_arguments == <span class="Constant">0</span> ? <span class="Special">'</span><span class="Constant">no</span><span class="Special">'</span> : exact_arguments
+      expect_limited_arguments(<span class="Special">&quot;</span><span class="Constant">Expects</span><span class="Special">&quot;</span>, arguments_limit, argument_type) { |<span class="Identifier">remaining_arguments</span>| remaining_arguments == exact_arguments }
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
 Parse remaining command-line file arguments. This is expected to be
 overriden by the concrete application sub-class. By default assumes there
 are no such arguments.
@@ -3817,9 +3932,7 @@ are no such arguments.
 </table>
 <pre class='ruby code syntax'>
     <span class="PreProc">def</span> <span class="Identifier">parse_arguments</span>
-      <span class="Statement">return</span> <span class="Statement">if</span> <span class="Identifier">ARGV</span>.size == <span class="Constant">0</span>
-      <span class="Identifier">$stderr</span>.puts(<span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Expects no command line file arguments.</span><span class="Special">&quot;</span>)
-      <span class="Statement">exit</span>(<span class="Constant">1</span>)
+      expect_exactly(<span class="Constant">0</span>, <span class="Special">&quot;</span><span class="Constant">arguments</span><span class="Special">&quot;</span>)
     <span class="PreProc">end</span>
 
 </pre>

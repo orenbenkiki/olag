@@ -46,13 +46,35 @@ module Olag
       parse_arguments
     end
 
+    # Expect a limited number of remaining arguments (verified by the block).
+    def expect_limited_arguments(message_prefix, arguments_limit, argument_type, &block)
+      if !yield(ARGV.size)
+        $stderr.puts("#{$0}: #{message_prefix} #{arguments_limit} #{argument_type}.")
+        exit(1)
+      end
+    end
+
+    # Ensure we have got at least a certain number of command line arguments.
+    def expect_at_least(minimal_arguments, argument_type)
+      expect_limited_arguments("Expects at least", minimal_arguments, argument_type) { |remaining_arguments| remaining_arguments >= minimal_arguments }
+    end
+
+    # Ensure we have got at least a certain number of command line arguments.
+    def expect_at_most(maximal_arguments, argument_type)
+      expect_limited_arguments("Expects at most", maximal_arguments, argument_type) { |remaining_arguments| remaining_arguments <= maximal_arguments }
+    end
+
+    # Ensure we have got an exact number of command line arguments.
+    def expect_exactly(exact_arguments, argument_type)
+      arguments_limit = exact_arguments == 0 ? 'no' : exact_arguments
+      expect_limited_arguments("Expects", arguments_limit, argument_type) { |remaining_arguments| remaining_arguments == exact_arguments }
+    end
+
     # Parse remaining command-line file arguments. This is expected to be
     # overriden by the concrete application sub-class. By default assumes there
     # are no such arguments.
     def parse_arguments
-      return if ARGV.size == 0
-      $stderr.puts("#{$0}: Expects no command line file arguments.")
-      exit(1)
+      expect_exactly(0, "arguments")
     end
 
     # Define application flags. This is expected to be overriden by the

@@ -1,9 +1,20 @@
+require "fileutils"
 require "fakefs/safe"
 
 module Test
 
   # Mix-in for tests that use the FakeFS fake file system.
   module WithFakeFS
+
+    # Create and write into a file on the fake file system.
+    def write_fake_file(path, content = nil, &block)
+      directory = File.dirname(path)
+      FileUtils.mkdir_p(directory) unless File.exists?(directory)
+      File.open(path, "w") do |file|
+        file.write(content) unless content.nil?
+        block.call(file) unless block.nil?
+      end
+    end
 
     # Aliasing methods needs to be deferred to when the module is included and
     # be executed in the context of the class.

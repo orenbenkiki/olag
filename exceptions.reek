@@ -5,3 +5,6 @@ FeatureEnvy: # LowCohesion
 UtilityFunction: # LowCohesion
   exclude:
   - !ruby/regexp /Test/
+NestedIterators:
+  exclude:
+  - !ruby/regexp /Olag::Errors#in_file_lines/

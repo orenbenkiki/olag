@@ -1994,7 +1994,7 @@ number of Git commits by running <tt>rake version</tt>.
 </tr>
 </table>
 <pre class='ruby code syntax'>
-  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.10</span><span class="Special">&quot;</span>
+  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.12</span><span class="Special">&quot;</span>
 
 end
 </pre>
@@ -2740,6 +2740,7 @@ Test collecting errors.
 <span class="PreProc">class</span> <span class="Type">TestCollectErrors</span> &lt; <span class="Type">Test</span>::<span class="Type">Unit</span>::<span class="Type">TestCase</span>
 
   <span class="PreProc">include</span> <span class="Type">Test</span>::<span class="Type">WithErrors</span>
+  <span class="PreProc">include</span> <span class="Type">Test</span>::<span class="Type">WithFakeFS</span>
 
   <span class="PreProc">def</span> <span class="Identifier">test_one_error</span>
     <span class="Identifier">@errors</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Oops</span><span class="Special">&quot;</span>
@@ -2748,21 +2749,37 @@ Test collecting errors.
 
   <span class="PreProc">def</span> <span class="Identifier">test_path_error</span>
     <span class="Identifier">@errors</span>.in_path(<span class="Special">&quot;</span><span class="Constant">foo</span><span class="Special">&quot;</span>) <span class="Statement">do</span>
-      <span class="Identifier">@errors</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Eeek</span><span class="Special">&quot;</span>
+      <span class="Identifier">@errors</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Oops</span><span class="Special">&quot;</span>
       <span class="Special">&quot;</span><span class="Constant">result</span><span class="Special">&quot;</span>
     <span class="Statement">end</span>.should == <span class="Special">&quot;</span><span class="Constant">result</span><span class="Special">&quot;</span>
-    <span class="Identifier">@errors</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Oops</span><span class="Special">&quot;</span>
-    <span class="Identifier">@errors</span>.should == [ <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Eeek in file: foo</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Oops</span><span class="Special">&quot;</span> ]
+    <span class="Identifier">@errors</span>.should == [ <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Oops in file: foo</span><span class="Special">&quot;</span> ]
   <span class="PreProc">end</span>
 
   <span class="PreProc">def</span> <span class="Identifier">test_line_error</span>
     <span class="Identifier">@errors</span>.in_path(<span class="Special">&quot;</span><span class="Constant">foo</span><span class="Special">&quot;</span>) <span class="Statement">do</span>
       <span class="Identifier">@errors</span>.at_line(<span class="Constant">1</span>)
-      <span class="Identifier">@errors</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Eeek</span><span class="Special">&quot;</span>
+      <span class="Identifier">@errors</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Oops</span><span class="Special">&quot;</span>
     <span class="Statement">end</span>
-    <span class="Identifier">@errors</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Oops</span><span class="Special">&quot;</span>
-    <span class="Identifier">@errors</span>.should == [ <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Eeek in file: foo at line: 1</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Oops</span><span class="Special">&quot;</span> ]
+    <span class="Identifier">@errors</span>.should == [ <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Oops in file: foo at line: 1</span><span class="Special">&quot;</span> ]
   <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_file_error</span>
+    write_fake_file(<span class="Special">&quot;</span><span class="Constant">foo</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Constant">bar</span><span class="Special">\n</span><span class="Special">&quot;</span>)
+    <span class="Identifier">@errors</span>.in_file(<span class="Special">&quot;</span><span class="Constant">foo</span><span class="Special">&quot;</span>) <span class="Statement">do</span>
+      <span class="Identifier">@errors</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Oops</span><span class="Special">&quot;</span>
+      <span class="Special">&quot;</span><span class="Constant">result</span><span class="Special">&quot;</span>
+    <span class="Statement">end</span>.should == <span class="Special">&quot;</span><span class="Constant">result</span><span class="Special">&quot;</span>
+    <span class="Identifier">@errors</span>.should == [ <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Oops in file: foo</span><span class="Special">&quot;</span> ]
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_file_lines_error</span>
+    write_fake_file(<span class="Special">&quot;</span><span class="Constant">foo</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Constant">bar</span><span class="Special">\n</span><span class="Constant">baz</span><span class="Special">\n</span><span class="Special">&quot;</span>)
+    <span class="Identifier">@errors</span>.in_file_lines(<span class="Special">&quot;</span><span class="Constant">foo</span><span class="Special">&quot;</span>) <span class="Statement">do</span> |<span class="Identifier">line</span>|
+      <span class="Identifier">@errors</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Oops</span><span class="Special">&quot;</span> <span class="Statement">if</span> line == <span class="Special">&quot;</span><span class="Constant">baz</span><span class="Special">\n</span><span class="Special">&quot;</span>
+    <span class="Statement">end</span>
+    <span class="Identifier">@errors</span>.should == [ <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Oops in file: foo at line: 2</span><span class="Special">&quot;</span> ]
+  <span class="PreProc">end</span>
+
 
 <span class="PreProc">end</span>
 </pre>
@@ -2897,6 +2914,42 @@ Collect a list of errors.
 <td class='html'>
 <div class='rdoc comment markup'>
 <p>
+The current path we are reporting errors for, if any.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="Statement">attr_reader</span> <span class="Constant">:path</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+The current line number we are reporting errors for, if any.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="Statement">attr_reader</span> <span class="Constant">:line_number</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
 Create an empty errors collection.
 </p>
 </div>
@@ -2906,7 +2959,7 @@ Create an empty errors collection.
 <pre class='ruby code syntax'>
     <span class="PreProc">def</span> <span class="Identifier">initialize</span>
       <span class="Identifier">@path</span> = <span class="Constant">nil</span>
-      <span class="Identifier">@line</span> = <span class="Constant">nil</span>
+      <span class="Identifier">@line_number</span> = <span class="Constant">nil</span>
     <span class="PreProc">end</span>
 
 </pre>
@@ -2926,11 +2979,59 @@ Associate all errors collected by a block with a specific disk file.
 </table>
 <pre class='ruby code syntax'>
     <span class="PreProc">def</span> <span class="Identifier">in_path</span>(path, &amp;block)
-      prev_path, prev_line = <span class="Identifier">@path</span>, <span class="Identifier">@line</span>
-      <span class="Identifier">@path</span>, <span class="Identifier">@line</span> = path, <span class="Constant">nil</span>
-      result = block.call
-      <span class="Identifier">@path</span>, <span class="Identifier">@line</span> = prev_path, prev_line
+      prev_path, prev_line_number = <span class="Identifier">@path</span>, <span class="Identifier">@line_number</span>
+      <span class="Identifier">@path</span>, <span class="Identifier">@line_number</span> = path, <span class="Constant">nil</span>
+      result = block.call(path)
+      <span class="Identifier">@path</span>, <span class="Identifier">@line_number</span> = prev_path, prev_line_number
       <span class="Statement">return</span> result
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Associate all errors collected by a block with a disk file that is opened
+and passed to the block.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">in_file</span>(path, mode = <span class="Special">&quot;</span><span class="Constant">r</span><span class="Special">&quot;</span>, &amp;block)
+      <span class="Statement">return</span> in_path(path) { <span class="Type">File</span>.open(path, mode, &amp;block) }
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Associate all errors collected by a block with a line read from a disk file
+that is opened and passed to the block.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">in_file_lines</span>(path, &amp;block)
+      in_file(path) <span class="Statement">do</span> |<span class="Identifier">file</span>|
+        <span class="Identifier">@line_number</span> = <span class="Constant">0</span>
+        file.each_line <span class="Statement">do</span> |<span class="Identifier">line</span>|
+          <span class="Identifier">@line_number</span> += <span class="Constant">1</span>
+          block.call(line)
+        <span class="Statement">end</span>
+      <span class="Statement">end</span>
     <span class="PreProc">end</span>
 
 </pre>
@@ -2949,8 +3050,8 @@ Set the line number for any errors collected from here on.
 </tr>
 </table>
 <pre class='ruby code syntax'>
-    <span class="PreProc">def</span> <span class="Identifier">at_line</span>(line)
-      <span class="Identifier">@line</span> = line
+    <span class="PreProc">def</span> <span class="Identifier">at_line</span>(line_number)
+      <span class="Identifier">@line_number</span> = line_number
     <span class="PreProc">end</span>
 
 </pre>
@@ -2995,8 +3096,8 @@ Annotate an error message with the context (current file and line).
 <pre class='ruby code syntax'>
     <span class="PreProc">def</span> <span class="Identifier">annotate_error_message</span>(message)
       <span class="Statement">return</span> <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: </span><span class="Special">#{</span>message<span class="Special">}</span><span class="Special">&quot;</span> <span class="Statement">unless</span> <span class="Identifier">@path</span>
-      <span class="Statement">return</span> <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: </span><span class="Special">#{</span>message<span class="Special">}</span><span class="Constant"> in file: </span><span class="Special">#{</span><span class="Identifier">@path</span><span class="Special">}</span><span class="Special">&quot;</span> <span class="Statement">unless</span> <span class="Identifier">@line</span>
-      <span class="Statement">return</span> <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: </span><span class="Special">#{</span>message<span class="Special">}</span><span class="Constant"> in file: </span><span class="Special">#{</span><span class="Identifier">@path</span><span class="Special">}</span><span class="Constant"> at line: </span><span class="Special">#{</span><span class="Identifier">@line</span><span class="Special">}</span><span class="Special">&quot;</span>
+      <span class="Statement">return</span> <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: </span><span class="Special">#{</span>message<span class="Special">}</span><span class="Constant"> in file: </span><span class="Special">#{</span><span class="Identifier">@path</span><span class="Special">}</span><span class="Special">&quot;</span> <span class="Statement">unless</span> <span class="Identifier">@line_number</span>
+      <span class="Statement">return</span> <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: </span><span class="Special">#{</span>message<span class="Special">}</span><span class="Constant"> in file: </span><span class="Special">#{</span><span class="Identifier">@path</span><span class="Special">}</span><span class="Constant"> at line: </span><span class="Special">#{</span><span class="Identifier">@line_number</span><span class="Special">}</span><span class="Special">&quot;</span>
     <span class="PreProc">end</span>
 
   end
@@ -3024,6 +3125,7 @@ when running applications inside unit tests):
 </div>
 <div class="chunk html">
 <pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">fileutils</span><span class="Special">&quot;</span>
 <span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">fakefs/safe</span><span class="Special">&quot;</span>
 
 <span class="PreProc">module</span> <span class="Type">Test</span>
@@ -3045,6 +3147,31 @@ Mix-in for tests that use the FakeFS fake file system.
 </table>
 <pre class='ruby code syntax'>
   <span class="PreProc">module</span> <span class="Type">WithFakeFS</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Create and write into a file on the fake file system.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">write_fake_file</span>(path, content = <span class="Constant">nil</span>, &amp;block)
+      directory = <span class="Type">File</span>.dirname(path)
+      <span class="Type">FileUtils</span>.mkdir_p(directory) <span class="Statement">unless</span> <span class="Type">File</span>.exists?(directory)
+      <span class="Type">File</span>.open(path, <span class="Special">&quot;</span><span class="Constant">w</span><span class="Special">&quot;</span>) <span class="Statement">do</span> |<span class="Identifier">file</span>|
+        file.write(content) <span class="Statement">unless</span> content.nil?
+        block.call(file) <span class="Statement">unless</span> block.nil?
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
 
 </pre>
     <table class='layout'>
@@ -3485,6 +3612,27 @@ Run the error application.
     <span class="Statement">super</span> { <span class="Identifier">@errors</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Oops!</span><span class="Special">&quot;</span> }
   <span class="PreProc">end</span>
 
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Test minimal number of arguments.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">def</span> <span class="Identifier">parse_arguments</span>
+    expect_at_least(<span class="Constant">2</span>, <span class="Special">&quot;</span><span class="Constant">fake arguments</span><span class="Special">&quot;</span>)
+    expect_at_most(<span class="Constant">3</span>, <span class="Special">&quot;</span><span class="Constant">fake arguments</span><span class="Special">&quot;</span>)
+  <span class="PreProc">end</span>
+
 end
 
 </pre>
@@ -3511,9 +3659,19 @@ Test running a Olag Application.
     <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv([]) { <span class="Type">Olag</span>::<span class="Type">Application</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">0</span>
   <span class="PreProc">end</span>
 
+  <span class="PreProc">def</span> <span class="Identifier">test_inexact_arguments</span>
+    <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv(<span class="Special">%w(</span><span class="Constant">-e stderr foo</span><span class="Special">)</span>) { <span class="Type">Olag</span>::<span class="Type">Application</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">1</span>
+    <span class="Type">File</span>.read(<span class="Special">&quot;</span><span class="Constant">stderr</span><span class="Special">&quot;</span>).should.include?(<span class="Special">&quot;</span><span class="Constant">Expects no arguments</span><span class="Special">&quot;</span>)
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_missing_arguments</span>
+    <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv(<span class="Special">%w(</span><span class="Constant">-e stderr foo</span><span class="Special">)</span>) { <span class="Type">ErrorApplication</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">1</span>
+    <span class="Type">File</span>.read(<span class="Special">&quot;</span><span class="Constant">stderr</span><span class="Special">&quot;</span>).should.include?(<span class="Special">&quot;</span><span class="Constant">Expects at least 2 fake arguments</span><span class="Special">&quot;</span>)
+  <span class="PreProc">end</span>
+
   <span class="PreProc">def</span> <span class="Identifier">test_extra_arguments</span>
-    <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv(<span class="Special">%w(</span><span class="Constant">-e stderr dummy</span><span class="Special">)</span>) { <span class="Type">Olag</span>::<span class="Type">Application</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">1</span>
-    <span class="Type">File</span>.read(<span class="Special">&quot;</span><span class="Constant">stderr</span><span class="Special">&quot;</span>).should.include?(<span class="Special">&quot;</span><span class="Constant">Expects no command line file arguments</span><span class="Special">&quot;</span>)
+    <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv(<span class="Special">%w(</span><span class="Constant">-e stderr foo bar baz bad</span><span class="Special">)</span>) { <span class="Type">ErrorApplication</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">1</span>
+    <span class="Type">File</span>.read(<span class="Special">&quot;</span><span class="Constant">stderr</span><span class="Special">&quot;</span>).should.include?(<span class="Special">&quot;</span><span class="Constant">Expects at most 3 fake arguments</span><span class="Special">&quot;</span>)
   <span class="PreProc">end</span>
 
   <span class="PreProc">def</span> <span class="Identifier">test_print_version</span>
@@ -3527,7 +3685,7 @@ Test running a Olag Application.
   <span class="PreProc">end</span>
 
   <span class="PreProc">def</span> <span class="Identifier">test_print_errors</span>
-    <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv(<span class="Special">%w(</span><span class="Constant">-e stderr</span><span class="Special">)</span>) { <span class="Type">ErrorApplication</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">1</span>
+    <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv(<span class="Special">%w(</span><span class="Constant">-e stderr foo bar</span><span class="Special">)</span>) { <span class="Type">ErrorApplication</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">1</span>
     <span class="Type">File</span>.read(<span class="Special">&quot;</span><span class="Constant">stderr</span><span class="Special">&quot;</span>).should.include?(<span class="Special">&quot;</span><span class="Constant">Oops!</span><span class="Special">&quot;</span>)
   <span class="PreProc">end</span>
 
@@ -3680,6 +3838,90 @@ Parse the command line options of the program.
 <td class='html'>
 <div class='rdoc comment markup'>
 <p>
+Expect a limited number of remaining arguments (verified by the block).
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">expect_limited_arguments</span>(message_prefix, arguments_limit, argument_type, &amp;block)
+      <span class="Statement">if</span> !<span class="Statement">yield</span>(<span class="Identifier">ARGV</span>.size)
+        <span class="Identifier">$stderr</span>.puts(<span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: </span><span class="Special">#{</span>message_prefix<span class="Special">}</span><span class="Constant"> </span><span class="Special">#{</span>arguments_limit<span class="Special">}</span><span class="Constant"> </span><span class="Special">#{</span>argument_type<span class="Special">}</span><span class="Constant">.</span><span class="Special">&quot;</span>)
+        <span class="Statement">exit</span>(<span class="Constant">1</span>)
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Ensure we have got at least a certain number of command line arguments.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">expect_at_least</span>(minimal_arguments, argument_type)
+      expect_limited_arguments(<span class="Special">&quot;</span><span class="Constant">Expects at least</span><span class="Special">&quot;</span>, minimal_arguments, argument_type) { |<span class="Identifier">remaining_arguments</span>| remaining_arguments &gt;= minimal_arguments }
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Ensure we have got at least a certain number of command line arguments.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">expect_at_most</span>(maximal_arguments, argument_type)
+      expect_limited_arguments(<span class="Special">&quot;</span><span class="Constant">Expects at most</span><span class="Special">&quot;</span>, maximal_arguments, argument_type) { |<span class="Identifier">remaining_arguments</span>| remaining_arguments &lt;= maximal_arguments }
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Ensure we have got an exact number of command line arguments.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">expect_exactly</span>(exact_arguments, argument_type)
+      arguments_limit = exact_arguments == <span class="Constant">0</span> ? <span class="Special">'</span><span class="Constant">no</span><span class="Special">'</span> : exact_arguments
+      expect_limited_arguments(<span class="Special">&quot;</span><span class="Constant">Expects</span><span class="Special">&quot;</span>, arguments_limit, argument_type) { |<span class="Identifier">remaining_arguments</span>| remaining_arguments == exact_arguments }
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
 Parse remaining command-line file arguments. This is expected to be
 overriden by the concrete application sub-class. By default assumes there
 are no such arguments.
@@ -3690,9 +3932,7 @@ are no such arguments.
 </table>
 <pre class='ruby code syntax'>
     <span class="PreProc">def</span> <span class="Identifier">parse_arguments</span>
-      <span class="Statement">return</span> <span class="Statement">if</span> <span class="Identifier">ARGV</span>.size == <span class="Constant">0</span>
-      <span class="Identifier">$stderr</span>.puts(<span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Expects no command line file arguments.</span><span class="Special">&quot;</span>)
-      <span class="Statement">exit</span>(<span class="Constant">1</span>)
+      expect_exactly(<span class="Constant">0</span>, <span class="Special">&quot;</span><span class="Constant">arguments</span><span class="Special">&quot;</span>)
     <span class="PreProc">end</span>
 
 </pre>

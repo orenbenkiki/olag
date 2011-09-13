@@ -20,7 +20,7 @@ module Olag
     def initialize(spec)
       @spec = spec
       @ruby_sources = @spec.files.find_all { |file| file =~ /^Rakefile$|\.rb$/ }
-      @weave_configurations = [ :weave_include, :weave_named_chunk_with_containers ]
+      @weave_configurations = [ :weave_include, :weave_named_chunk_with_containers, :weave_plain_chunk ]
       task(:default => :all)
       define_all_task
       CLOBBER << "saikuro"
@@ -161,6 +161,10 @@ module Olag
         "format_rdoc_comments",
         "chunk_by_vim_regions",
       ], [
+        # Configurations for GraphViz diagram files.
+        ".*\.dot",
+        "split_graphviz_documentation",
+      ], [
         # Configurations for HTML documentation files.
         ".*\.html",
         "split_html_documentation",
@@ -181,7 +185,7 @@ module Olag
         configurations = Rake.split_configurations(file)
         Codnar::Rake::SplitTask.new([ file ], configurations) unless configurations == []
       end
-      Codnar::Rake::WeaveTask.new("doc/root.html", [ :weave_include, :weave_named_chunk_with_containers ])
+      Codnar::Rake::WeaveTask.new("doc/root.html", @weave_configurations)
     end
 
     # Find the Codnar split configurations for a file.

@@ -1,3 +1,7 @@
+2011-09-13	Oren Ben-Kiki <github-oren@ben-kiki.org>
+
+	* Support GraphViz documentation.
+
 2011-08-25	Oren Ben-Kiki <github-oren@ben-kiki.org>
 
 	* Utilities for verifing number of arguments.

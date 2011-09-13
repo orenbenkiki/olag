@@ -1087,7 +1087,7 @@ Define all the Rake tasks.
     <span class="PreProc">def</span> <span class="Identifier">initialize</span>(spec)
       <span class="Identifier">@spec</span> = spec
       <span class="Identifier">@ruby_sources</span> = <span class="Identifier">@spec</span>.files.find_all { |<span class="Identifier">file</span>| file =~ <span class="Special">/</span><span class="Special">^</span><span class="Constant">Rakefile</span><span class="Special">$</span><span class="Special">|</span><span class="Special">\.</span><span class="Constant">rb</span><span class="Special">$</span><span class="Special">/</span> }
-      <span class="Identifier">@weave_configurations</span> = [ <span class="Constant">:weave_include</span>, <span class="Constant">:weave_named_chunk_with_containers</span> ]
+      <span class="Identifier">@weave_configurations</span> = [ <span class="Constant">:weave_include</span>, <span class="Constant">:weave_named_chunk_with_containers</span>, <span class="Constant">:weave_plain_chunk</span> ]
       task(<span class="Constant">:default</span> =&gt; <span class="Constant">:all</span>)
       define_all_task
       <span class="Type">CLOBBER</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">saikuro</span><span class="Special">&quot;</span>
@@ -1680,6 +1680,25 @@ splitting but slow viewing. Using GVim is the reverse.
 <td class='html'>
 <div class='rdoc comment markup'>
 <p>
+Configurations for GraphViz diagram files.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="Special">&quot;</span><span class="Constant">.*\.dot</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">split_graphviz_documentation</span><span class="Special">&quot;</span>,
+  ], [
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
 Configurations for HTML documentation files.
 </p>
 </div>
@@ -1751,7 +1770,7 @@ Define a task to build the Codnar documentation.
     configurations = <span class="Type">Rake</span>.split_configurations(file)
     <span class="Type">Codnar</span>::<span class="Type">Rake</span>::<span class="Type">SplitTask</span>.new([ file ], configurations) <span class="Statement">unless</span> configurations == []
   <span class="Statement">end</span>
-  <span class="Type">Codnar</span>::<span class="Type">Rake</span>::<span class="Type">WeaveTask</span>.new(<span class="Special">&quot;</span><span class="Constant">doc/root.html</span><span class="Special">&quot;</span>, [ <span class="Constant">:weave_include</span>, <span class="Constant">:weave_named_chunk_with_containers</span> ])
+  <span class="Type">Codnar</span>::<span class="Type">Rake</span>::<span class="Type">WeaveTask</span>.new(<span class="Special">&quot;</span><span class="Constant">doc/root.html</span><span class="Special">&quot;</span>, <span class="Identifier">@weave_configurations</span>)
 <span class="PreProc">end</span>
 
 </pre>
@@ -1994,7 +2013,7 @@ number of Git commits by running <tt>rake version</tt>.
 </tr>
 </table>
 <pre class='ruby code syntax'>
-  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.12</span><span class="Special">&quot;</span>
+  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.13</span><span class="Special">&quot;</span>
 
 end
 </pre>

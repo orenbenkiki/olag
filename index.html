@@ -352,16 +352,6 @@ table.layout td.html {
   background-color: Beige;
 }
 
-/* Colors for GVim classes */
-
-span.Constant   { color: Crimson; }
-span.Identifier { color: Teal; }
-span.PreProc    { color: Indigo; }
-span.Special    { color: Navy; }
-span.Statement  { color: Maroon; }
-span.Type       { color: Green; }
-span.Comment    { color: Purple; }
-
 /* Fonts */
 
 body {
@@ -1680,6 +1670,31 @@ splitting but slow viewing. Using GVim is the reverse.
 <td class='html'>
 <div class='rdoc comment markup'>
 <p>
+Configurations for splitting Haskell files. Not that ruby gems tend to
+contain Haskell files, but it allows more easily adding a Rakefile for
+generating codnar documentation into a Haskell project.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="Special">&quot;</span><span class="Constant">.*\.hs</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">classify_source_code:haskell</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">format_code_gvim_css:haskell</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">classify_haddock_comments</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">format_haddock_comments</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">chunk_by_vim_regions</span><span class="Special">&quot;</span>,
+  ], [
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
 Configurations for GraphViz diagram files.
 </p>
 </div>
@@ -2013,7 +2028,7 @@ number of Git commits by running <tt>rake version</tt>.
 </tr>
 </table>
 <pre class='ruby code syntax'>
-  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.13</span><span class="Special">&quot;</span>
+  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.15</span><span class="Special">&quot;</span>
 
 end
 </pre>

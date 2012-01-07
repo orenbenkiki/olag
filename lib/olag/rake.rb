@@ -161,6 +161,14 @@ module Olag
         "format_rdoc_comments",
         "chunk_by_vim_regions",
       ], [
+        # Configurations for splitting Haskell files.
+        ".*\.hs",
+        "classify_source_code:haskell",
+        "format_code_gvim_css:haskell",
+        "classify_haddock_comments",
+        "format_haddock_comments",
+        "chunk_by_vim_regions",
+      ], [
         # Configurations for GraphViz diagram files.
         ".*\.dot",
         "split_graphviz_documentation",

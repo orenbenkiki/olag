@@ -161,7 +161,9 @@ module Olag
         "format_rdoc_comments",
         "chunk_by_vim_regions",
       ], [
-        # Configurations for splitting Haskell files.
+        # Configurations for splitting Haskell files. Not that ruby gems tend
+        # to contain Haskell files, but it allows more easily adding a Rakefile
+        # for generating codnar documentation into a Haskell project.
         ".*\.hs",
         "classify_source_code:haskell",
         "format_code_gvim_css:haskell",

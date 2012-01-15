@@ -1,4 +1,5 @@
 require "fileutils"
+require "tempfile"
 
 module Test
 
@@ -42,8 +43,8 @@ module Test
         end
 
       end
-
     end
+
   end
 
 end

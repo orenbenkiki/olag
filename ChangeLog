@@ -1,3 +1,7 @@
+2012-01-15	Oren Ben-Kiki <github-oren@ben-kiki.org>
+
+	* Add WithTempdir mix-in module.
+
 2012-01-07	Oren Ben-Kiki <github-oren@ben-kiki.org>
 
 	* Improve HAskell configuration comment.

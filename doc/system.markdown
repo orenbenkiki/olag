@@ -242,6 +242,17 @@ Here is a mix-in that helps writing tests using temporary files and folders:
 
 [[lib/olag/test/with_tempfile.rb|named_chunk_with_containers]]
 
+### Testing with a temporary directory ###
+
+When running external programs, or sometimes even Ruby programs, it is useful
+to have a temporary directory to stuff everything into, which is automatically
+removed when the test is done. The `WithTempfile` module does provide the
+`create_tempdir` function, which we can use; but it is easier to also include
+the `WithTempdir` module, which does this automatically in the `setup` function
+for us, and precomputes up the standard I/O file names as well.
+
+[[lib/olag/test/with_tempdir.rb|named_chunk_with_containers]]
+
 ### Testing Rake tasks ###
 
 Testing Rake tasks is tricky because tests may be run in the context of Rake.

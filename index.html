@@ -679,8 +679,7 @@ Olag using monkey-patching.
 <p>
 Finally, Olag::Rake sets up the following tasks (as reported by <code>rake -T</code>):
 </p>
-<pre>
-<code>rake all               # Version, verify, document, package
+<pre><code>rake all               # Version, verify, document, package
 rake analyze           # Analyze source code
 rake changelog         # Update ChangeLog from Git
 rake clean             # Remove any temporary products.
@@ -710,9 +709,7 @@ rake second_commit     # Perform the 2nd (amend) Git commit
 rake test              # Run tests for test
 rake verify            # Test, coverage, analyze code
 rake version           # Update version file from Git
-</code>
-</pre>
-</li>
+</code></pre></li>
 </ul>
 
 
@@ -2028,7 +2025,7 @@ number of Git commits by running <tt>rake version</tt>.
 </tr>
 </table>
 <pre class='ruby code syntax'>
-  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.15</span><span class="Special">&quot;</span>
+  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.16</span><span class="Special">&quot;</span>
 
 end
 </pre>
@@ -3305,6 +3302,7 @@ Here is a mix-in that helps writing tests using temporary files and folders:
 <div class="chunk html">
 <pre class='ruby code syntax'>
 <span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">fileutils</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">tempfile</span><span class="Special">&quot;</span>
 
 <span class="PreProc">module</span> <span class="Type">Test</span>
 
@@ -3423,8 +3421,106 @@ Automatically clean up the temporary files when the test is done.
         <span class="PreProc">end</span>
 
       end
-
     end
+
+  end
+
+end
+</pre>
+</div>
+</div>
+</p>
+<h3>Testing with a temporary directory</h3>
+<p>
+When running external programs, or sometimes even Ruby programs, it is useful
+to have a temporary directory to stuff everything into, which is automatically
+removed when the test is done. The <code>WithTempfile</code> module does provide the
+<code>create_tempdir</code> function, which we can use; but it is easier to also include
+the <code>WithTempdir</code> module, which does this automatically in the <code>setup</code> function
+for us, and precomputes up the standard I/O file names as well.
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-test-with-tempdir-rb">
+<span>lib/olag/test/with_tempdir.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/test/with_tempfile</span><span class="Special">&quot;</span>
+
+<span class="PreProc">module</span> <span class="Type">Test</span>
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Mix-in for tests that run applications in a temporary directory. This
+assumes that the test class has already mixed-in the WithTempfile mix-in.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">module</span> <span class="Type">WithTempdir</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Aliasing methods needs to be deferred to when the module is included and be
+executed in the context of the class.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">included</span>(base)
+      base.class_eval <span class="Statement">do</span>
+
+        alias_method <span class="Constant">:tempdir_original_setup</span>, <span class="Constant">:setup</span>
+
+</pre>
+        <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>        </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Create a temporary directory for the run and percompute the standard I/O
+file names in it.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+        <span class="PreProc">def</span> <span class="Identifier">setup</span>
+          tempdir_original_setup
+          <span class="Identifier">@tempdir</span> = create_tempdir
+          <span class="Identifier">@stdout</span> = <span class="Identifier">@tempdir</span> + <span class="Special">&quot;</span><span class="Constant">/stdout</span><span class="Special">&quot;</span>
+          <span class="Identifier">@stdin</span> = <span class="Identifier">@tempdir</span> + <span class="Special">&quot;</span><span class="Constant">/stdin</span><span class="Special">&quot;</span>
+          <span class="Identifier">@stderr</span> = <span class="Identifier">@tempdir</span> + <span class="Special">&quot;</span><span class="Constant">/stderr</span><span class="Special">&quot;</span>
+        <span class="PreProc">end</span>
+
+      end
+    end
+
   end
 
 end

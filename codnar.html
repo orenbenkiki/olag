@@ -2025,7 +2025,7 @@ number of Git commits by running <tt>rake version</tt>.
 </tr>
 </table>
 <pre class='ruby code syntax'>
-  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.16</span><span class="Special">&quot;</span>
+  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.17</span><span class="Special">&quot;</span>
 
 end
 </pre>
@@ -2721,6 +2721,274 @@ Provide OpenStruct/JavaScript-like implicit <tt>.key</tt> and
   <span class="PreProc">end</span>
 
 end
+</pre>
+</div>
+</div>
+</p>
+<h3>Sorting Hash tables YAML keys</h3>
+<p>
+In order to get deterministic test results, and for general
+hukman-friendlyness, it is often desirable to sort hash table keys when dumping
+it to YAML. In Ruby 1.8.x, this isn't the default. It is possible to introduce
+this behavior using the following hack:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-hash-sorted-yaml-rb">
+<span>lib/olag/hash_sorted_yaml.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">yaml</span><span class="Special">&quot;</span>
+
+<span class="Statement">if</span> <span class="Identifier">RUBY_VERSION</span>.include?(<span class="Special">&quot;</span><span class="Constant">1.8</span><span class="Special">&quot;</span>)
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Modify the hash class to emit YAML sorted keys. This is an ugly hack,
+specifically for Ruby 1.8.*.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">class</span> <span class="Type">Hash</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Provide access to the old, unsorted implementation.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">alias</span> <span class="Constant">:unsorted_to_yaml</span> <span class="Constant">:to_yaml</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Return the hash in YAML format with sorted keys.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">to_yaml</span>(opts = {})
+      <span class="Type">YAML</span>::quick_emit(<span class="Constant">self</span>, opts) <span class="Statement">do</span> |<span class="Identifier">out</span>|
+        out.map(taguri, to_yaml_style) <span class="Statement">do</span> |<span class="Identifier">map</span>|
+          to_yaml_sorted_keys.each <span class="Statement">do</span> |<span class="Identifier">key</span>|
+            map.add(key, fetch(key))
+          <span class="Statement">end</span>
+        <span class="Statement">end</span>
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Return the hash keys, sorted for emitting into YAML.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">to_yaml_sorted_keys</span>
+      <span class="Statement">begin</span>
+        <span class="Statement">return</span> keys.sort
+      <span class="Statement">rescue</span>
+        <span class="Statement">return</span> to_yaml_lexicographically_sorted_keys
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Return the hash keys, sorted lexicographically for emitting into YAML.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">to_yaml_lexicographically_sorted_keys</span>
+      <span class="Statement">begin</span>
+        <span class="Statement">return</span> keys.sort_by {|<span class="Identifier">key</span>| key.to_s}
+      <span class="Statement">rescue</span>
+        <span class="Statement">return</span> keys
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+  end
+
+end
+</pre>
+</div>
+</div>
+</p>
+<p>
+Here is a simple test demonstrating using it:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="test-sorted-keys-rb">
+<span>test/sorted_keys.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/hash_sorted_yaml</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">test/spec</span><span class="Special">&quot;</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+An uncomparable class. Keys of this class will cause the Hash to be emitted
+in string sort order.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">class</span> <span class="Type">Uncomparable</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">initialize</span>(value)
+    <span class="Identifier">@value</span> = value
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">to_yaml</span>(opts = {})
+    <span class="Statement">return</span> <span class="Identifier">@value</span>.to_yaml(opts)
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">to_s</span>
+    <span class="Statement">return</span> <span class="Identifier">@value</span>.to_s
+  <span class="PreProc">end</span>
+
+  <span class="Special">%w(</span><span class="Constant">&lt;=&gt; &lt; &lt;= &gt;= &gt;</span><span class="Special">)</span>.each <span class="Statement">do</span> |<span class="Identifier">operator</span>|
+    define_method(operator) { <span class="Statement">raise</span> <span class="Special">&quot;</span><span class="Constant">Prevent operator: </span><span class="Special">#{</span>operator<span class="Special">}</span><span class="Special">&quot;</span> }
+  <span class="Statement">end</span>
+
+<span class="PreProc">end</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+An uncomparable class that can’t be converted to a string. Keys of this
+class will cause the Hash to be emitted in unsorted order.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">class</span> <span class="Type">Unsortable</span> &lt; <span class="Type">Uncomparable</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">to_s</span>
+    <span class="Statement">raise</span> <span class="Special">&quot;</span><span class="Constant">Prevent conversion to string as well.</span><span class="Special">&quot;</span>
+  <span class="PreProc">end</span>
+
+<span class="PreProc">end</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Test sorting keys of YAML generated from Hash tables.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">class</span> <span class="Type">TestSortedKeys</span> &lt; ::<span class="Type">Test</span>::<span class="Type">Unit</span>::<span class="Type">TestCase</span>
+
+  <span class="Type">SORTED_NUMERICALLY</span> = &lt;&lt;-<span class="Special">EOF</span>.unindent
+<span class="Constant">    ---</span>
+<span class="Constant">    2: 2</span>
+<span class="Constant">    4: 4</span>
+<span class="Constant">    11: 1</span>
+<span class="Constant">    33: 3</span>
+<span class="Constant">  </span><span class="Special">EOF</span>
+
+  <span class="Type">SORTED_LEXICOGRAPHICALLY</span> = &lt;&lt;-<span class="Special">EOF</span>.unindent
+<span class="Constant">    ---</span>
+<span class="Constant">    11: 1</span>
+<span class="Constant">    2: 2</span>
+<span class="Constant">    33: 3</span>
+<span class="Constant">    4: 4</span>
+<span class="Constant">  </span><span class="Special">EOF</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_sortable_keys</span>
+    { <span class="Constant">2</span> =&gt; <span class="Constant">2</span>, <span class="Constant">4</span> =&gt; <span class="Constant">4</span>, <span class="Constant">11</span> =&gt; <span class="Constant">1</span>, <span class="Constant">33</span> =&gt; <span class="Constant">3</span> }.to_yaml.gsub(<span class="Special">/</span><span class="Constant"> </span><span class="Special">+</span><span class="Special">$</span><span class="Special">/</span>, <span class="Special">&quot;&quot;</span>).should == <span class="Type">SORTED_NUMERICALLY</span>
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_uncomparable_keys</span>
+    { <span class="Type">Uncomparable</span>.new(<span class="Constant">11</span>) =&gt; <span class="Constant">1</span>, <span class="Constant">2</span> =&gt; <span class="Constant">2</span>, <span class="Constant">33</span> =&gt; <span class="Constant">3</span>, <span class="Constant">4</span> =&gt; <span class="Constant">4</span> }.to_yaml.gsub(<span class="Special">/</span><span class="Constant"> </span><span class="Special">+</span><span class="Special">$</span><span class="Special">/</span>, <span class="Special">&quot;&quot;</span>).should == <span class="Type">SORTED_LEXICOGRAPHICALLY</span>
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_unsortable_keys</span>
+    yaml_should_not = { <span class="Type">Unsortable</span>.new(<span class="Constant">11</span>) =&gt; <span class="Constant">1</span>, <span class="Constant">2</span> =&gt; <span class="Constant">2</span>, <span class="Constant">33</span> =&gt; <span class="Constant">3</span>, <span class="Constant">4</span> =&gt; <span class="Constant">4</span> }.to_yaml.gsub(<span class="Special">/</span><span class="Constant"> </span><span class="Special">+</span><span class="Special">$</span><span class="Special">/</span>, <span class="Special">&quot;&quot;</span>).should.not
+    yaml_should_not == <span class="Type">SORTED_NUMERICALLY</span>
+    yaml_should_not == <span class="Type">SORTED_LEXICOGRAPHICALLY</span>
+  <span class="PreProc">end</span>
+
+<span class="PreProc">end</span>
 </pre>
 </div>
 </div>

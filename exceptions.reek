@@ -8,3 +8,7 @@ UtilityFunction: # LowCohesion
 NestedIterators:
   exclude:
   - !ruby/regexp /Olag::Errors#in_file_lines/
+  - !ruby/regexp /Hash#to_yaml/
+Duplication:
+  exclude:
+  - !ruby/regexp /Hash#to_yaml/

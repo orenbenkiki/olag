@@ -197,6 +197,19 @@ And here is the implementation:
 
 [[lib/olag/hash_struct.rb|named_chunk_with_containers]]
 
+### Sorting Hash tables YAML keys ###
+
+In order to get deterministic test results, and for general
+hukman-friendlyness, it is often desirable to sort hash table keys when dumping
+it to YAML. In Ruby 1.8.x, this isn't the default. It is possible to introduce
+this behavior using the following hack:
+
+[[lib/olag/hash_sorted_yaml.rb|named_chunk_with_containers]]
+
+Here is a simple test demonstrating using it:
+
+[[test/sorted_keys.rb|named_chunk_with_containers]]
+
 ### Collecting errors ###
 
 In library code, it is bad practice to terminate the program on an error.

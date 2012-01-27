@@ -1,3 +1,7 @@
+2012-01-27	Oren Ben-Kiki <github-oren@ben-kiki.org>
+
+	* Fix syntax highlighting.
+
 2012-01-17	Oren Ben-Kiki <github-oren@ben-kiki.org>
 
 	* Add hack for sorting hash YAML keys.

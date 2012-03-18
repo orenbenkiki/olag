@@ -1,5 +1,6 @@
 2012-03-18	Oren Ben-Kiki <github-oren@ben-kiki.org>
 
+	* Complete the bug fix. Ugh.
 	* Remove bug introduced by previous fix.
 	* Fix nasty timing bug (tempfile finalizer).
 	* Update to latest gem versions.

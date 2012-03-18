@@ -20,7 +20,7 @@ module Test
     # automatically removed when the test is done. This is very useful for
     # complex file tests that can't use FakeFS.
     def create_tempdir(directory = ".")
-      (file = Tempfile.open("dir", directory)).close(true)
+      file = Tempfile.open("dir", directory)
       (@tempfiles ||= []) << file
       File.delete(path = file.path)
       Dir.mkdir(path)

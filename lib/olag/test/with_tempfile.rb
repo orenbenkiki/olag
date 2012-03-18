@@ -13,7 +13,7 @@ module Test
       file.write(content)
       file.close(false)
       (@tempfiles ||= []) << file
-      return path
+      return file.path
     end
 
     # Create a temporary directory on the disk. The directory will be

@@ -1799,7 +1799,7 @@ number of Git commits by running <code>rake version</code>.
 </tr>
 </table>
 <pre class='ruby code syntax'>
-  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.20</span><span class="Special">&quot;</span>
+  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.21</span><span class="Special">&quot;</span>
 
 end
 </pre>
@@ -3388,7 +3388,7 @@ when the test is done.
       file.write(content)
       file.close(<span class="Constant">false</span>)
       (<span class="Identifier">@tempfiles</span> ||= []) &lt;&lt; file
-      <span class="Statement">return</span> path
+      <span class="Statement">return</span> file.path
     <span class="PreProc">end</span>
 
 </pre>

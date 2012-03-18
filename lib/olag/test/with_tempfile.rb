@@ -12,7 +12,7 @@ module Test
       file = Tempfile.open(path, directory)
       file.write(content)
       file.close(false)
-      (@tempfiles ||= []) << (path = file.path)
+      (@tempfiles ||= []) << file
       return path
     end
 
@@ -20,9 +20,9 @@ module Test
     # automatically removed when the test is done. This is very useful for
     # complex file tests that can't use FakeFS.
     def create_tempdir(directory = ".")
-      file = Tempfile.open("dir", directory)
-      (@tempfiles ||= []) << (path = file.path)
-      File.delete(path)
+      (file = Tempfile.open("dir", directory)).close(true)
+      (@tempfiles ||= []) << file
+      File.delete(path = file.path)
       Dir.mkdir(path)
       return path
     end
@@ -38,7 +38,8 @@ module Test
         def teardown
           tempfile_original_teardown
           (@tempfiles || []).each do |tempfile|
-            FileUtils.rm_rf(tempfile) if File.exist?(tempfile)
+            path = tempfile.path
+            FileUtils.rm_rf(path) if File.exist?(path)
           end
         end
 

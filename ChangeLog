@@ -1,5 +1,6 @@
 2012-03-18	Oren Ben-Kiki <github-oren@ben-kiki.org>
 
+	* Fix nasty timing bug (tempfile finalizer).
 	* Update to latest gem versions.
 
 2012-01-27	Oren Ben-Kiki <github-oren@ben-kiki.org>

@@ -1799,7 +1799,7 @@ number of Git commits by running <code>rake version</code>.
 </tr>
 </table>
 <pre class='ruby code syntax'>
-  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.21</span><span class="Special">&quot;</span>
+  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.22</span><span class="Special">&quot;</span>
 
 end
 </pre>
@@ -3410,7 +3410,7 @@ complex file tests that can’t use FakeFS.
 </table>
 <pre class='ruby code syntax'>
     <span class="PreProc">def</span> <span class="Identifier">create_tempdir</span>(directory = <span class="Special">&quot;</span><span class="Constant">.</span><span class="Special">&quot;</span>)
-      (file = <span class="Type">Tempfile</span>.open(<span class="Special">&quot;</span><span class="Constant">dir</span><span class="Special">&quot;</span>, directory)).close(<span class="Constant">true</span>)
+      file = <span class="Type">Tempfile</span>.open(<span class="Special">&quot;</span><span class="Constant">dir</span><span class="Special">&quot;</span>, directory)
       (<span class="Identifier">@tempfiles</span> ||= []) &lt;&lt; file
       <span class="Type">File</span>.delete(path = file.path)
       <span class="Type">Dir</span>.mkdir(path)

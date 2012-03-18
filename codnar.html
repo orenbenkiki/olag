@@ -1,0 +1,4792 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<title>Olag - Oren's Library/Application Gem framework.</title>
+<style type="text/css">
+/*
+ * Copyright (c) 2010, Yahoo! Inc. All rights reserved.
+ * Code licensed under the BSD License:
+ * http://developer.yahoo.com/yui/license.html
+ * version: 2.8.2r1
+ */
+/*
+ * YUI Reset
+ * @module reset
+ * @namespace
+ * @requires 
+ */
+html {
+	color: #000;
+	background: #FFF;
+}
+
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+button,
+textarea,
+p,
+blockquote,
+th,
+td {
+	margin: 0;
+	padding: 0;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+fieldset,
+img {
+	border: 0;
+}
+
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+strong,
+th,
+var,
+optgroup {
+	font-style: inherit;
+	font-weight: inherit;
+}
+
+del,
+ins {
+	text-decoration: none;
+}
+
+li {
+	list-style: none;
+}
+
+caption,
+th {
+	text-align: left;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-size: 100%;
+	font-weight: normal;
+}
+
+q:before,
+q:after {
+	content: '';
+}
+
+abbr,
+acronym {
+	border: 0;
+	font-variant: normal;
+}
+
+sup {
+	vertical-align: baseline;
+}
+
+sub {
+	vertical-align: baseline;
+}
+
+/*because legend doesn't inherit in IE */
+legend {
+	color: #000;
+}
+
+input,
+button,
+textarea,
+select,
+optgroup,
+option {
+	font-family: inherit;
+	font-size: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+}
+
+/*@purpose To enable resizing for IE */
+/*@branch For IE6-Win, IE7-Win */
+input,
+button,
+textarea,
+select {
+	*font-size: 100%;
+}
+
+
+
+/*
+ * Copyright (c) 2010, Yahoo! Inc. All rights reserved.
+ * Code licensed under the BSD License:
+ * http://developer.yahoo.com/yui/license.html
+ * version: 2.8.2r1
+ */
+
+/*
+ * YUI Base
+ * @module base
+ * @namespace yui-
+ * @requires reset, fonts
+ */
+
+body {
+	/* For breathing room between content and viewport. */
+	margin:10px;
+}
+
+h1 {
+	/* 18px via YUI Fonts CSS foundation. */
+	font-size: 138.5%;
+}
+
+h2 {
+	/* 16px via YUI Fonts CSS foundation. */
+	font-size: 123.1%;
+}
+
+h3 {
+	/* 14px via YUI Fonts CSS foundation. */
+	font-size: 108%;
+}
+
+h1,h2,h3 {
+	/* Top & bottom margin based on font size. */
+	margin: 1em 0;
+}
+
+h1,h2,h3,h4,h5,h6,strong,dt {
+	/* Bringing boldness back to headers and the strong element. */
+	font-weight: bold;
+}
+optgroup {
+	font-weight:normal;
+}
+
+abbr,acronym {
+	/* Indicating to users that more info is available. */
+	border-bottom: 1px dotted #000;
+	cursor: help;
+}
+
+em {
+	/* Bringing italics back to the em element. */
+	font-style: italic;
+}
+
+del {
+	/* Striking deleted phrases. */
+	text-decoration: line-through;
+}
+
+blockquote,ul,ol,dl {
+	/* Giving blockquotes and lists room to breath. */
+	margin: 1em;
+}
+
+ol,ul,dl {
+	/* Bringing lists on to the page with breathing room. */
+	margin-left: 2em;
+}
+
+ol li {
+	/* Giving OL's LIs generated numbers. */
+	list-style: decimal outside;
+}
+
+ul li {
+	/* Giving UL's LIs generated disc markers. */
+	list-style: disc outside;
+}
+
+dl dd {
+	/* Giving UL's LIs generated numbers. */
+	margin-left: 1em;
+}
+
+th,td {
+	/* Borders and padding to make the table readable. */
+	border: 1px solid #000;
+	padding: .5em;
+}
+
+th {
+	/* Distinguishing table headers from data cells. */
+	font-weight: bold;
+	text-align: center;
+}
+
+caption {
+	/* Coordinated margin to match cell's padding. */
+	margin-bottom: .5em;
+	/* Centered so it doesn't blend in to other content. */
+	text-align: center;
+}
+
+sup {
+	/* to preserve line-height and selector appearance */
+	vertical-align: super;
+}
+
+sub {
+	/* to preserve line-height and selector appearance */
+	vertical-align: sub;
+}
+
+p,
+fieldset,
+table,
+pre {
+	/* So things don't run into each other. */
+	margin-bottom: 1em;
+}
+/* Opera requires 1px of passing to render with contemporary native chrome */
+button,
+input[type="checkbox"],
+input[type="radio"],
+input[type="reset"],
+input[type="submit"] {
+	padding:1px;
+}
+/* Margin & Padding */
+
+div.chunk.name,
+div.chunk.html,
+div.chunk.containers,
+div.chunk table,
+div.chunk td,
+div.chunk pre {
+  margin: 0;
+  padding: 0;
+}
+div.chunk *:last-child {
+  margin-bottom: 0;
+}
+h4, h5, h6,
+div.chunk,
+div.comment pre {
+  margin: 1em 0;
+}
+pre,
+div.comment,
+div.chunk.html {
+  padding: 0.33em;
+}
+
+span.control.chunk {
+  padding-left: 0.25em;
+  padding-right: 0.25em;
+}
+
+/* Table of content */
+
+div#contents ul {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+div#contents li {
+  list-style-type: none;
+}
+
+/* Lists */
+
+ul.chunk.containers {
+  padding: 0;
+  margin: 0;
+  display: inline;
+}
+ul.chunk.containers li {
+  display: inline;
+  list-style-type: none;
+}
+
+/* Borders */
+
+pre,
+span.control.chunk,
+div.chunk.html {
+  border: 1px solid #000;
+}
+
+table.layout td.indentation,
+div.chunk pre {
+  border: none;
+}
+
+/* Colors */
+
+span.control.chunk,
+table.layout td.html {
+  background-color: Beige;
+}
+
+/* Fonts */
+
+body {
+  font-family: Sans-Serif;
+}
+pre {
+  font-family: Consolas, Inconsolata, Monaco, "Courier New", Monospace;
+}
+div.chunk.name {
+  font-weight: bold;
+}
+/* Colors for GVim classes */
+span.Constant   { color: Crimson; }
+span.Identifier { color: Teal; }
+span.PreProc    { color: Indigo; }
+span.Special    { color: Navy; }
+span.Statement  { color: Maroon; }
+span.Type       { color: Green; }
+span.Comment    { color: Purple; }
+</style>
+</head>
+<body>
+<div id="contents"></div>
+<div class='rdoc doc markup'>
+<h1>Olag</h1>
+<p>
+Olag - Oren’s Library/Application Gem framework
+</p>
+<h2>TL;DR</h2>
+
+<h3>Description</h3>
+<p>
+Olag is Oren’s set of utilities for creating a well-behaved gem. This is
+very opinionated code; it eliminates a lot of the boilerplate, at the cost
+of making many decisions which may not be suitable for everyone (directory
+structure, code verification, Codnar for documentation, etc.).
+</p>
+<h3>Installation</h3>
+<p>
+A simple <tt>gem install olag</tt> should do the trick, assuming you have
+Ruby gems set up.
+</p>
+</div>
+<div class='markdown doc markup'>
+<h2>Rakefile</h2>
+<p>
+Olag's Rakefile is a good example of how to use Olag's classes to create a
+full-featured gem Rakefile:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="rakefile">
+<span>Rakefile</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="Identifier">$LOAD_PATH</span>.unshift(<span class="Type">File</span>.dirname(<span class="Constant">__FILE__</span>) + <span class="Special">&quot;</span><span class="Constant">/lib</span><span class="Special">&quot;</span>)
+
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/rake</span><span class="Special">&quot;</span>
+
+</pre>
+<pre class='nested chunk'>
+<a class='nested chunk' href='#gem-specification'>Gem specification</a>
+</pre>
+<pre class='ruby code syntax'>
+
+<span class="Type">Olag</span>::<span class="Type">Rake</span>.new(spec)
+</pre>
+</div>
+</div>
+</p>
+<p>
+The overall Rakefile structure is as follows:
+</p>
+<ul>
+<li>
+<p>
+A first line sets up the Ruby module load path to begin with
+the current gem's <code>lib</code> directory. This standard idiom ensures we have access
+to the current gem.
+</p>
+</li>
+<li>
+<p>
+The next line imports Olag's <code>rake</code> support module.
+</p>
+</li>
+<li>
+<p>
+This is followed by setting up the gem specification, which is enhanced by
+Olag using monkey-patching.
+</p>
+</li>
+<li>
+<p>
+Finally, Olag::Rake sets up the following tasks (as reported by <code>rake -T</code>):
+</p>
+<pre><code>rake all               # Version, verify, document, package
+rake analyze           # Analyze source code
+rake changelog         # Update ChangeLog from Git
+rake clean             # Remove any temporary products.
+rake clean_codnar      # Clean all split chunks
+rake clobber           # Remove any generated file.
+rake clobber_codnar    # Remove woven HTML documentation
+rake clobber_coverage  # Remove rcov products for coverage
+rake clobber_package   # Remove package products
+rake clobber_rdoc      # Remove rdoc products
+rake codnar            # Build the code narrative HTML
+rake codnar_split      # Split all files into chunks
+rake codnar_weave      # Weave chunks into HTML
+rake commit            # Git commit process
+rake coverage          # Test code covarage with RCov
+rake doc               # Generate all documentation
+rake first_commit      # Perform the 1st (main) Git commit
+rake flay              # Check for duplicated code with Flay
+rake gem               # Build the gem file olag-&lt;version&gt;.gem
+rake package           # Build all the packages
+rake rdoc              # Build the rdoc HTML Files
+rake reek              # Check for smelly code with Reek
+rake repackage         # Force a rebuild of the package files
+rake rerdoc            # Force a rebuild of the RDOC files
+rake roodi             # Check for smelly code with Roodi
+rake saikuro           # Check for complex code with Saikuro
+rake second_commit     # Perform the 2nd (amend) Git commit
+rake test              # Run tests for test
+rake verify            # Test, coverage, analyze code
+rake version           # Update version file from Git
+</code></pre></li>
+</ul>
+
+
+<h3>Gem Specification</h3>
+<p>
+The gem specification is provided as usual:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="gem-specification">
+<span>Gem specification</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+
+spec = <span class="Type">Gem</span>::<span class="Type">Specification</span>.new <span class="Statement">do</span> |<span class="Identifier">spec</span>|
+  spec.name = <span class="Special">&quot;</span><span class="Constant">olag</span><span class="Special">&quot;</span>
+  spec.version = <span class="Type">Olag</span>::<span class="Type">VERSION</span>
+  spec.author = <span class="Special">&quot;</span><span class="Constant">Oren Ben-Kiki</span><span class="Special">&quot;</span>
+  spec.email = <span class="Special">&quot;</span><span class="Constant">rubygems-oren@ben-kiki.org</span><span class="Special">&quot;</span>
+  spec.homepage = <span class="Special">&quot;</span><span class="Constant"><a href="https://rubygems.org/gems/olag">https://rubygems.org/gems/olag</a></span><span class="Special">&quot;</span>
+  spec.summary = <span class="Special">&quot;</span><span class="Constant">Olag - Oren's Library/Application Gem framework</span><span class="Special">&quot;</span>
+  spec.description = (&lt;&lt;-<span class="Special">EOF</span>).gsub(<span class="Special">/</span><span class="Special">^</span><span class="Special">\s</span><span class="Special">+</span><span class="Special">/</span>, <span class="Special">&quot;&quot;</span>).chomp.gsub(<span class="Special">&quot;</span><span class="Special">\n</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Constant"> </span><span class="Special">&quot;</span>)
+<span class="Constant">    Olag is Oren's set of utilities for creating a well-behaved gem. This is</span>
+<span class="Constant">    very opinionated software; it eliminates a lot of the boilerplate, at the</span>
+<span class="Constant">    cost of making many decisions which may not be suitable for everyone</span>
+<span class="Constant">    (directory structure, code verification, codnar for documentation, etc.).</span>
+<span class="Constant">  </span><span class="Special">EOF</span>
+<span class="Statement">end</span>
+
+</pre>
+</div>
+<div class="chunk containers">
+<span class="chunk containers header">Contained in:</span>
+<ul class="chunk containers">
+<li class="chunk container">
+<a class="chunk container" href="#rakefile">Rakefile</a>
+</li>
+</ul>
+</div>
+</div>
+</p>
+<p>
+However, the Gem::Specification class is monkey-patched to automatically
+several of the specification fields, and adding some new ones:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-gem-specification-rb">
+<span>lib/olag/gem_specification.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Monkey-patch within the Gem module.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">module</span> <span class="Type">Gem</span>
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Enhanced automated gem specification.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">class</span> <span class="Type">Specification</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+The title of the gem for documentation (by default, the capitalized name).
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="Statement">attr_accessor</span> <span class="Constant">:title</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+The name of the file containing the gem’s version (by default,
+<tt>lib/<em>name</em>/version.rb</tt>).
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="Statement">attr_accessor</span> <span class="Constant">:version_file</span>
+
+    alias_method <span class="Constant">:original_initialize</span>, <span class="Constant">:initialize</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Create the gem specification. Requires a block to set up the basic gem
+information (name, version, author, email, description). In addition, the
+block may override default properties (e.g. title).
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">initialize</span>(&amp;block)
+      original_initialize(&amp;block)
+      setup_default_members
+      add_development_dependencies
+      setup_file_members
+      setup_rdoc
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Set the new data members to their default values, unless they were already
+set by the gem specification block.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">setup_default_members</span>
+      name = <span class="Constant">self</span>.name
+      <span class="Identifier">@title</span> ||= name.capitalize
+      <span class="Identifier">@version_file</span> ||= <span class="Special">&quot;</span><span class="Constant">lib/</span><span class="Special">#{</span>name<span class="Special">}</span><span class="Constant">/version.rb</span><span class="Special">&quot;</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Add dependencies required for developing the gem.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">add_development_dependencies</span>
+      add_dependency(<span class="Special">&quot;</span><span class="Constant">olag</span><span class="Special">&quot;</span>) <span class="Statement">unless</span> <span class="Constant">self</span>.name == <span class="Special">&quot;</span><span class="Constant">olag</span><span class="Special">&quot;</span>
+      <span class="Special">%w(</span><span class="Constant">Saikuro codnar fakefs flay rake rcov rdoc reek roodi test-spec</span><span class="Special">)</span>.each <span class="Statement">do</span> |<span class="Identifier">gem</span>|
+        add_development_dependency(gem)
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Initialize the standard gem specification file list members.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">setup_file_members</span>
+</pre>
+      <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>      </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+These should cover all the gem’s files, except for the extra rdoc files.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+      setup_file_member(<span class="Constant">:files</span>, <span class="Special">&quot;</span><span class="Constant">{lib,doc}/**/*</span><span class="Special">&quot;</span>)
+      <span class="Constant">self</span>.files &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Rakefile</span><span class="Special">&quot;</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">codnar.html</span><span class="Special">&quot;</span>
+      setup_file_member(<span class="Constant">:executables</span>, <span class="Special">&quot;</span><span class="Constant">bin/*</span><span class="Special">&quot;</span>) { |<span class="Identifier">path</span>| path.sub(<span class="Special">&quot;</span><span class="Constant">bin/</span><span class="Special">&quot;</span>, <span class="Special">&quot;&quot;</span>) }
+      setup_file_member(<span class="Constant">:test_files</span>, <span class="Special">&quot;</span><span class="Constant">test/**/*</span><span class="Special">&quot;</span>)
+    end
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Initialize a standard gem specification file list member to the files
+matching a pattern. If a block is given, it is used to map the file paths.
+This will append to the file list member if it has already been set by the
+gem specification block.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">setup_file_member</span>(member, pattern, &amp;block)
+      old_value = instance_variable_get(<span class="Special">&quot;</span><span class="Constant">@</span><span class="Special">#{</span>member<span class="Special">}</span><span class="Special">&quot;</span>)
+      new_value = <span class="Type">FileList</span>[pattern].find_all { |<span class="Identifier">path</span>| <span class="Type">File</span>.file?(path) }
+      new_value.map!(&amp;block) <span class="Statement">if</span> block
+      instance_variable_set(<span class="Special">&quot;</span><span class="Constant">@</span><span class="Special">#{</span>member<span class="Special">}</span><span class="Special">&quot;</span>, old_value + new_value)
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Setup RDOC options in the gem specification.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">setup_rdoc</span>
+      <span class="Constant">self</span>.extra_rdoc_files = [ <span class="Special">&quot;</span><span class="Constant">README.rdoc</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Constant">LICENSE</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Constant">ChangeLog</span><span class="Special">&quot;</span> ]
+      <span class="Constant">self</span>.rdoc_options &lt;&lt; <span class="Special">&quot;</span><span class="Constant">--title</span><span class="Special">&quot;</span> &lt;&lt; <span class="Special">&quot;</span><span class="Special">#{</span>title<span class="Special">}</span><span class="Constant"> </span><span class="Special">#{</span>version<span class="Special">}</span><span class="Special">&quot;</span> \
+                        &lt;&lt; <span class="Special">&quot;</span><span class="Constant">--main</span><span class="Special">&quot;</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">README.rdoc</span><span class="Special">&quot;</span> \
+                        &lt;&lt; <span class="Special">&quot;</span><span class="Constant">--line-numbers</span><span class="Special">&quot;</span> \
+                        &lt;&lt; <span class="Special">&quot;</span><span class="Constant">--all</span><span class="Special">&quot;</span> \
+                        &lt;&lt; <span class="Special">&quot;</span><span class="Constant">--quiet</span><span class="Special">&quot;</span>
+    <span class="PreProc">end</span>
+
+  end
+
+end
+</pre>
+</div>
+</div>
+</p>
+<h3>Rake tasks</h3>
+<p>
+The Olag::Rake class sets up the tasks listed above as follows:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-rake-rb">
+<span>lib/olag/rake.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">codnar/rake</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/change_log</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/gem_specification</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/update_version</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/version</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">rake/clean</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">rake/testtask</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">rcov/rcovtask</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">rdoc/task</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">reek/rake/task</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">roodi</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">rubygems/package_task</span><span class="Special">&quot;</span>
+
+<span class="PreProc">module</span> <span class="Type">Olag</span>
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Automate Rake task creation for a gem.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">class</span> <span class="Type">Rake</span>
+
+    <span class="PreProc">include</span> ::<span class="Type">Rake</span>::<span class="Type">DSL</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Define all the Rake tasks.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">initialize</span>(spec)
+      <span class="Identifier">@spec</span> = spec
+      <span class="Identifier">@ruby_sources</span> = <span class="Identifier">@spec</span>.files.find_all { |<span class="Identifier">file</span>| file =~ <span class="Special">/</span><span class="Special">^</span><span class="Constant">Rakefile</span><span class="Special">$</span><span class="Special">|</span><span class="Special">\.</span><span class="Constant">rb</span><span class="Special">$</span><span class="Special">/</span> }
+      <span class="Identifier">@weave_configurations</span> = [ <span class="Constant">:weave_include</span>, <span class="Constant">:weave_named_chunk_with_containers</span>, <span class="Constant">:weave_plain_chunk</span> ]
+      task(<span class="Constant">:default</span> =&gt; <span class="Constant">:all</span>)
+      define_all_task
+      <span class="Type">CLOBBER</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">saikuro</span><span class="Special">&quot;</span>
+    <span class="PreProc">end</span>
+
+  <span class="Statement">protected</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Define a task that does “everything”.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">define_all_task</span>
+      define_desc_task(<span class="Special">&quot;</span><span class="Constant">Version, verify, document, package</span><span class="Special">&quot;</span>, <span class="Constant">:all</span> =&gt; [ <span class="Constant">:version</span>, <span class="Constant">:verify</span>, <span class="Constant">:doc</span>, <span class="Constant">:package</span> ])
+      define_verify_task
+      define_doc_task
+      define_commit_task
+</pre>
+      <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>      </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+This is a problem. If the version number gets updated, Gem::PackageTask
+fails. This is better than if it used the old version number, I suppose,
+but not as nice as if it just used @spec.version everywhere. The solution
+for this is to do a dry run before doing the final <code>rake</code>
+<code>commit</code>, which is a good idea in general.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+      <span class="Type">Gem</span>::<span class="Type">PackageTask</span>.new(<span class="Identifier">@spec</span>) { |<span class="Identifier">package</span>| }
+    end
+
+</pre>
+<pre class='nested chunk'>
+    <a class='nested chunk' href='#verify-gem-functionality'>Verify gem functionality</a>
+</pre>
+<pre class='ruby code syntax'>
+
+</pre>
+<pre class='nested chunk'>
+    <a class='nested chunk' href='#analyze-the-source-code'>Analyze the source code</a>
+</pre>
+<pre class='ruby code syntax'>
+
+</pre>
+<pre class='nested chunk'>
+    <a class='nested chunk' href='#generate-rdoc-documentation'>Generate RDoc documentation</a>
+</pre>
+<pre class='ruby code syntax'>
+
+</pre>
+<pre class='nested chunk'>
+    <a class='nested chunk' href='#generate-codnar-documentation'>Generate Codnar documentation</a>
+</pre>
+<pre class='ruby code syntax'>
+
+</pre>
+<pre class='nested chunk'>
+    <a class='nested chunk' href='#automate-git-commit-process'>Automate Git commit process</a>
+</pre>
+<pre class='ruby code syntax'>
+
+</pre>
+<pre class='nested chunk'>
+    <a class='nested chunk' href='#task-utilities'>Task utilities</a>
+</pre>
+<pre class='ruby code syntax'>
+
+  end
+
+end
+</pre>
+</div>
+</div>
+</p>
+<h4>Task utilities</h4>
+<p>
+The following utilities are used to create the different tasks. It would have
+be nicer if Rake had treated the task description as just another task
+property.
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="task-utilities">
+<span>Task utilities</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Define a new task with a description.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">def</span> <span class="Identifier">define_desc_task</span>(description, *parameters)
+  desc(description)
+  task(*parameters) <span class="Statement">do</span>
+    <span class="Statement">yield</span>(task) <span class="Statement">if</span> block_given?
+  <span class="Statement">end</span>
+<span class="PreProc">end</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Define a new task using some class.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">def</span> <span class="Identifier">define_desc_class</span>(description, klass, *parameters)
+  desc(description)
+  klass.new(*parameters) <span class="Statement">do</span> |<span class="Identifier">task</span>|
+    <span class="Statement">yield</span>(task) <span class="Statement">if</span> block_given?
+  <span class="Statement">end</span>
+<span class="PreProc">end</span>
+
+</pre>
+</div>
+<div class="chunk containers">
+<span class="chunk containers header">Contained in:</span>
+<ul class="chunk containers">
+<li class="chunk container">
+<a class="chunk container" href="#lib-olag-rake-rb">lib/olag/rake.rb</a>
+</li>
+</ul>
+</div>
+</div>
+</p>
+<h4>Verify the gem</h4>
+<p>
+The following tasks verify that the gem is correct. Testing for 100% code
+coverage seems excessive but in reality it isn't that hard to do, and is really
+only a modest form of test coverage verification.
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="verify-gem-functionality">
+<span>Verify gem functionality</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Define a task to verify everything is OK.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">def</span> <span class="Identifier">define_verify_task</span>
+  define_desc_task(<span class="Special">&quot;</span><span class="Constant">Test, coverage, analyze code</span><span class="Special">&quot;</span>, <span class="Constant">:verify</span> =&gt; [ <span class="Constant">:coverage</span>, <span class="Constant">:analyze</span> ])
+  define_desc_class(<span class="Special">&quot;</span><span class="Constant">Test code covarage with RCov</span><span class="Special">&quot;</span>, <span class="Type">Rcov</span>::<span class="Type">RcovTask</span>, <span class="Special">&quot;</span><span class="Constant">coverage</span><span class="Special">&quot;</span>) { |<span class="Identifier">task</span>| <span class="Type">Rake</span>.configure_coverage_task(task) }
+  define_desc_class(<span class="Special">&quot;</span><span class="Constant">Test code without coverage</span><span class="Special">&quot;</span>, ::<span class="Type">Rake</span>::<span class="Type">TestTask</span>, <span class="Special">&quot;</span><span class="Constant">test</span><span class="Special">&quot;</span>) { |<span class="Identifier">task</span>| <span class="Type">Rake</span>.configure_test_task(task) }
+  define_analyze_task
+<span class="PreProc">end</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Configure a task to run all tests and verify 100% coverage. This is
+cheating a bit, since it will not complain about files that are not reached
+at all from any of the tests.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">configure_coverage_task</span>(task)
+  task.test_files = <span class="Type">FileList</span>[<span class="Special">&quot;</span><span class="Constant">test/*.rb</span><span class="Special">&quot;</span>]
+  task.libs &lt;&lt; <span class="Special">&quot;</span><span class="Constant">lib</span><span class="Special">&quot;</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">test/lib</span><span class="Special">&quot;</span>
+  task.rcov_opts &lt;&lt; <span class="Special">&quot;</span><span class="Constant">--failure-threshold</span><span class="Special">&quot;</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">100</span><span class="Special">&quot;</span> \
+                 &lt;&lt; <span class="Special">&quot;</span><span class="Constant">--exclude</span><span class="Special">&quot;</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">^/</span><span class="Special">&quot;</span>
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Strangely, on some occasions, RCov crazily tries to compute coverage for
+files inside Ruby’s gem repository. Excluding all absolute paths prevents
+this.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+end
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Configure a task to just run the tests without verifying coverage.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">configure_test_task</span>(task)
+  task.test_files = <span class="Type">FileList</span>[<span class="Special">&quot;</span><span class="Constant">test/*.rb</span><span class="Special">&quot;</span>]
+  task.libs &lt;&lt; <span class="Special">&quot;</span><span class="Constant">lib</span><span class="Special">&quot;</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">test/lib</span><span class="Special">&quot;</span>
+<span class="PreProc">end</span>
+
+</pre>
+</div>
+<div class="chunk containers">
+<span class="chunk containers header">Contained in:</span>
+<ul class="chunk containers">
+<li class="chunk container">
+<a class="chunk container" href="#lib-olag-rake-rb">lib/olag/rake.rb</a>
+</li>
+</ul>
+</div>
+</div>
+</p>
+<p>
+The following tasks verify that the code is squeacky-clean. While passing the
+code through all these verifiers seems excessive, it isn't that hard to achieve
+in practice. There were several times I did refactorings "just to satisfy
+<code>reek</code> (or <code>flay</code>)" and ended up with an unexpected code improvement. Anyway,
+if you aren't a youch OCD about this sort of thing, Olag is probably not for
+you :-)
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="analyze-the-source-code">
+<span>Analyze the source code</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Define a task to verify the source code is clean.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">def</span> <span class="Identifier">define_analyze_task</span>
+  define_desc_task(<span class="Special">&quot;</span><span class="Constant">Analyze source code</span><span class="Special">&quot;</span>, <span class="Constant">:analyze</span> =&gt; [ <span class="Constant">:reek</span>, <span class="Constant">:roodi</span>, <span class="Constant">:flay</span>, <span class="Constant">:saikuro</span> ])
+  define_desc_class(<span class="Special">&quot;</span><span class="Constant">Check for smelly code with Reek</span><span class="Special">&quot;</span>, <span class="Type">Reek</span>::<span class="Type">Rake</span>::<span class="Type">Task</span>) { |<span class="Identifier">task</span>| configure_reek_task(task) }
+  define_desc_task(<span class="Special">&quot;</span><span class="Constant">Check for smelly code with Roodi</span><span class="Special">&quot;</span>, <span class="Constant">:roodi</span>) { run_roodi_task }
+  define_desc_task(<span class="Special">&quot;</span><span class="Constant">Check for duplicated code with Flay</span><span class="Special">&quot;</span>, <span class="Constant">:flay</span>) { run_flay_task }
+  define_desc_task(<span class="Special">&quot;</span><span class="Constant">Check for complex code with Saikuro</span><span class="Special">&quot;</span>, <span class="Constant">:saikuro</span>) { run_saikuro_task }
+<span class="PreProc">end</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Configure a task to ensure there are no code smells using Reek.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">def</span> <span class="Identifier">configure_reek_task</span>(task)
+  task.reek_opts &lt;&lt; <span class="Special">&quot;</span><span class="Constant">--quiet</span><span class="Special">&quot;</span>
+  task.source_files = <span class="Identifier">@ruby_sources</span>
+<span class="PreProc">end</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Run Roodi to ensure there are no code smells.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">def</span> <span class="Identifier">run_roodi_task</span>
+  runner = <span class="Type">Roodi</span>::<span class="Type">Core</span>::<span class="Type">Runner</span>.new
+  runner.config = <span class="Special">&quot;</span><span class="Constant">roodi.config</span><span class="Special">&quot;</span> <span class="Statement">if</span> <span class="Type">File</span>.exist?(<span class="Special">&quot;</span><span class="Constant">roodi.config</span><span class="Special">&quot;</span>)
+  <span class="Identifier">@ruby_sources</span>.each { |<span class="Identifier">ruby_source</span>| runner.check_file(ruby_source) }
+  (errors = runner.errors).each { |<span class="Identifier">error</span>| puts(error) }
+  <span class="Statement">raise</span> <span class="Special">&quot;</span><span class="Constant">Roodi found </span><span class="Special">#{</span>errors.size<span class="Special">}</span><span class="Constant"> errors.</span><span class="Special">&quot;</span> <span class="Statement">unless</span> errors.empty?
+<span class="PreProc">end</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Run Flay to ensure there are no duplicated code fragments.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">def</span> <span class="Identifier">run_flay_task</span>
+  dirs = <span class="Special">%w(</span><span class="Constant">bin lib test/lib</span><span class="Special">)</span>.find_all { |<span class="Identifier">dir</span>| <span class="Type">File</span>.exist?(dir) }
+  result = <span class="Type">IO</span>.popen(<span class="Special">&quot;</span><span class="Constant">flay </span><span class="Special">&quot;</span> + dirs.join(<span class="Special">'</span><span class="Constant"> </span><span class="Special">'</span>), <span class="Special">&quot;</span><span class="Constant">r</span><span class="Special">&quot;</span>).read.chomp
+  <span class="Statement">return</span> <span class="Statement">if</span> result == <span class="Special">&quot;</span><span class="Constant">Total score (lower is better) = 0</span><span class="Special">\n</span><span class="Special">&quot;</span>
+  puts(result)
+  <span class="Statement">raise</span> <span class="Special">&quot;</span><span class="Constant">Flay found code duplication.</span><span class="Special">&quot;</span>
+<span class="PreProc">end</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Run Saikuro to ensure there are no overly complex functions.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">def</span> <span class="Identifier">run_saikuro_task</span>
+  dirs = <span class="Special">%w(</span><span class="Constant">bin lib test</span><span class="Special">)</span>.find_all { |<span class="Identifier">dir</span>| <span class="Type">File</span>.exist?(dir) }
+  system(<span class="Special">&quot;</span><span class="Constant">saikuro -c -t -y 0 -e 10 -o saikuro/ -i </span><span class="Special">#{</span>dirs.join(<span class="Special">'</span><span class="Constant"> -i </span><span class="Special">'</span>)<span class="Special">}</span><span class="Constant"> &gt; /dev/null</span><span class="Special">&quot;</span>)
+  result = <span class="Type">File</span>.read(<span class="Special">&quot;</span><span class="Constant">saikuro/index_cyclo.html</span><span class="Special">&quot;</span>)
+  <span class="Statement">raise</span> <span class="Special">&quot;</span><span class="Constant">Saikuro found complicated code.</span><span class="Special">&quot;</span> <span class="Statement">if</span> result.include?(<span class="Special">&quot;</span><span class="Constant">Errors and Warnings</span><span class="Special">&quot;</span>)
+<span class="PreProc">end</span>
+
+</pre>
+</div>
+<div class="chunk containers">
+<span class="chunk containers header">Contained in:</span>
+<ul class="chunk containers">
+<li class="chunk container">
+<a class="chunk container" href="#lib-olag-rake-rb">lib/olag/rake.rb</a>
+</li>
+</ul>
+</div>
+</div>
+</p>
+<h4>Generate Documentation</h4>
+<p>
+The following tasks generate the usual RDoc documentation, required to make the
+gem behave well in the Ruby tool ecosystem:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="generate-rdoc-documentation">
+<span>Generate RDoc documentation</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Define a task to build all the documentation.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">def</span> <span class="Identifier">define_doc_task</span>
+  desc <span class="Special">&quot;</span><span class="Constant">Generate all documentation</span><span class="Special">&quot;</span>
+  task <span class="Constant">:doc</span> =&gt; [ <span class="Constant">:rdoc</span>, <span class="Constant">:codnar</span> ]
+  ::<span class="Type">Rake</span>::<span class="Type">RDocTask</span>.new { |<span class="Identifier">task</span>| configure_rdoc_task(task) }
+  define_codnar_task
+<span class="PreProc">end</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Configure a task to build the RDoc documentation.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">def</span> <span class="Identifier">configure_rdoc_task</span>(task)
+  task.rdoc_files += <span class="Identifier">@ruby_sources</span>.reject { |<span class="Identifier">file</span>| file =~ <span class="Special">/</span><span class="Special">^</span><span class="Constant">test</span><span class="Special">|</span><span class="Constant">Rakefile</span><span class="Special">/</span> } + [ <span class="Special">&quot;</span><span class="Constant">LICENSE</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Constant">README.rdoc</span><span class="Special">&quot;</span> ]
+  task.main = <span class="Special">&quot;</span><span class="Constant">README.rdoc</span><span class="Special">&quot;</span>
+  task.rdoc_dir = <span class="Special">&quot;</span><span class="Constant">rdoc</span><span class="Special">&quot;</span>
+  task.options = <span class="Identifier">@spec</span>.rdoc_options
+<span class="PreProc">end</span>
+
+</pre>
+</div>
+<div class="chunk containers">
+<span class="chunk containers header">Contained in:</span>
+<ul class="chunk containers">
+<li class="chunk container">
+<a class="chunk container" href="#lib-olag-rake-rb">lib/olag/rake.rb</a>
+</li>
+</ul>
+</div>
+</div>
+</p>
+<p>
+The following tasks generate the Codnar documentation (e.g., the document you
+are reading now), which goes beyond RDoc to provide an end-to-end linear
+narrative describing the gem:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="generate-codnar-documentation">
+<span>Generate Codnar documentation</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+A set of file Regexp patterns and their matching Codnar configurations. All
+the gem files are matched agains these patterns, in order, and a
+Codnar::SplitTask is created for the first matching one. If the matching
+configuration list is empty, the file is not split. However, the file must
+match at least one of the patterns. The gem is expected to modify this
+array, if needed, before creating the Rake object.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="Type">CODNAR_CONFIGURATIONS</span> = [
+  [
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Exclude the ChangeLog and generated codnar.html files from the generated
+documentation.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="Special">&quot;</span><span class="Constant">ChangeLog|codnar\.html</span><span class="Special">&quot;</span>,
+  ], [
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Configurations for splitting Ruby files. Using Sunlight makes for fast
+splitting but slow viewing. Using GVim is the reverse.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="Special">&quot;</span><span class="Constant">Rakefile|.*\.rb|bin/.*</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">classify_source_code:ruby</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">format_code_gvim_css:ruby</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">classify_shell_comments</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">format_rdoc_comments</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">chunk_by_vim_regions</span><span class="Special">&quot;</span>,
+  ], [
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Configurations for splitting Haskell files. Not that ruby gems tend to
+contain Haskell files, but it allows more easily adding a Rakefile for
+generating codnar documentation into a Haskell project.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="Special">&quot;</span><span class="Constant">.*\.hs</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">classify_source_code:haskell</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">format_code_gvim_css:haskell</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">classify_haddock_comments</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">format_haddock_comments</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">chunk_by_vim_regions</span><span class="Special">&quot;</span>,
+  ], [
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Configurations for GraphViz diagram files.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="Special">&quot;</span><span class="Constant">.*\.dot</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">split_graphviz_documentation</span><span class="Special">&quot;</span>,
+  ], [
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Configurations for HTML documentation files.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="Special">&quot;</span><span class="Constant">.*\.html</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">split_html_documentation</span><span class="Special">&quot;</span>,
+  ], [
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Configurations for Markdown documentation files.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="Special">&quot;</span><span class="Constant">.*\.markdown|.*\.md</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">split_markdown_documentation</span><span class="Special">&quot;</span>,
+  ], [
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Configurations for RDOC documentation files.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="Special">&quot;</span><span class="Constant">LICENSE|.*\.rdoc</span><span class="Special">&quot;</span>,
+    <span class="Special">&quot;</span><span class="Constant">split_rdoc_documentation</span><span class="Special">&quot;</span>,
+  ],
+]
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Define a task to build the Codnar documentation.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">def</span> <span class="Identifier">define_codnar_task</span>
+  <span class="Identifier">@spec</span>.files.each <span class="Statement">do</span> |<span class="Identifier">file</span>|
+    configurations = <span class="Type">Rake</span>.split_configurations(file)
+    <span class="Type">Codnar</span>::<span class="Type">Rake</span>::<span class="Type">SplitTask</span>.new([ file ], configurations) <span class="Statement">unless</span> configurations == []
+  <span class="Statement">end</span>
+  <span class="Type">Codnar</span>::<span class="Type">Rake</span>::<span class="Type">WeaveTask</span>.new(<span class="Special">&quot;</span><span class="Constant">doc/root.html</span><span class="Special">&quot;</span>, <span class="Identifier">@weave_configurations</span>)
+<span class="PreProc">end</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Find the Codnar split configurations for a file.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">split_configurations</span>(file)
+  <span class="Type">CODNAR_CONFIGURATIONS</span>.each <span class="Statement">do</span> |<span class="Identifier">configurations</span>|
+    regexp = configurations[<span class="Constant">0</span>] = convert_to_regexp(configurations[<span class="Constant">0</span>])
+    <span class="Statement">return</span> configurations[<span class="Constant">1</span>..<span class="Constant">-1</span>] <span class="Statement">if</span> regexp.match(file)
+  <span class="Statement">end</span>
+  <span class="Statement">abort</span>(<span class="Special">&quot;</span><span class="Constant">No Codnar configuration for file: </span><span class="Special">#{</span>file<span class="Special">}</span><span class="Special">&quot;</span>)
+<span class="PreProc">end</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Convert a string configuration pattern to a real Regexp.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">convert_to_regexp</span>(regexp)
+  <span class="Statement">return</span> regexp <span class="Statement">if</span> <span class="Type">Regexp</span> == regexp
+  <span class="Statement">begin</span>
+    <span class="Statement">return</span> <span class="Type">Regexp</span>.new(<span class="Special">&quot;</span><span class="Constant">^(</span><span class="Special">#{</span>regexp<span class="Special">}</span><span class="Constant">)$</span><span class="Special">&quot;</span>)
+  <span class="Statement">rescue</span>
+    <span class="Statement">abort</span>(<span class="Special">&quot;</span><span class="Constant">Invalid pattern regexp: ^(</span><span class="Special">#{</span>regexp<span class="Special">}</span><span class="Constant">)$ error: </span><span class="Special">#{</span><span class="Identifier">$!</span><span class="Special">}</span><span class="Special">&quot;</span>)
+  <span class="Statement">end</span>
+<span class="PreProc">end</span>
+
+</pre>
+</div>
+<div class="chunk containers">
+<span class="chunk containers header">Contained in:</span>
+<ul class="chunk containers">
+<li class="chunk container">
+<a class="chunk container" href="#lib-olag-rake-rb">lib/olag/rake.rb</a>
+</li>
+</ul>
+</div>
+</div>
+</p>
+<p>
+Codnar is very configurable, and the above provides a reasonable default
+configuration for pure Ruby gems. You can modify the CODNAR_CONFIGURATIONS
+array before creating the Rake object, by unshifting additional/overriding
+patterns into it. For example, you may choose to use GVim for syntax
+highlighting. This will cause splitting to become much slower, but the
+generated HTML will already include the highlighting markup so it will display
+instantly. Or, you may have additional source file types (Javascript, CSS,
+HTML, C, etc.) to be highlighted.
+</p>
+<h4>Automate Git commit process</h4>
+<p>
+In an ideal world, committing to Git would be a simple matter of typing <code>git
+commit -m "..."</code>. In our case, things get a bit complicated.
+</p>
+<p>
+There is some information that we need to extract out of Git and inject into
+our files (to be committed). Since Git pre-commit hooks do not allow us to
+modify any source files, this turns commit into a two-phase process: we do an
+initial commit, update some files, then <code>git commit --amend</code> to merge them with
+the first commit.
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="automate-git-commit-process">
+<span>Automate Git commit process</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Define a task that commit changes to Git.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">def</span> <span class="Identifier">define_commit_task</span>
+  define_desc_task(<span class="Special">&quot;</span><span class="Constant">Git commit process</span><span class="Special">&quot;</span>, <span class="Constant">:commit</span> =&gt; [ <span class="Constant">:all</span>, <span class="Constant">:first_commit</span>, <span class="Constant">:changelog</span>, <span class="Constant">:second_commit</span> ])
+  define_desc_task(<span class="Special">&quot;</span><span class="Constant">Update version file from Git</span><span class="Special">&quot;</span>, <span class="Constant">:version</span>) { update_version_file }
+  define_desc_task(<span class="Special">&quot;</span><span class="Constant">Perform the 1st (main) Git commit</span><span class="Special">&quot;</span>, <span class="Constant">:first_commit</span>) { run_git_first_commit }
+  define_desc_task(<span class="Special">&quot;</span><span class="Constant">Perform the 2nd (amend) Git commit</span><span class="Special">&quot;</span>, <span class="Constant">:second_commit</span>) { run_git_second_commit }
+  define_desc_task(<span class="Special">&quot;</span><span class="Constant">Update ChangeLog from Git</span><span class="Special">&quot;</span>, <span class="Constant">:changelog</span>) { <span class="Type">Olag</span>::<span class="Type">ChangeLog</span>.new(<span class="Special">&quot;</span><span class="Constant">ChangeLog</span><span class="Special">&quot;</span>) }
+<span class="PreProc">end</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Update the content of the version file to contain the correct Git-derived
+build number.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">def</span> <span class="Identifier">update_version_file</span>
+  version_file = <span class="Identifier">@spec</span>.version_file
+  updated_version = <span class="Type">Olag</span>::<span class="Type">Version</span>::update(version_file)
+  <span class="Statement">abort</span>(<span class="Special">&quot;</span><span class="Constant">Updated gem version; re-run rake</span><span class="Special">&quot;</span>) <span class="Statement">if</span> <span class="Identifier">@spec</span>.version.to_s != updated_version
+<span class="PreProc">end</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Run the first Git commit. The user will be given an editor to review the
+commit and enter a commit message.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">def</span> <span class="Identifier">run_git_first_commit</span>
+  <span class="Statement">raise</span> <span class="Special">&quot;</span><span class="Constant">Git 1st commit failed</span><span class="Special">&quot;</span> <span class="Statement">unless</span> system(<span class="Special">&quot;</span><span class="Constant">set +x; git commit</span><span class="Special">&quot;</span>)
+<span class="PreProc">end</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Run the second Git commit. This amends the first commit with the updated
+ChangeLog.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">def</span> <span class="Identifier">run_git_second_commit</span>
+  <span class="Statement">raise</span> <span class="Special">&quot;</span><span class="Constant">Git 2nd commit failed</span><span class="Special">&quot;</span> <span class="Statement">unless</span> system(<span class="Special">&quot;</span><span class="Constant">set +x; EDITOR=true git commit --amend ChangeLog</span><span class="Special">&quot;</span>)
+<span class="PreProc">end</span>
+
+</pre>
+</div>
+<div class="chunk containers">
+<span class="chunk containers header">Contained in:</span>
+<ul class="chunk containers">
+<li class="chunk container">
+<a class="chunk container" href="#lib-olag-rake-rb">lib/olag/rake.rb</a>
+</li>
+</ul>
+</div>
+</div>
+</p>
+<p>
+The first piece of information we need to extract from Git is the current build
+number, which needs to be injected into the gem's version number:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-version-rb">
+<span>lib/olag/version.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+This module contains all the Olag code.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">module</span> <span class="Type">Olag</span>
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+This version number. The third number is automatically updated to track the
+number of Git commits by running <code>rake version</code>.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.19</span><span class="Special">&quot;</span>
+
+end
+</pre>
+</div>
+</div>
+</p>
+<p>
+Documentation generation will depend on the content (and therefore modification
+time) of this file. Luckily, we can update this number before the first commit,
+and we can ensure it only touches the file if there is a real change, to avoid
+unnecessary documentation regeneration:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-update-version-rb">
+<span>lib/olag/update_version.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">module</span> <span class="Type">Olag</span>
+
+  <span class="PreProc">module</span> <span class="Type">Version</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Update the file containing the gem’s version. The file is expected to
+contain a line in the format: <tt>VERSION =
+&quot;<em>major</em>.<em>minor</em>.<em>commits</em>&quot;</tt>. The third
+number is updated according to the number of Git commits. This works well
+as long as we are working in the master branch.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">update</span>(path)
+      current_file_contents, current_version, correct_version = current_status(path)
+      <span class="Statement">if</span> current_version != correct_version
+        correct_file_contents = current_file_contents.sub(current_version, correct_version)
+        <span class="Type">File</span>.open(path, <span class="Special">&quot;</span><span class="Constant">w</span><span class="Special">&quot;</span>) { |<span class="Identifier">file</span>| file.write(correct_file_contents) }
+      <span class="Statement">end</span>
+      <span class="Statement">return</span> correct_version
+    <span class="PreProc">end</span>
+
+  <span class="Statement">protected</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Return the current version file contents, the current version, and the
+correct version.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">current_status</span>(path)
+      prefix, current_suffix = extract_version(path, current_file_contents = <span class="Type">File</span>.read(path))
+      correct_suffix = count_git_commits.to_s
+      current_version = prefix + current_suffix
+      correct_version = prefix + correct_suffix
+      <span class="Statement">return</span> current_file_contents, current_version, correct_version
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Extract the version number from the contents of the version file. This is
+an array of two strings - the prefix containing the major and minor
+numbers, and the suffix containing the commits number.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">extract_version</span>(path, file_contents)
+      <span class="Statement">abort</span>(<span class="Special">&quot;</span><span class="Special">#{</span>path<span class="Special">}</span><span class="Constant">: Does not contain a valid VERSION line.</span><span class="Special">&quot;</span>) <span class="Statement">unless</span> file_contents =~ <span class="Special">/</span><span class="Constant">VERSION</span><span class="Special">\s</span><span class="Special">+</span><span class="Constant">=</span><span class="Special">\s</span><span class="Special">+</span><span class="Special">[</span><span class="Constant">&quot;'</span><span class="Special">]</span><span class="Special">(</span><span class="Special">\d</span><span class="Special">+</span><span class="Special">\.</span><span class="Special">\d</span><span class="Special">+</span><span class="Special">\.</span><span class="Special">)(</span><span class="Special">\d</span><span class="Special">+</span><span class="Special">)</span><span class="Special">[</span><span class="Constant">&quot;'</span><span class="Special">]</span><span class="Special">/</span>
+      <span class="Statement">return</span> [ <span class="Identifier">$1</span>, <span class="Identifier">$2</span> ]
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Return the total number of Git commits that apply to the current state of
+the working directory. This means we add one to the actual number of
+commits if there are uncommitted changes; this way the version number does
+not change after doing a commit - it only changes after we make changes
+following a commit.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">count_git_commits</span>
+      git_commits = <span class="Type">IO</span>.popen(<span class="Special">&quot;</span><span class="Constant">git rev-list --all | wc -l</span><span class="Special">&quot;</span>).read.chomp.to_i
+      git_status = <span class="Type">IO</span>.popen(<span class="Special">&quot;</span><span class="Constant">git status</span><span class="Special">&quot;</span>).read
+      git_commits += <span class="Constant">1</span> <span class="Statement">unless</span> git_status.include?(<span class="Special">&quot;</span><span class="Constant">working directory clean</span><span class="Special">&quot;</span>)
+      <span class="Statement">return</span> git_commits
+    <span class="PreProc">end</span>
+
+  end
+
+end
+</pre>
+</div>
+</div>
+</p>
+<p>
+The second information we extract from Git is the ChangeLog file. Here,
+obviously, the ChangeLog needs to include the first commit's message, so we are
+forced to regenerate the file and amend Git's history with a second commit:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-change-log-rb">
+<span>lib/olag/change_log.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">module</span> <span class="Type">Olag</span>
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Create ChangeLog files based on the Git revision history.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">class</span> <span class="Type">ChangeLog</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Write a changelog based on the Git log.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">initialize</span>(path)
+      <span class="Identifier">@subjects_by_id</span> = {}
+      <span class="Identifier">@sorted_ids</span> = []
+      read_log_lines
+      <span class="Type">File</span>.open(path, <span class="Special">&quot;</span><span class="Constant">w</span><span class="Special">&quot;</span>) <span class="Statement">do</span> |<span class="Identifier">file</span>|
+        <span class="Identifier">@log_file</span> = file
+        write_log_file
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+  <span class="Statement">protected</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Read all the log lines from Git’s revision history.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">read_log_lines</span>
+      <span class="Type">IO</span>.popen(<span class="Special">&quot;</span><span class="Constant">git log --pretty='format:%ci::%an &lt;%ae&gt;::%s'</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Constant">r</span><span class="Special">&quot;</span>).each_line <span class="Statement">do</span> |<span class="Identifier">log_line</span>|
+        load_log_line(log_line)
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Load a single Git log line into memory.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">load_log_line</span>(log_line)
+      id, subject = <span class="Type">ChangeLog</span>.parse_log_line(log_line)
+      <span class="Identifier">@sorted_ids</span> &lt;&lt; id
+      <span class="Identifier">@subjects_by_id</span>[id] ||= []
+      <span class="Identifier">@subjects_by_id</span>[id] &lt;&lt; subject
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Extract the information we need (ChangeLog entry id and subject) from a Git
+log line.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">parse_log_line</span>(log_line)
+      date, author, subject = log_line.chomp.split(<span class="Special">&quot;</span><span class="Constant">::</span><span class="Special">&quot;</span>)
+      date, time, zone = date.split(<span class="Special">&quot;</span><span class="Constant"> </span><span class="Special">&quot;</span>)
+      id = <span class="Special">&quot;</span><span class="Special">#{</span>date<span class="Special">}</span><span class="Special">\t</span><span class="Special">#{</span>author<span class="Special">}</span><span class="Special">&quot;</span>
+      <span class="Statement">return</span> id, subject
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Write a ChangeLog file based on the read Git log lines.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">write_log_file</span>
+      <span class="Identifier">@sorted_ids</span>.uniq.each <span class="Statement">do</span> |<span class="Identifier">id</span>|
+        write_log_entry(id, <span class="Identifier">@subjects_by_id</span>[id])
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Write a single ChaneLog entry.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">write_log_entry</span>(id, subjects)
+      <span class="Identifier">@log_file</span>.puts <span class="Special">&quot;</span><span class="Special">#{</span>id<span class="Special">}</span><span class="Special">\n\n</span><span class="Special">&quot;</span>
+      <span class="Identifier">@log_file</span>.puts subjects.map { |<span class="Identifier">subject</span>| <span class="Special">&quot;</span><span class="Special">\t</span><span class="Constant">* </span><span class="Special">#{</span>subject<span class="Special">}</span><span class="Special">&quot;</span> }.join(<span class="Special">&quot;</span><span class="Special">\n</span><span class="Special">&quot;</span>)
+      <span class="Identifier">@log_file</span>.puts <span class="Special">&quot;</span><span class="Special">\n</span><span class="Special">&quot;</span>
+    <span class="PreProc">end</span>
+
+  end
+
+end
+</pre>
+</div>
+</div>
+</p>
+<h2>Utility classes</h2>
+<p>
+Olag provides a set of utility classes that are useful in implementing
+well-behaved gems.
+</p>
+<h3>Unindeting text</h3>
+<p>
+When using "here documents" (<code>&lt;&lt;EOF</code> data), it is nice to be able to indent the
+data to match the surrounding code. There are other cases where it is useful to
+"unindent" multi-line text. The following tests demonstrates using the
+<code>unindent</code> function:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="test-unindent-text-rb">
+<span>test/unindent_text.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/string_unindent</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">test/spec</span><span class="Special">&quot;</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Test unindenting a multi-line text.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">class</span> <span class="Type">TestUnindentText</span> &lt; ::<span class="Type">Test</span>::<span class="Type">Unit</span>::<span class="Type">TestCase</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_automatic_unindent</span>
+    &lt;&lt;-<span class="Special">EOF</span>.unindent.should == <span class="Special">&quot;</span><span class="Constant">a</span><span class="Special">\n</span><span class="Constant">  b</span><span class="Special">\n</span><span class="Special">&quot;</span>
+<span class="Constant">      a</span>
+<span class="Constant">        b</span>
+<span class="Constant">    </span><span class="Special">EOF</span>
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_invalid_unindent</span>
+    <span class="Special">&quot;</span><span class="Constant">    a</span><span class="Special">\n</span><span class="Constant">  b</span><span class="Special">\n</span><span class="Special">&quot;</span>.unindent.should == <span class="Special">&quot;</span><span class="Constant">a</span><span class="Special">\n</span><span class="Constant">  b</span><span class="Special">\n</span><span class="Special">&quot;</span>
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_integer_unindent</span>
+    <span class="Special">&quot;</span><span class="Constant">  a</span><span class="Special">\n</span><span class="Constant">    b</span><span class="Special">\n</span><span class="Special">&quot;</span>.unindent(<span class="Constant">1</span>).should == <span class="Special">&quot;</span><span class="Constant"> a</span><span class="Special">\n</span><span class="Constant">   b</span><span class="Special">\n</span><span class="Special">&quot;</span>
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_string_unindent</span>
+    <span class="Special">&quot;</span><span class="Constant">  a</span><span class="Special">\n</span><span class="Constant">    b</span><span class="Special">\n</span><span class="Special">&quot;</span>.unindent(<span class="Special">&quot;</span><span class="Constant"> </span><span class="Special">&quot;</span>).should == <span class="Special">&quot;</span><span class="Constant"> a</span><span class="Special">\n</span><span class="Constant">   b</span><span class="Special">\n</span><span class="Special">&quot;</span>
+  <span class="PreProc">end</span>
+
+<span class="PreProc">end</span>
+</pre>
+</div>
+</div>
+</p>
+<p>
+And here is the implementation extending the built-in String class:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-string-unindent-rb">
+<span>lib/olag/string_unindent.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Extend the core String class.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">class</span> <span class="Type">String</span>
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Strip away common indentation from the beginning of each line in this
+String. By default, detects the indentation from the first line. This can
+be overriden to the exact (String) indentation to strip, or to the (Fixnum)
+number of spaces the first line is further-indented from the rest of the
+text.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">def</span> <span class="Identifier">unindent</span>(unindentation = <span class="Constant">0</span>)
+    unindentation = <span class="Special">&quot;</span><span class="Constant"> </span><span class="Special">&quot;</span> * (indentation.length - unindentation) <span class="Statement">if</span> <span class="Type">Fixnum</span> === unindentation
+    <span class="Statement">return</span> gsub(<span class="Special">/</span><span class="Special">^</span><span class="Special">#{</span>unindentation<span class="Special">}</span><span class="Special">/</span>, <span class="Special">&quot;&quot;</span>)
+  <span class="PreProc">end</span>
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Extract the indentation from the beginning of this String.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">def</span> <span class="Identifier">indentation</span>
+    <span class="Statement">return</span> sub(<span class="Special">/</span><span class="Special">[^</span><span class="Constant"> </span><span class="Special">]</span><span class="Special">.</span><span class="Special">*</span><span class="Special">$</span><span class="Special">/m</span>, <span class="Special">&quot;&quot;</span>)
+  <span class="PreProc">end</span>
+
+end
+</pre>
+</div>
+</div>
+</p>
+<h3>Accessing gem data files</h3>
+<p>
+Sometimes it is useful to package some files inside a gem, to be read by user
+code. This is of course trivial for Ruby code files (just use <code>require</code>) but
+not trivial if you want, say, to include some CSS files in your gem for
+everyone to use. Olag provides a way to resolve the path of any file in any gem
+(basically replicating what <code>require</code> does). Here is a simple test of using
+this functionality:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="test-access-data-files-rb">
+<span>test/access_data_files.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/data_files</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">test/spec</span><span class="Special">&quot;</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Test accessing data files packages with the gem.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">class</span> <span class="Type">TestAccessDataFiles</span> &lt; <span class="Type">Test</span>::<span class="Type">Unit</span>::<span class="Type">TestCase</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_access_data_file</span>
+    <span class="Type">File</span>.exist?(<span class="Type">Olag</span>::<span class="Type">DataFiles</span>.expand_path(<span class="Special">&quot;</span><span class="Constant">olag/data_files.rb</span><span class="Special">&quot;</span>)).should == <span class="Constant">true</span>
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_access_missing_file</span>
+    <span class="Type">Olag</span>::<span class="Type">DataFiles</span>.expand_path(<span class="Special">&quot;</span><span class="Constant">no-such-file</span><span class="Special">&quot;</span>).should == <span class="Special">&quot;</span><span class="Constant">no-such-file</span><span class="Special">&quot;</span>
+  <span class="PreProc">end</span>
+
+<span class="PreProc">end</span>
+</pre>
+</div>
+</div>
+</p>
+<p>
+And here is the implementation:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-data-files-rb">
+<span>lib/olag/data_files.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">module</span> <span class="Type">Olag</span>
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Provide access to data files packaged with the gem.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">module</span> <span class="Type">DataFiles</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Given the name of a data file packaged in some gem, return the absolute
+disk path for accessing that data file. This is similar to what
+<tt>require</tt> does internally, but here we just want the path for
+reading data, rather than load the Ruby code in the file.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">expand_path</span>(relative_path)
+      <span class="Identifier">$LOAD_PATH</span>.each <span class="Statement">do</span> |<span class="Identifier">load_directory</span>|
+        absolute_path = <span class="Type">File</span>.expand_path(load_directory + <span class="Special">&quot;</span><span class="Constant">/</span><span class="Special">&quot;</span> + relative_path)
+        <span class="Statement">return</span> absolute_path <span class="Statement">if</span> <span class="Type">File</span>.exist?(absolute_path)
+      <span class="Statement">end</span>
+      <span class="Statement">return</span> relative_path <span class="Comment"># This will cause &quot;file not found error&quot; down the line.</span>
+    <span class="PreProc">end</span>
+
+  end
+
+end
+</pre>
+</div>
+</div>
+</p>
+<h3>Simulating objects with Hash tables</h3>
+<p>
+Javascript has an interesting convention where <code>hash["key"]</code> and <code>hash.key</code>
+mean the same thing. This is very useful in cutting down boilerplate code, and
+it also makes your data serialize to very clean YAML. Unlike OpenStruct, you do
+not need to define all the members in advance, and you can alternate between
+the <code>.key</code> and <code>["key"]</code> forms as convenient for any particular piece of code.
+The down side is that you lose any semblance of type checking - misspelled
+member names and other errors are silently ignored. Well, that's what we have
+unit tests for, right? :-)
+</p>
+<p>
+Olag provides an extension to the Hash class that provides the above, for these
+who have chosen to follow the dark side of the force. Here is a simple test
+demonstrating using this ability:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="test-missing-keys-rb">
+<span>test/missing_keys.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/hash_struct</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">test/spec</span><span class="Special">&quot;</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Test accessing missing keys as members.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">class</span> <span class="Type">TestMissingKeys</span> &lt; ::<span class="Type">Test</span>::<span class="Type">Unit</span>::<span class="Type">TestCase</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_read_missing_key</span>
+    {}.missing.should == <span class="Constant">nil</span>
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_set_missing_key</span>
+    hash = {}
+    hash.missing = <span class="Special">&quot;</span><span class="Constant">value</span><span class="Special">&quot;</span>
+    hash.missing.should == <span class="Special">&quot;</span><span class="Constant">value</span><span class="Special">&quot;</span>
+  <span class="PreProc">end</span>
+
+<span class="PreProc">end</span>
+</pre>
+</div>
+</div>
+</p>
+<p>
+And here is the implementation:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-hash-struct-rb">
+<span>lib/olag/hash_struct.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Extend the core Hash class.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">class</span> <span class="Type">Hash</span>
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Provide OpenStruct/JavaScript-like implicit <tt>.key</tt> and
+<tt>.key=</tt> methods.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">def</span> <span class="Identifier">method_missing</span>(method, *arguments)
+    method = method.to_s
+    key = method.chomp(<span class="Special">&quot;</span><span class="Constant">=</span><span class="Special">&quot;</span>)
+    <span class="Statement">return</span> method == key ? <span class="Constant">self</span>[key] : <span class="Constant">self</span>[key] = arguments[<span class="Constant">0</span>]
+  <span class="PreProc">end</span>
+
+end
+</pre>
+</div>
+</div>
+</p>
+<h3>Sorting Hash tables YAML keys</h3>
+<p>
+In order to get deterministic test results, and for general
+hukman-friendlyness, it is often desirable to sort hash table keys when dumping
+it to YAML. In Ruby 1.8.x, this isn't the default. It is possible to introduce
+this behavior using the following hack:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-hash-sorted-yaml-rb">
+<span>lib/olag/hash_sorted_yaml.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">yaml</span><span class="Special">&quot;</span>
+
+<span class="Statement">if</span> <span class="Identifier">RUBY_VERSION</span>.include?(<span class="Special">&quot;</span><span class="Constant">1.8</span><span class="Special">&quot;</span>)
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Modify the hash class to emit YAML sorted keys. This is an ugly hack,
+specifically for Ruby 1.8.*.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">class</span> <span class="Type">Hash</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Provide access to the old, unsorted implementation.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">alias</span> <span class="Constant">:unsorted_to_yaml</span> <span class="Constant">:to_yaml</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Return the hash in YAML format with sorted keys.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">to_yaml</span>(opts = {})
+      <span class="Type">YAML</span>::quick_emit(<span class="Constant">self</span>, opts) <span class="Statement">do</span> |<span class="Identifier">out</span>|
+        out.map(taguri, to_yaml_style) <span class="Statement">do</span> |<span class="Identifier">map</span>|
+          to_yaml_sorted_keys.each <span class="Statement">do</span> |<span class="Identifier">key</span>|
+            map.add(key, fetch(key))
+          <span class="Statement">end</span>
+        <span class="Statement">end</span>
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Return the hash keys, sorted for emitting into YAML.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">to_yaml_sorted_keys</span>
+      <span class="Statement">begin</span>
+        <span class="Statement">return</span> keys.sort
+      <span class="Statement">rescue</span>
+        <span class="Statement">return</span> to_yaml_lexicographically_sorted_keys
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Return the hash keys, sorted lexicographically for emitting into YAML.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">to_yaml_lexicographically_sorted_keys</span>
+      <span class="Statement">begin</span>
+        <span class="Statement">return</span> keys.sort_by {|<span class="Identifier">key</span>| key.to_s}
+      <span class="Statement">rescue</span>
+        <span class="Statement">return</span> keys
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+  end
+
+end
+</pre>
+</div>
+</div>
+</p>
+<p>
+Here is a simple test demonstrating using it:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="test-sorted-keys-rb">
+<span>test/sorted_keys.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/hash_sorted_yaml</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">test/spec</span><span class="Special">&quot;</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+An uncomparable class. Keys of this class will cause the Hash to be emitted
+in string sort order.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">class</span> <span class="Type">Uncomparable</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">initialize</span>(value)
+    <span class="Identifier">@value</span> = value
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">to_yaml</span>(opts = {})
+    <span class="Statement">return</span> <span class="Identifier">@value</span>.to_yaml(opts)
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">to_s</span>
+    <span class="Statement">return</span> <span class="Identifier">@value</span>.to_s
+  <span class="PreProc">end</span>
+
+  <span class="Special">%w(</span><span class="Constant">&lt;=&gt; &lt; &lt;= &gt;= &gt;</span><span class="Special">)</span>.each <span class="Statement">do</span> |<span class="Identifier">operator</span>|
+    define_method(operator) { <span class="Statement">raise</span> <span class="Special">&quot;</span><span class="Constant">Prevent operator: </span><span class="Special">#{</span>operator<span class="Special">}</span><span class="Special">&quot;</span> }
+  <span class="Statement">end</span>
+
+<span class="PreProc">end</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+An uncomparable class that can’t be converted to a string. Keys of this
+class will cause the Hash to be emitted in unsorted order.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">class</span> <span class="Type">Unsortable</span> &lt; <span class="Type">Uncomparable</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">to_s</span>
+    <span class="Statement">raise</span> <span class="Special">&quot;</span><span class="Constant">Prevent conversion to string as well.</span><span class="Special">&quot;</span>
+  <span class="PreProc">end</span>
+
+<span class="PreProc">end</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Test sorting keys of YAML generated from Hash tables.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">class</span> <span class="Type">TestSortedKeys</span> &lt; ::<span class="Type">Test</span>::<span class="Type">Unit</span>::<span class="Type">TestCase</span>
+
+  <span class="Type">SORTED_NUMERICALLY</span> = &lt;&lt;-<span class="Special">EOF</span>.unindent
+<span class="Constant">    ---</span>
+<span class="Constant">    2: 2</span>
+<span class="Constant">    4: 4</span>
+<span class="Constant">    11: 1</span>
+<span class="Constant">    33: 3</span>
+<span class="Constant">  </span><span class="Special">EOF</span>
+
+  <span class="Type">SORTED_LEXICOGRAPHICALLY</span> = &lt;&lt;-<span class="Special">EOF</span>.unindent
+<span class="Constant">    ---</span>
+<span class="Constant">    11: 1</span>
+<span class="Constant">    2: 2</span>
+<span class="Constant">    33: 3</span>
+<span class="Constant">    4: 4</span>
+<span class="Constant">  </span><span class="Special">EOF</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_sortable_keys</span>
+    { <span class="Constant">2</span> =&gt; <span class="Constant">2</span>, <span class="Constant">4</span> =&gt; <span class="Constant">4</span>, <span class="Constant">11</span> =&gt; <span class="Constant">1</span>, <span class="Constant">33</span> =&gt; <span class="Constant">3</span> }.to_yaml.gsub(<span class="Special">/</span><span class="Constant"> </span><span class="Special">+</span><span class="Special">$</span><span class="Special">/</span>, <span class="Special">&quot;&quot;</span>).should == <span class="Type">SORTED_NUMERICALLY</span>
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_uncomparable_keys</span>
+    { <span class="Type">Uncomparable</span>.new(<span class="Constant">11</span>) =&gt; <span class="Constant">1</span>, <span class="Constant">2</span> =&gt; <span class="Constant">2</span>, <span class="Constant">33</span> =&gt; <span class="Constant">3</span>, <span class="Constant">4</span> =&gt; <span class="Constant">4</span> }.to_yaml.gsub(<span class="Special">/</span><span class="Constant"> </span><span class="Special">+</span><span class="Special">$</span><span class="Special">/</span>, <span class="Special">&quot;&quot;</span>).should == <span class="Type">SORTED_LEXICOGRAPHICALLY</span>
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_unsortable_keys</span>
+    yaml_should_not = { <span class="Type">Unsortable</span>.new(<span class="Constant">11</span>) =&gt; <span class="Constant">1</span>, <span class="Constant">2</span> =&gt; <span class="Constant">2</span>, <span class="Constant">33</span> =&gt; <span class="Constant">3</span>, <span class="Constant">4</span> =&gt; <span class="Constant">4</span> }.to_yaml.gsub(<span class="Special">/</span><span class="Constant"> </span><span class="Special">+</span><span class="Special">$</span><span class="Special">/</span>, <span class="Special">&quot;&quot;</span>).should.not
+    yaml_should_not == <span class="Type">SORTED_NUMERICALLY</span>
+    yaml_should_not == <span class="Type">SORTED_LEXICOGRAPHICALLY</span>
+  <span class="PreProc">end</span>
+
+<span class="PreProc">end</span>
+</pre>
+</div>
+</div>
+</p>
+<h3>Collecting errors</h3>
+<p>
+In library code, it is bad practice to terminate the program on an error.
+Raising an exception is preferrable, but that forces you to abort the
+processing. In some cases, it is preferrable to collect the error, skip a bit
+of processing, and continue (if only for detecting additional errors). For
+example, one would expect a compiler to emit more than just the first syntax
+error message.
+</p>
+<p>
+Olag provides an error collection class that also automatically formats the
+error to indicate its location. Here is a simple test that demonstrates
+collecting errors:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="test-collect-errors-rb">
+<span>test/collect_errors.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/errors</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/test</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">test/spec</span><span class="Special">&quot;</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Test collecting errors.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">class</span> <span class="Type">TestCollectErrors</span> &lt; <span class="Type">Test</span>::<span class="Type">Unit</span>::<span class="Type">TestCase</span>
+
+  <span class="PreProc">include</span> <span class="Type">Test</span>::<span class="Type">WithErrors</span>
+  <span class="PreProc">include</span> <span class="Type">Test</span>::<span class="Type">WithFakeFS</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_one_error</span>
+    <span class="Identifier">@errors</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Oops</span><span class="Special">&quot;</span>
+    <span class="Identifier">@errors</span>.should == [ <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Oops</span><span class="Special">&quot;</span> ]
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_path_error</span>
+    <span class="Identifier">@errors</span>.in_path(<span class="Special">&quot;</span><span class="Constant">foo</span><span class="Special">&quot;</span>) <span class="Statement">do</span>
+      <span class="Identifier">@errors</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Oops</span><span class="Special">&quot;</span>
+      <span class="Special">&quot;</span><span class="Constant">result</span><span class="Special">&quot;</span>
+    <span class="Statement">end</span>.should == <span class="Special">&quot;</span><span class="Constant">result</span><span class="Special">&quot;</span>
+    <span class="Identifier">@errors</span>.should == [ <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Oops in file: foo</span><span class="Special">&quot;</span> ]
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_line_error</span>
+    <span class="Identifier">@errors</span>.in_path(<span class="Special">&quot;</span><span class="Constant">foo</span><span class="Special">&quot;</span>) <span class="Statement">do</span>
+      <span class="Identifier">@errors</span>.at_line(<span class="Constant">1</span>)
+      <span class="Identifier">@errors</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Oops</span><span class="Special">&quot;</span>
+    <span class="Statement">end</span>
+    <span class="Identifier">@errors</span>.should == [ <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Oops in file: foo at line: 1</span><span class="Special">&quot;</span> ]
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_file_error</span>
+    write_fake_file(<span class="Special">&quot;</span><span class="Constant">foo</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Constant">bar</span><span class="Special">\n</span><span class="Special">&quot;</span>)
+    <span class="Identifier">@errors</span>.in_file(<span class="Special">&quot;</span><span class="Constant">foo</span><span class="Special">&quot;</span>) <span class="Statement">do</span>
+      <span class="Identifier">@errors</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Oops</span><span class="Special">&quot;</span>
+      <span class="Special">&quot;</span><span class="Constant">result</span><span class="Special">&quot;</span>
+    <span class="Statement">end</span>.should == <span class="Special">&quot;</span><span class="Constant">result</span><span class="Special">&quot;</span>
+    <span class="Identifier">@errors</span>.should == [ <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Oops in file: foo</span><span class="Special">&quot;</span> ]
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_file_lines_error</span>
+    write_fake_file(<span class="Special">&quot;</span><span class="Constant">foo</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Constant">bar</span><span class="Special">\n</span><span class="Constant">baz</span><span class="Special">\n</span><span class="Special">&quot;</span>)
+    <span class="Identifier">@errors</span>.in_file_lines(<span class="Special">&quot;</span><span class="Constant">foo</span><span class="Special">&quot;</span>) <span class="Statement">do</span> |<span class="Identifier">line</span>|
+      <span class="Identifier">@errors</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Oops</span><span class="Special">&quot;</span> <span class="Statement">if</span> line == <span class="Special">&quot;</span><span class="Constant">baz</span><span class="Special">\n</span><span class="Special">&quot;</span>
+    <span class="Statement">end</span>
+    <span class="Identifier">@errors</span>.should == [ <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Oops in file: foo at line: 2</span><span class="Special">&quot;</span> ]
+  <span class="PreProc">end</span>
+
+
+<span class="PreProc">end</span>
+</pre>
+</div>
+</div>
+</p>
+<p>
+Which uses a mix-in that helps writing tests that use errors:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-test-with-errors-rb">
+<span>lib/olag/test/with_errors.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/errors</span><span class="Special">&quot;</span>
+
+<span class="PreProc">module</span> <span class="Type">Test</span>
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Mix-in for tests that collect Errors.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">module</span> <span class="Type">WithErrors</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Aliasing methods needs to be deferred to when the module is included and be
+executed in the context of the class.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">included</span>(base)
+      base.class_eval <span class="Statement">do</span>
+
+        alias_method <span class="Constant">:errors_original_setup</span>, <span class="Constant">:setup</span>
+
+</pre>
+        <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>        </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Automatically create an fresh +@errors+ data member for each test.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+        <span class="PreProc">def</span> <span class="Identifier">setup</span>
+          errors_original_setup
+          <span class="Identifier">@errors</span> = <span class="Type">Olag</span>::<span class="Type">Errors</span>.new
+        <span class="PreProc">end</span>
+
+      end
+    end
+
+  end
+
+end
+</pre>
+</div>
+</div>
+</p>
+<p>
+Here is the actual implementation:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-errors-rb">
+<span>lib/olag/errors.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">module</span> <span class="Type">Olag</span>
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Collect a list of errors.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">class</span> <span class="Type">Errors</span> &lt; <span class="Type">Array</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+The current path we are reporting errors for, if any.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="Statement">attr_reader</span> <span class="Constant">:path</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+The current line number we are reporting errors for, if any.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="Statement">attr_reader</span> <span class="Constant">:line_number</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Create an empty errors collection.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">initialize</span>
+      <span class="Identifier">@path</span> = <span class="Constant">nil</span>
+      <span class="Identifier">@line_number</span> = <span class="Constant">nil</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Associate all errors collected by a block with a specific disk file.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">in_path</span>(path, &amp;block)
+      prev_path, prev_line_number = <span class="Identifier">@path</span>, <span class="Identifier">@line_number</span>
+      <span class="Identifier">@path</span>, <span class="Identifier">@line_number</span> = path, <span class="Constant">nil</span>
+      result = block.call(path)
+      <span class="Identifier">@path</span>, <span class="Identifier">@line_number</span> = prev_path, prev_line_number
+      <span class="Statement">return</span> result
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Associate all errors collected by a block with a disk file that is opened
+and passed to the block.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">in_file</span>(path, mode = <span class="Special">&quot;</span><span class="Constant">r</span><span class="Special">&quot;</span>, &amp;block)
+      <span class="Statement">return</span> in_path(path) { <span class="Type">File</span>.open(path, mode, &amp;block) }
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Associate all errors collected by a block with a line read from a disk file
+that is opened and passed to the block.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">in_file_lines</span>(path, &amp;block)
+      in_file(path) <span class="Statement">do</span> |<span class="Identifier">file</span>|
+        <span class="Identifier">@line_number</span> = <span class="Constant">0</span>
+        file.each_line <span class="Statement">do</span> |<span class="Identifier">line</span>|
+          <span class="Identifier">@line_number</span> += <span class="Constant">1</span>
+          block.call(line)
+        <span class="Statement">end</span>
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Set the line number for any errors collected from here on.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">at_line</span>(line_number)
+      <span class="Identifier">@line_number</span> = line_number
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Add a single error to the collection, with automatic context annotation
+(current disk file and line). Other methods (push, += etc.) do not
+automatically add the context annotation.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">&lt;&lt;</span>(message)
+      push(annotate_error_message(message))
+    <span class="PreProc">end</span>
+
+  <span class="Statement">protected</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Annotate an error message with the context (current file and line).
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">annotate_error_message</span>(message)
+      <span class="Statement">return</span> <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: </span><span class="Special">#{</span>message<span class="Special">}</span><span class="Special">&quot;</span> <span class="Statement">unless</span> <span class="Identifier">@path</span>
+      <span class="Statement">return</span> <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: </span><span class="Special">#{</span>message<span class="Special">}</span><span class="Constant"> in file: </span><span class="Special">#{</span><span class="Identifier">@path</span><span class="Special">}</span><span class="Special">&quot;</span> <span class="Statement">unless</span> <span class="Identifier">@line_number</span>
+      <span class="Statement">return</span> <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: </span><span class="Special">#{</span>message<span class="Special">}</span><span class="Constant"> in file: </span><span class="Special">#{</span><span class="Identifier">@path</span><span class="Special">}</span><span class="Constant"> at line: </span><span class="Special">#{</span><span class="Identifier">@line_number</span><span class="Special">}</span><span class="Special">&quot;</span>
+    <span class="PreProc">end</span>
+
+  end
+
+end
+</pre>
+</div>
+</div>
+</p>
+<h3>Testing with a fake file system</h3>
+<p>
+Sometimes tests need to muck around with disk files. One way to go about it is
+to create a temporary disk directory, work in there, and clean it up when done.
+Another, simpler way is to use the FakeFS file system, which captures all(most)
+of Ruby's file operations and redirect them to an in-memory fake file system.
+Here is a mix-in that helps writing tests using FakeFS (we will use it below
+when running applications inside unit tests):
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-test-with-fakefs-rb">
+<span>lib/olag/test/with_fakefs.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">fileutils</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">fakefs/safe</span><span class="Special">&quot;</span>
+
+<span class="PreProc">module</span> <span class="Type">Test</span>
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Mix-in for tests that use the FakeFS fake file system.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">module</span> <span class="Type">WithFakeFS</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Create and write into a file on the fake file system.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">write_fake_file</span>(path, content = <span class="Constant">nil</span>, &amp;block)
+      directory = <span class="Type">File</span>.dirname(path)
+      <span class="Type">FileUtils</span>.mkdir_p(directory) <span class="Statement">unless</span> <span class="Type">File</span>.exists?(directory)
+      <span class="Type">File</span>.open(path, <span class="Special">&quot;</span><span class="Constant">w</span><span class="Special">&quot;</span>) <span class="Statement">do</span> |<span class="Identifier">file</span>|
+        file.write(content) <span class="Statement">unless</span> content.nil?
+        block.call(file) <span class="Statement">unless</span> block.nil?
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Aliasing methods needs to be deferred to when the module is included and be
+executed in the context of the class.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">included</span>(base)
+      base.class_eval <span class="Statement">do</span>
+
+        alias_method <span class="Constant">:fakefs_original_setup</span>, <span class="Constant">:setup</span>
+
+</pre>
+        <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>        </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Automatically create an fresh fake file system for each test.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+        <span class="PreProc">def</span> <span class="Identifier">setup</span>
+          fakefs_original_setup
+          <span class="Type">FakeFS</span>.activate!
+          <span class="Type">FakeFS</span>::<span class="Type">FileSystem</span>.clear
+        <span class="PreProc">end</span>
+
+        alias_method <span class="Constant">:fakefs_original_teardown</span>, <span class="Constant">:teardown</span>
+
+</pre>
+        <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>        </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Automatically clean up the fake file system at the end of each test.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+        <span class="PreProc">def</span> <span class="Identifier">teardown</span>
+          fakefs_original_teardown
+          <span class="Type">FakeFS</span>.deactivate!
+        <span class="PreProc">end</span>
+
+      end
+
+    end
+
+  end
+
+end
+</pre>
+</div>
+</div>
+</p>
+<h3>Testing with a temporary file</h3>
+<p>
+When running external programs, actually generating a temporary disk file is
+sometimes inevitable. Of course, such files need to be cleaned up when the test
+is done. If we need more than just one such file, it is easier to create a
+whole temporary directory which is easily cleaned up in one operation.
+</p>
+<p>
+Here is a mix-in that helps writing tests using temporary files and folders:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-test-with-tempfile-rb">
+<span>lib/olag/test/with_tempfile.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">fileutils</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">tempfile</span><span class="Special">&quot;</span>
+
+<span class="PreProc">module</span> <span class="Type">Test</span>
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Mix-in for tests that write a temporary disk file.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">module</span> <span class="Type">WithTempfile</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Create a temporary file on the disk. The file will be automatically removed
+when the test is done.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">write_tempfile</span>(path, content, directory = <span class="Special">&quot;</span><span class="Constant">.</span><span class="Special">&quot;</span>)
+      file = <span class="Type">Tempfile</span>.open(path, directory)
+      file.write(content)
+      file.close(<span class="Constant">false</span>)
+      (<span class="Identifier">@tempfiles</span> ||= []) &lt;&lt; (path = file.path)
+      <span class="Statement">return</span> path
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Create a temporary directory on the disk. The directory will be
+automatically removed when the test is done. This is very useful for
+complex file tests that can’t use FakeFS.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">create_tempdir</span>(directory = <span class="Special">&quot;</span><span class="Constant">.</span><span class="Special">&quot;</span>)
+      file = <span class="Type">Tempfile</span>.open(<span class="Special">&quot;</span><span class="Constant">dir</span><span class="Special">&quot;</span>, directory)
+      (<span class="Identifier">@tempfiles</span> ||= []) &lt;&lt; (path = file.path)
+      <span class="Type">File</span>.delete(path)
+      <span class="Type">Dir</span>.mkdir(path)
+      <span class="Statement">return</span> path
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Aliasing methods needs to be deferred to when the module is included and be
+executed in the context of the class.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">included</span>(base)
+      base.class_eval <span class="Statement">do</span>
+
+        alias_method <span class="Constant">:tempfile_original_teardown</span>, <span class="Constant">:teardown</span>
+
+</pre>
+        <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>        </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Automatically clean up the temporary files when the test is done.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+        <span class="PreProc">def</span> <span class="Identifier">teardown</span>
+          tempfile_original_teardown
+          (<span class="Identifier">@tempfiles</span> || []).each <span class="Statement">do</span> |<span class="Identifier">tempfile</span>|
+            <span class="Type">FileUtils</span>.rm_rf(tempfile) <span class="Statement">if</span> <span class="Type">File</span>.exist?(tempfile)
+          <span class="Statement">end</span>
+        <span class="PreProc">end</span>
+
+      end
+    end
+
+  end
+
+end
+</pre>
+</div>
+</div>
+</p>
+<h3>Testing with a temporary directory</h3>
+<p>
+When running external programs, or sometimes even Ruby programs, it is useful
+to have a temporary directory to stuff everything into, which is automatically
+removed when the test is done. The <code>WithTempfile</code> module does provide the
+<code>create_tempdir</code> function, which we can use; but it is easier to also include
+the <code>WithTempdir</code> module, which does this automatically in the <code>setup</code> function
+for us, and precomputes up the standard I/O file names as well.
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-test-with-tempdir-rb">
+<span>lib/olag/test/with_tempdir.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/test/with_tempfile</span><span class="Special">&quot;</span>
+
+<span class="PreProc">module</span> <span class="Type">Test</span>
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Mix-in for tests that run applications in a temporary directory. This
+assumes that the test class has already mixed-in the WithTempfile mix-in.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">module</span> <span class="Type">WithTempdir</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Aliasing methods needs to be deferred to when the module is included and be
+executed in the context of the class.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">included</span>(base)
+      base.class_eval <span class="Statement">do</span>
+
+        alias_method <span class="Constant">:tempdir_original_setup</span>, <span class="Constant">:setup</span>
+
+</pre>
+        <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>        </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Create a temporary directory for the run and percompute the standard I/O
+file names in it.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+        <span class="PreProc">def</span> <span class="Identifier">setup</span>
+          tempdir_original_setup
+          <span class="Identifier">@tempdir</span> = create_tempdir
+          <span class="Identifier">@stdout</span> = <span class="Identifier">@tempdir</span> + <span class="Special">&quot;</span><span class="Constant">/stdout</span><span class="Special">&quot;</span>
+          <span class="Identifier">@stdin</span> = <span class="Identifier">@tempdir</span> + <span class="Special">&quot;</span><span class="Constant">/stdin</span><span class="Special">&quot;</span>
+          <span class="Identifier">@stderr</span> = <span class="Identifier">@tempdir</span> + <span class="Special">&quot;</span><span class="Constant">/stderr</span><span class="Special">&quot;</span>
+        <span class="PreProc">end</span>
+
+      end
+    end
+
+  end
+
+end
+</pre>
+</div>
+</div>
+</p>
+<h3>Testing Rake tasks</h3>
+<p>
+Testing Rake tasks is tricky because tests may be run in the context of Rake.
+Therefore, the best practice is to create a new Rake application and restore
+the original when the test is done:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-test-with-rake-rb">
+<span>lib/olag/test/with_rake.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">module</span> <span class="Type">Test</span>
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Mix-in for tests that use Rake.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">module</span> <span class="Type">WithRake</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Aliasing methods needs to be deferred to when the module is included and be
+executed in the context of the class.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">included</span>(base)
+      base.class_eval <span class="Statement">do</span>
+
+        alias_method <span class="Constant">:rake_original_setup</span>, <span class="Constant">:setup</span>
+
+</pre>
+        <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>        </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Automatically create a fresh Rake application.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+        <span class="PreProc">def</span> <span class="Identifier">setup</span>
+          rake_original_setup
+          <span class="Identifier">@original_rake</span> = <span class="Type">Rake</span>.application
+          <span class="Identifier">@rake</span> = <span class="Type">Rake</span>::<span class="Type">Application</span>.new
+          <span class="Type">Rake</span>.application = <span class="Identifier">@rake</span>
+        <span class="PreProc">end</span>
+
+        alias_method <span class="Constant">:rake_original_teardown</span>, <span class="Constant">:teardown</span>
+
+</pre>
+        <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>        </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Automatically restore the original Rake application.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+        <span class="PreProc">def</span> <span class="Identifier">teardown</span>
+          rake_original_teardown
+          <span class="Type">Rake</span>.application = <span class="Identifier">@original_rake</span>
+        <span class="PreProc">end</span>
+
+      end
+    end
+
+  end
+
+end
+</pre>
+</div>
+</div>
+</p>
+<h3>Testing in general</h3>
+<p>
+Rather than requiring each of the above test mix-in modules on its own, it is
+convenient to just <code>require "olag/test"</code> and be done:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-test-rb">
+<span>lib/olag/test.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/test/with_errors</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/test/with_fakefs</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/test/with_rake</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/test/with_tempfile</span><span class="Special">&quot;</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Enhance the global test module with additional mix-in modules.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">module</span> <span class="Type">Test</span>
+<span class="PreProc">end</span>
+</pre>
+</div>
+</div>
+</p>
+<h2>Applications</h2>
+<p>
+Writing an application requires a lot of boilerplate. Olag provides an
+Application base class that handles standard command line flags, execution from
+within tests, and errors collection.
+</p>
+<p>
+Here is a simple test for running such an application from unit tests:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="test-run-application-rb">
+<span>test/run_application.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/application</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/test</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">test/spec</span><span class="Special">&quot;</span>
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+An application that emits an error when run.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">class</span> <span class="Type">ErrorApplication</span> &lt; <span class="Type">Olag</span>::<span class="Type">Application</span>
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Run the error application.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">def</span> <span class="Identifier">run</span>
+    <span class="Statement">super</span> { <span class="Identifier">@errors</span> &lt;&lt; <span class="Special">&quot;</span><span class="Constant">Oops!</span><span class="Special">&quot;</span> }
+  <span class="PreProc">end</span>
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Test minimal number of arguments.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">def</span> <span class="Identifier">parse_arguments</span>
+    expect_at_least(<span class="Constant">2</span>, <span class="Special">&quot;</span><span class="Constant">fake arguments</span><span class="Special">&quot;</span>)
+    expect_at_most(<span class="Constant">3</span>, <span class="Special">&quot;</span><span class="Constant">fake arguments</span><span class="Special">&quot;</span>)
+  <span class="PreProc">end</span>
+
+end
+
+</pre>
+<table class='layout'>
+<tr>
+<td class='indentation'>
+<pre></pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Test running a Olag Application.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+<span class="PreProc">class</span> <span class="Type">TestRunApplication</span> &lt; <span class="Type">Test</span>::<span class="Type">Unit</span>::<span class="Type">TestCase</span>
+
+  <span class="PreProc">include</span> <span class="Type">Test</span>::<span class="Type">WithFakeFS</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_do_nothing</span>
+    <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv([]) { <span class="Type">Olag</span>::<span class="Type">Application</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">0</span>
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_inexact_arguments</span>
+    <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv(<span class="Special">%w(</span><span class="Constant">-e stderr foo</span><span class="Special">)</span>) { <span class="Type">Olag</span>::<span class="Type">Application</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">1</span>
+    <span class="Type">File</span>.read(<span class="Special">&quot;</span><span class="Constant">stderr</span><span class="Special">&quot;</span>).should.include?(<span class="Special">&quot;</span><span class="Constant">Expects no arguments</span><span class="Special">&quot;</span>)
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_missing_arguments</span>
+    <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv(<span class="Special">%w(</span><span class="Constant">-e stderr foo</span><span class="Special">)</span>) { <span class="Type">ErrorApplication</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">1</span>
+    <span class="Type">File</span>.read(<span class="Special">&quot;</span><span class="Constant">stderr</span><span class="Special">&quot;</span>).should.include?(<span class="Special">&quot;</span><span class="Constant">Expects at least 2 fake arguments</span><span class="Special">&quot;</span>)
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_extra_arguments</span>
+    <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv(<span class="Special">%w(</span><span class="Constant">-e stderr foo bar baz bad</span><span class="Special">)</span>) { <span class="Type">ErrorApplication</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">1</span>
+    <span class="Type">File</span>.read(<span class="Special">&quot;</span><span class="Constant">stderr</span><span class="Special">&quot;</span>).should.include?(<span class="Special">&quot;</span><span class="Constant">Expects at most 3 fake arguments</span><span class="Special">&quot;</span>)
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_print_version</span>
+    <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv(<span class="Special">%w(</span><span class="Constant">-o nested/stdout -v -h</span><span class="Special">)</span>) { <span class="Type">Olag</span>::<span class="Type">Application</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">0</span>
+    <span class="Type">File</span>.read(<span class="Special">&quot;</span><span class="Constant">nested/stdout</span><span class="Special">&quot;</span>).should == <span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Version: </span><span class="Special">#{</span><span class="Type">Olag</span>::<span class="Type">VERSION</span><span class="Special">}</span><span class="Special">\n</span><span class="Special">&quot;</span>
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_print_help</span>
+    <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv(<span class="Special">%w(</span><span class="Constant">-o stdout -h -v</span><span class="Special">)</span>) { <span class="Type">Olag</span>::<span class="Type">Application</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">0</span>
+    <span class="Type">File</span>.read(<span class="Special">&quot;</span><span class="Constant">stdout</span><span class="Special">&quot;</span>).should.include?(<span class="Special">&quot;</span><span class="Constant">DESCRIPTION:</span><span class="Special">&quot;</span>)
+  <span class="PreProc">end</span>
+
+  <span class="PreProc">def</span> <span class="Identifier">test_print_errors</span>
+    <span class="Type">Olag</span>::<span class="Type">Application</span>.with_argv(<span class="Special">%w(</span><span class="Constant">-e stderr foo bar</span><span class="Special">)</span>) { <span class="Type">ErrorApplication</span>.new(<span class="Constant">true</span>).run }.should == <span class="Constant">1</span>
+    <span class="Type">File</span>.read(<span class="Special">&quot;</span><span class="Constant">stderr</span><span class="Special">&quot;</span>).should.include?(<span class="Special">&quot;</span><span class="Constant">Oops!</span><span class="Special">&quot;</span>)
+  <span class="PreProc">end</span>
+
+<span class="PreProc">end</span>
+</pre>
+</div>
+</div>
+</p>
+<p>
+And here is the implementation:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-application-rb">
+<span>lib/olag/application.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">fileutils</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/errors</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/globals</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/string_unindent.rb</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/version</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">optparse</span><span class="Special">&quot;</span>
+
+<span class="PreProc">module</span> <span class="Type">Olag</span>
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Base class for Olag applications.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">class</span> <span class="Type">Application</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Create a Olag application.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">initialize</span>(is_test = <span class="Constant">nil</span>)
+      <span class="Identifier">@errors</span> = <span class="Type">Errors</span>.new
+      <span class="Identifier">@is_test</span> = !!is_test
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Run the Olag application, returning its status.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">run</span>(*arguments, &amp;block)
+      parse_options
+      <span class="Statement">yield</span>(*arguments) <span class="Statement">if</span> block_given?
+      <span class="Statement">return</span> print_errors
+    <span class="PreProc">rescue</span> <span class="Type">ExitException</span> =&gt; exception
+      <span class="Statement">return</span> exception.status
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Execute a block with an overriden ARGV, typically for running an
+application.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">with_argv</span>(argv)
+      <span class="Statement">return</span> <span class="Type">Globals</span>.without_changes <span class="Statement">do</span>
+        <span class="Identifier">ARGV</span>.replace(argv)
+        <span class="Statement">yield</span>
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+  <span class="Statement">protected</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Parse the command line options of the program.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">parse_options</span>
+      parser = <span class="Type">OptionParser</span>.new <span class="Statement">do</span> |<span class="Identifier">options</span>|
+        (<span class="Identifier">@options</span> = options).banner = banner + <span class="Special">&quot;</span><span class="Special">\n\n</span><span class="Constant">OPTIONS:</span><span class="Special">\n\n</span><span class="Special">&quot;</span>
+        define_flags
+      <span class="Statement">end</span>
+      parser.parse!
+      parse_arguments
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Expect a limited number of remaining arguments (verified by the block).
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">expect_limited_arguments</span>(message_prefix, arguments_limit, argument_type, &amp;block)
+      <span class="Statement">if</span> !<span class="Statement">yield</span>(<span class="Identifier">ARGV</span>.size)
+        <span class="Identifier">$stderr</span>.puts(<span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: </span><span class="Special">#{</span>message_prefix<span class="Special">}</span><span class="Constant"> </span><span class="Special">#{</span>arguments_limit<span class="Special">}</span><span class="Constant"> </span><span class="Special">#{</span>argument_type<span class="Special">}</span><span class="Constant">.</span><span class="Special">&quot;</span>)
+        <span class="Statement">exit</span>(<span class="Constant">1</span>)
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Ensure we have got at least a certain number of command line arguments.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">expect_at_least</span>(minimal_arguments, argument_type)
+      expect_limited_arguments(<span class="Special">&quot;</span><span class="Constant">Expects at least</span><span class="Special">&quot;</span>, minimal_arguments, argument_type) { |<span class="Identifier">remaining_arguments</span>| remaining_arguments &gt;= minimal_arguments }
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Ensure we have got at least a certain number of command line arguments.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">expect_at_most</span>(maximal_arguments, argument_type)
+      expect_limited_arguments(<span class="Special">&quot;</span><span class="Constant">Expects at most</span><span class="Special">&quot;</span>, maximal_arguments, argument_type) { |<span class="Identifier">remaining_arguments</span>| remaining_arguments &lt;= maximal_arguments }
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Ensure we have got an exact number of command line arguments.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">expect_exactly</span>(exact_arguments, argument_type)
+      arguments_limit = exact_arguments == <span class="Constant">0</span> ? <span class="Special">'</span><span class="Constant">no</span><span class="Special">'</span> : exact_arguments
+      expect_limited_arguments(<span class="Special">&quot;</span><span class="Constant">Expects</span><span class="Special">&quot;</span>, arguments_limit, argument_type) { |<span class="Identifier">remaining_arguments</span>| remaining_arguments == exact_arguments }
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Parse remaining command-line file arguments. This is expected to be
+overriden by the concrete application sub-class. By default assumes there
+are no such arguments.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">parse_arguments</span>
+      expect_exactly(<span class="Constant">0</span>, <span class="Special">&quot;</span><span class="Constant">arguments</span><span class="Special">&quot;</span>)
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Define application flags. This is expected to be overriden by the concrete
+application sub-class.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">define_flags</span>
+      define_help_flag
+      define_version_flag
+      define_redirect_flag(<span class="Special">&quot;</span><span class="Constant">$stdout</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Constant">output</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Constant">w</span><span class="Special">&quot;</span>)
+      define_redirect_flag(<span class="Special">&quot;</span><span class="Constant">$stderr</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Constant">error</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Constant">w</span><span class="Special">&quot;</span>)
+      <span class="Comment">#! Most scripts do not use this, but they can add it.</span>
+      <span class="Comment">#! define_redirect_flag(&quot;$stdin&quot;, &quot;input&quot;, &quot;r&quot;)</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Define the standard help flag.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">define_help_flag</span>
+      <span class="Identifier">@options</span>.on(<span class="Special">&quot;</span><span class="Constant">-h</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Constant">--help</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Constant">Print this help message and exit.</span><span class="Special">&quot;</span>) <span class="Statement">do</span>
+        puts(<span class="Identifier">@options</span>)
+        print_additional_help
+        <span class="Statement">exit</span>(<span class="Constant">0</span>)
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Print additional help message. This includes both the command line file
+arguments, if any, and a short description of the program.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">print_additional_help</span>
+      arguments_name, arguments_description = arguments
+      puts(format(<span class="Special">&quot;</span><span class="Constant">    %-33s%s</span><span class="Special">&quot;</span>, arguments_name, arguments_description)) <span class="Statement">if</span> arguments_name
+      print(<span class="Special">&quot;</span><span class="Special">\n</span><span class="Constant">DESCRIPTION:</span><span class="Special">\n\n</span><span class="Special">&quot;</span>)
+      print(description)
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Return the banner line of the help message. This is expected to be
+overriden by the concrete application sub-class. By default returns the
+path name of thje executed program.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">banner</span>
+      <span class="Statement">return</span> <span class="Identifier">$0</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Return the name and description of any final command-line file arguments,
+if any. This is expected to be overriden by the concrete application
+sub-class. By default, assume there are no final command-line file
+arguments (however, `parse_options` does not enforce this by default).
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">arguments</span>
+      <span class="Statement">return</span> <span class="Constant">nil</span>, <span class="Constant">nil</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Return a short description of the program. This is expected to be overriden
+by the concrete application sub-class. By default, provide
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">description</span>
+      <span class="Statement">return</span> <span class="Special">&quot;</span><span class="Constant">Sample description</span><span class="Special">\n</span><span class="Special">&quot;</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Define the standard version flag.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">define_version_flag</span>
+      version_number = version
+      <span class="Identifier">@options</span>.on(<span class="Special">&quot;</span><span class="Constant">-v</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Constant">--version</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Constant">Print the version number (</span><span class="Special">#{</span>version_number<span class="Special">}</span><span class="Constant">) and exit.</span><span class="Special">&quot;</span>) <span class="Statement">do</span>
+        puts(<span class="Special">&quot;</span><span class="Special">#{</span><span class="Identifier">$0</span><span class="Special">}</span><span class="Constant">: Version: </span><span class="Special">#{</span>version_number<span class="Special">}</span><span class="Special">&quot;</span>)
+        <span class="Statement">exit</span>(<span class="Constant">0</span>)
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Define a flag redirecting one of the standard IO files.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">define_redirect_flag</span>(variable, name, mode)
+      <span class="Identifier">@options</span>.on(<span class="Special">&quot;</span><span class="Constant">-</span><span class="Special">#{</span>name[<span class="Constant">0</span>,<span class="Constant">1</span>]<span class="Special">}</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span><span class="Constant">--</span><span class="Special">#{</span>name<span class="Special">}</span><span class="Constant"> FILE</span><span class="Special">&quot;</span>, <span class="Type">String</span>, <span class="Special">&quot;</span><span class="Constant">Redirect standard </span><span class="Special">#{</span>name<span class="Special">}</span><span class="Constant"> to a file.</span><span class="Special">&quot;</span>) <span class="Statement">do</span> |<span class="Identifier">file</span>|
+        <span class="Statement">eval</span>(<span class="Special">&quot;</span><span class="Special">#{</span>variable<span class="Special">}</span><span class="Constant"> = Application::redirect_file(</span><span class="Special">#{</span>variable<span class="Special">}</span><span class="Constant">, file, mode)</span><span class="Special">&quot;</span>)
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Redirect a standard file.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">redirect_file</span>(default, file, mode)
+      <span class="Statement">return</span> default <span class="Statement">if</span> file.nil? || file == <span class="Special">&quot;</span><span class="Constant">-</span><span class="Special">&quot;</span>
+      <span class="Type">FileUtils</span>.mkdir_p(<span class="Type">File</span>.dirname(<span class="Type">File</span>.expand_path(file))) <span class="Statement">if</span> mode == <span class="Special">&quot;</span><span class="Constant">w</span><span class="Special">&quot;</span>
+      <span class="Statement">return</span> <span class="Type">File</span>.open(file, mode)
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Return the application’s version. This is expected to be overriden by the
+concrete application sub-class. In the base class, we just return Olag’s
+version which only useful for Olag’s tests.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">version</span>
+      <span class="Statement">return</span> <span class="Type">Olag</span>::<span class="Type">VERSION</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Print all the collected errors.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">print_errors</span>
+      <span class="Identifier">@errors</span>.each <span class="Statement">do</span> |<span class="Identifier">error</span>|
+        <span class="Identifier">$stderr</span>.puts(error)
+      <span class="Statement">end</span>
+      <span class="Statement">return</span> <span class="Identifier">@errors</span>.size
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Exit the application, unless we are running inside a test.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">exit</span>(status)
+      <span class="Type">Kernel</span>.exit(status) <span class="Statement">unless</span> <span class="Identifier">@is_test</span>
+      <span class="Statement">raise</span> <span class="Type">ExitException</span>.new(status)
+    <span class="PreProc">end</span>
+
+  end
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Exception used to exit when running inside tests.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">class</span> <span class="Type">ExitException</span> &lt; <span class="Type">Exception</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+The exit status.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="Statement">attr_reader</span> <span class="Constant">:status</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Create a new exception to indicate exiting the program with some status.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">initialize</span>(status)
+      <span class="Identifier">@status</span> = status
+    <span class="PreProc">end</span>
+
+  end
+
+end
+</pre>
+</div>
+</div>
+</p>
+<p>
+It makes use of the following utility class, for saving and restoring the
+global state when running an application in a test:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="lib-olag-globals-rb">
+<span>lib/olag/globals.rb</span>
+</a>
+</div>
+<div class="chunk html">
+<pre class='ruby code syntax'>
+<span class="PreProc">module</span> <span class="Type">Olag</span>
+
+</pre>
+  <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>  </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Save and restore the global variables when running an application inside a
+test.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+  <span class="PreProc">class</span> <span class="Type">Globals</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Run some code without affecting the global state.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">without_changes</span>(&amp;block)
+      state = <span class="Type">Globals</span>.new
+      <span class="Statement">begin</span>
+        <span class="Statement">return</span> block.call
+      <span class="Statement">ensure</span>
+        state.restore
+      <span class="Statement">end</span>
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Restore the relevant global variables.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">restore</span>
+      <span class="Identifier">$stdin</span> = <span class="Type">Globals</span>.restore_file(<span class="Identifier">$stdin</span>, <span class="Identifier">@original_stdin</span>)
+      <span class="Identifier">$stdout</span> = <span class="Type">Globals</span>.restore_file(<span class="Identifier">$stdout</span>, <span class="Identifier">@original_stdout</span>)
+      <span class="Identifier">$stderr</span> = <span class="Type">Globals</span>.restore_file(<span class="Identifier">$stderr</span>, <span class="Identifier">@original_stderr</span>)
+      <span class="Identifier">ARGV</span>.replace(<span class="Identifier">@original_argv</span>)
+    <span class="PreProc">end</span>
+
+  <span class="Statement">protected</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Take a snapshot of the relevant global variables.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Identifier">initialize</span>
+      <span class="Identifier">@original_stdin</span> = <span class="Identifier">$stdin</span>
+      <span class="Identifier">@original_stdout</span> = <span class="Identifier">$stdout</span>
+      <span class="Identifier">@original_stderr</span> = <span class="Identifier">$stderr</span>
+      <span class="Identifier">@original_argv</span> = <span class="Identifier">ARGV</span>.dup
+    <span class="PreProc">end</span>
+
+</pre>
+    <table class='layout'>
+<tr>
+<td class='indentation'>
+<pre>    </pre>
+</td>
+<td class='html'>
+<div class='rdoc comment markup'>
+<p>
+Restore a specific global file variable to its original state.
+</p>
+</div>
+</td>
+</tr>
+</table>
+<pre class='ruby code syntax'>
+    <span class="PreProc">def</span> <span class="Constant">self</span>.<span class="Identifier">restore_file</span>(current, original)
+      current.close <span class="Statement">unless</span> current == original
+      <span class="Statement">return</span> original
+    <span class="PreProc">end</span>
+
+  end
+
+end
+</pre>
+</div>
+</div>
+</p>
+<h2>License</h2>
+<p>
+Olag is published under the MIT license:
+</p>
+<p>
+<div class="named_with_containers chunk">
+<div class="chunk name">
+<a name="license">
+<span>LICENSE</span>
+</a>
+</div>
+<div class="chunk html">
+<div class='rdoc doc markup'>
+<p>
+Copyright © 2010-2011 Oren Ben-Kiki
+</p>
+<p>
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+“Software”), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the
+following conditions:
+</p>
+<p>
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+</p>
+<p>
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+</p>
+</div>
+</div>
+</div>
+</p>
+</div>
+<script type="text/javascript">
+/*
+ * Quick-and-dirty JS for inserting a table of content inside a DIV with the id
+ * "contents". The table of content is a series of nested UL and LI elements,
+ * prefixed with an H1 containing the text "0 Contents". This H1 comes in
+ * addition to the single static H1 expected by HTML best practices. It looks
+ * "right" and should not confuse search engines etc. since they do not execute
+ * Javascript code.
+ */
+function inject_contents() {
+  var contents = document.getElementById("contents");
+  var lists = contents_lists();
+  contents.appendChild(contents_header()); // TRICKY: Must be done after contents_lists().
+  contents.appendChild(lists);
+}
+
+/*
+ * Create a table of contents H1.
+ */
+function contents_header() {
+  var h = document.createElement("h1");
+  var text = document.createTextNode("Contents");
+  h.appendChild(text);
+  return h;
+}
+
+/*
+ * Create nested UL/LI lists for the table of content.
+ */
+function contents_lists() {
+  var container;
+  var indices = [];
+  var h_elements = all_h_elements();
+  /* Using "for (var e in h_elements)" is too sensitive to other libraries */
+  for (var e = 0; e < h_elements.length; e++) {
+    h = h_elements[e];
+    var level = h.tagName.substring(1, 2) - 1;
+    container = pop_container(container, indices, level);
+    container = push_container(container, indices, level);
+    var id = indices.join(".");
+    container.appendChild(list_element(id, h));
+    h.insertBefore(header_anchor(id), h.firstChild);
+  }
+  return pop_container(container, indices, 1);
+}
+
+/*
+ * Get a list of all H elements in the DOM. We skip the single H1 element;
+ * otherwise it would just have the index "1" which would be prefixed to all
+ * other headers.
+ */
+function all_h_elements() {
+  var elements = document.getElementsByTagName("*");
+  var h_elements = [];
+  for (var e in elements) {
+    var h = elements[e];
+    if (/^h[2-9]$/i.test(h.tagName)) h_elements.push(h);
+  }
+  return h_elements;
+}
+
+/*
+ * Pop indices (and UL containers) until reaching up to a given level.
+ */
+function pop_container(container, indices, level) {
+  while (indices.length > level) {
+    container = container.parentNode;
+    indices.pop();
+  }
+  return container;
+}
+
+/*
+ * Push indices (and UL containers) until reaching doen to a given level.
+ */
+function push_container(container, indices, level) {
+  while (indices.length < level) {
+    // TRICKY: push a 0 for the very last new level, so the ++ at the end
+    // will turn it into a 1.
+    indices.push(indices.level < level - 1);
+    var ul = document.createElement("ul");
+    if (container) {
+      container.appendChild(ul);
+    }
+    container = ul;
+  }
+  indices[indices.length - 1]++;
+  return container;
+}
+
+/*
+ * Create a LI for an H element with some id.
+ */
+function list_element(id, h) {
+  var a = document.createElement("a");
+  a.href = "#" + id;
+  a.innerHTML = id + "&nbsp;" + h.innerHTML;
+  var li = document.createElement("li");
+  li.appendChild(a);
+  return li;
+}
+
+/*
+ * Create an anchor for an H element with some id.
+ */
+function header_anchor(id) {
+  var text = document.createTextNode(id + " ");
+  var a = document.createElement("a");
+  a.id = id;
+  a.appendChild(text);
+  return a;
+}
+
+/* Only invoke it after all helper functions are defined. */
+inject_contents();
+/*
+ * Quick-and-dirty JS for inserting a "+"/"-" control for chunk visibility next
+ * to each chunk's name. By default, all chunks are hidden.
+ */
+function inject_chunk_controls() {
+  var name_div;
+  foreach_chunk_elements(function(div) {
+    name_div = div;
+  }, function(html_div) {
+    var control_span = document.createElement("span");
+    var hide = function() {
+      control_span.innerHTML = "+";
+      html_div.style.display = "none";
+    }
+    var show = function() {
+      control_span.innerHTML = "&#8211;"; // Vertical bar.
+      html_div.style.display = "block";
+    }
+    name_div.onclick = function() {
+      html_div.style.display == "block" ? hide() : show();
+    }
+    hide(); // Initializes html_div.style.display
+    control_span.className = "control chunk";
+    name_div.insertBefore(control_span, name_div.firstChild);
+  })
+}
+
+/*
+ * Loop on all DIV elements that contain a chunk name, or that contain chunk
+ * HTML. Assumes that they come in pairs - name first, HTML second.
+ */
+function foreach_chunk_elements(name_lambda, html_lambda) {
+  var div_elements = document.getElementsByTagName("div");
+  for (var e in div_elements) {
+    var div = div_elements[e];
+    classes = " " + div.className + " ";
+    if (!/ chunk /.test(classes)) continue;
+    if (/ name /.test(classes)) name_lambda(div);
+    if (/ html /.test(classes)) html_lambda(div);
+  }
+}
+
+/* Only invoke it after all helper functions are defined. */
+inject_chunk_controls();
+(function(h,o,f){var u=!+"\v1";var y=function(){return null;};var m=0;var q="plaintext";var l=function(A){function z(){}z.prototype=A;return new z();};var p=false;var i=function(A,C,z){for(var B=0;B<A.length;B++){if(A[B]===C){return true;}if(z&&typeof(A[B])==="string"&&typeof(C)==="string"&&A[B].toUpperCase()===C.toUpperCase()){return true;}}return false;};var e=function(z,A){if(!A){return z;}for(var B in A){z[B]=A[B];}return z;};var x=function(z){return z.replace(/[-\/\\^$*+?.()|[\]{}]/g,"\\$&");};var j=function(C,B,A,z){return function(G){var F=C;if(B===1){A.reverse();}for(var D=0,E,H;D<A.length;D++){H=G[F+(D*B)];E=A[A.length-1-D];if(H===f){if(E.optional!==f&&E.optional){F-=B;}else{return false;}}else{if(H.name===E.token&&(E.values===f||i(E.values,H.value,z))){continue;}else{if(E.optional!==f&&E.optional){F-=B;}else{return false;}}}}return true;};};var c=function(B,A,C,z){return function(F){var D=B,E;var G=false;while((E=F[--D])!==f){if(E.name===C.token&&i(C.values,E.value)){if(E.name===A.token&&i(A.values,E.value,z)){G=true;break;}return false;}if(E.name===A.token&&i(A.values,E.value,z)){G=true;break;}}if(!G){return false;}D=B;while((E=F[++D])!==f){if(E.name===A.token&&i(A.values,E.value,z)){if(E.name===C.token&&i(C.values,E.value,z)){G=true;break;}return false;}if(E.name===C.token&&i(C.values,E.value,z)){G=true;break;}}return G;};};var w=function(){var z=function(A){return function(C){var B=o.createElement("span");B.className="sunlight-"+A;B.appendChild(C.createTextNode(C.tokens[C.index].value));return C.addNode(B)||true;};};return{handleToken:function(A){return z(A.tokens[A.index].name)(A);},handle_default:function(A){return A.addNode(A.createTextNode(A.tokens[A.index].value));},handle_ident:function(A){var B=function(D,E){D=D||[];for(var C=0;C<D.length;C++){if(typeof(D[C])==="function"){if(D[C](A)){return z("named-ident")(A);}}else{if(E&&E(D[C])(A.tokens)){return z("named-ident")(A);}}}return false;};return B(A.language.namedIdentRules.custom)||B(A.language.namedIdentRules.follows,function(C){return j(A.index-1,-1,C.slice(0),A.language.caseInsensitive);})||B(A.language.namedIdentRules.precedes,function(C){return j(A.index+1,1,C.slice(0),A.language.caseInsensitive);})||B(A.language.namedIdentRules.between,function(C){return c(A.index,C.opener,C.closer,A.language.caseInsensitive);})||z("ident")(A);}};}();var r=function(E){E=E.replace(/\r\n/g,"\n").replace(/\r/g,"\n");var C=0;var H=1;var A=1;var z=E.length;var B=f;var G=z>0?E.charAt(0):B;var F=false;var D=function(J){if(J===0){return"";}J=J||1;var K="",I=1;while(I<=J&&E.charAt(C+I)!==""){K+=E.charAt(C+I++);}return K===""?B:K;};return{toString:function(){return"length: "+z+", index: "+C+", line: "+H+", column: "+A+", current: ["+G+"]";},peek:function(I){return D(I);},read:function(I){var K=D(I);if(K!==B){C+=K.length;A+=K.length;if(F){H++;A=1;F=false;}var J=K.substring(0,K.length-1).replace(/[^\n]/g,"").length;if(J>0){H+=J;A=1;}if(K.charAt(K.length-1)==="\n"){F=true;}G=K.charAt(K.length-1);}else{C=z;G=B;}return K;},getLine:function(){return H;},getColumn:function(){return A;},isEof:function(){return C>=z;},EOF:B,current:function(){return G;}};};var b=function(B,G,C,z){G=G||[];var F=B.reader.current();if(B.language.caseInsensitive){F=F.toUpperCase();}if(!G[F]){return null;}G=G[F];for(var E=0,A,H;E<G.length;E++){A=G[E].value;H=F+B.reader.peek(A.length);if(A===H||G[E].regex.test(H)){var I=B.reader.getLine(),D=B.reader.getColumn();return B.createToken(C,B.reader.current()+B.reader[z?"peek":"read"](A.length-1),I,D);}}return null;};var v=function(){var z=function(I,J){var G=I[2]||[];var F=I[1].length;var K=typeof(I[1])==="string"?new RegExp(x(I[1])):I[1].regex;var H=I[3]||false;return function(P,L,N,M,R,O){var Q=false,N=N||"";O=O?1:0;var S=function(V){var T;var W=P.reader.current();for(var U=0;U<G.length;U++){T=(V?W:"")+P.reader.peek(G[U].length-V);if(T===G[U]){N+=P.reader.read(T.length-V);return true;}}T=(V?W:"")+P.reader.peek(F-V);if(K.test(T)){Q=true;return false;}N+=V?W:P.reader.read();return true;};if(!O||S(true)){while(P.reader.peek()!==P.reader.EOF&&S(false)){}}if(O){N+=P.reader.current();P.reader.read();}else{N+=H||P.reader.peek()===P.reader.EOF?"":P.reader.read(F);}if(!Q){P.continuation=L;}return P.createToken(J,N,M,R);};};var D=function(H){var N=function(){return H.language.identFirstLetter&&H.language.identFirstLetter.test(H.reader.current());};var J=function(){return b(H,H.language.keywords,"keyword");};var O=function(){if(H.language.customTokens===f){return null;}for(var R in H.language.customTokens){var Q=b(H,H.language.customTokens[R],R);if(Q!==null){return Q;}}return null;};var M=function(){return b(H,H.language.operators,"operator");};var I=function(){var Q=H.reader.current();if(H.language.punctuation.test(x(Q))){return H.createToken("punctuation",Q,H.reader.getLine(),H.reader.getColumn());}return null;};var G=function(S){if(!N()){return null;}var U=H.reader.current();var R=H.reader.peek();var Q=H.reader.getLine(),T=H.reader.getColumn();while(R!==H.reader.EOF){if(!H.language.identAfterFirstLetter.test(R)){break;}U+=H.reader.read();R=H.reader.peek();}return H.createToken(S?"namedIdent":"ident",U,Q,T);};var P=function(){if(H.defaultData.text===""){H.defaultData.line=H.reader.getLine();H.defaultData.column=H.reader.getColumn();}H.defaultData.text+=H.reader.current();return null;};var F=function(){var X=H.reader.current();for(var W in H.language.scopes){var R=H.language.scopes[W];for(var T=0,V,S,U,Q;T<R.length;T++){V=R[T][0];if(V!==X+H.reader.peek(V.length-1)){continue;}S=H.reader.getLine(),U=H.reader.getColumn();H.reader.read(V.length-1);Q=z(R[T],W);return Q(H,Q,V,S,U);}}return null;};var K=function(){return H.language.numberParser(H);};var L=function(){var S=H.language.customParseRules;if(S===f){return null;}for(var R=0,Q;R<S.length;R++){Q=S[R](H);if(Q!==null){return Q;}}return null;};return L()||O()||J()||F()||G()||K()||M()||I()||P();};var E=function(I,K,F){var J=[];var H={reader:r(I),language:K,token:function(L){return J[L];},getAllTokens:function(){return J.slice(0);},count:function(){return J.length;},defaultData:{text:"",line:1,column:1},createToken:function(M,O,L,N){return{name:M,line:L,value:u?O.replace(/\n/g,"\r"):O,column:N};}};if(F){J.push(F(H,F,"",H.reader.getLine(),H.reader.getColumn(),true));}while(!H.reader.isEof()){var G=D(H);if(G!==null){if(H.defaultData.text!==""){J.push(H.createToken("default",H.defaultData.text,H.defaultData.line,H.defaultData.column));H.defaultData.text="";}if(G[0]!==f){J=J.concat(G);}else{J.push(G);}}H.reader.read();}if(H.defaultData.text!==""){J.push(H.createToken("default",H.defaultData.text,H.defaultData.line,H.defaultData.column));}return{tokens:J,continuation:H.continuation};};var B=function(I,L,J,H){var F=[];var G=E(I,L,J.continuation);var K=function(){var M=String.fromCharCode(160);var N=new Array(H.tabWidth+1).join(M);return function(O){return O.split(" ").join(M).split("\t").join(N);};}();return{tokens:(J.tokens||[]).concat(G.tokens),index:J.index?J.index+1:0,language:L,continuation:G.continuation,addNode:function(M){F.push(M);},createTextNode:function(M){return o.createTextNode(K(M));},getNodes:function(){return F;}};};var C=function(N,G,M){if(!p){p=function(){var P=null;if(o.defaultView&&o.defaultView.getComputedStyle){P=o.defaultView.getComputedStyle;}else{if(typeof(o.body.currentStyle)!=="undefined"){P=function(R,Q){return R.currentStyle;};}else{P=y;}}return function(Q,R){return P(Q,null)[R];};}();}M=M||{};var J=k[G];if(J===f){J=k[q];}var O=B(N,J,M,this.options);var L=J.analyzer;for(var K=M.index?M.index+1:0,I,H,F;K<O.tokens.length;K++){O.index=K;I=O.tokens[K].name;H="handle_"+I;L[H]?L[H](O):L.handleToken(O);}return O;};return{highlight:function(G,F){return C.call(this,G,F);},highlightNode:function A(Q){var J;if((J=Q.className.match(/(?:\s|^)sunlight-highlight-(\S+)(?:\s|$)/))===null||/(?:\s|^)sunlight-highlighted(?:\s|$)/.test(Q.className)){return;}var V=J[1];var K=0;for(var S=0,T,O,R,L;S<Q.childNodes.length;S++){if(Q.childNodes[S].nodeType===3){T=o.createElement("span");T.className="sunlight-highlighted sunlight-"+V;L=C.call(this,Q.childNodes[S].nodeValue,V,L);m++;K=K||m;O=L.getNodes();for(R=0;R<O.length;R++){T.appendChild(O[R]);}Q.replaceChild(T,Q.childNodes[S]);}else{A.call(this,Q.childNodes[S]);}}Q.className+=" sunlight-highlighted";if(this.options.lineNumbers===true||(p&&this.options.lineNumbers==="automatic"&&p(Q,"display")==="block")){var M=o.createElement("div"),F=o.createElement("pre");var P=Q.innerHTML.replace(/[^\n]/g,"").length-/\n$/.test(Q.lastChild.innerHTML);var G,W,N=this.options.lineHighlight.length>0;if(N){G=o.createElement("div");G.className="sunlight-line-highlight-overlay";}M.className="sunlight-container";F.className="sunlight-line-number-margin";for(var U=this.options.lineNumberStart,I=o.createTextNode(u?"\r":"\n"),H,X;U<=this.options.lineNumberStart+P;U++){H=o.createElement("a");X=(Q.id?Q.id:"sunlight-"+K)+"-line-"+U;H.setAttribute("name",X);H.setAttribute("href","#"+X);H.appendChild(o.createTextNode(U));F.appendChild(H);F.appendChild(I.cloneNode(false));if(N){W=o.createElement("div");if(i(this.options.lineHighlight,U)){W.className="sunlight-line-highlight-active";}G.appendChild(W);}}M.appendChild(F);Q.parentNode.insertBefore(M,Q);Q.parentNode.removeChild(Q);M.appendChild(Q);if(N){M.appendChild(G);}}}};}();var g=function(z){this.options=e(e({},a),z);};g.prototype=v;var d=function(C,z,B){B=B||1;var A=C[z+B];if(A!==f&&A.name==="default"){A=C[z+(B*2)];}return A;};var s=function(F,E,z){var A={};for(var B=0,D,C;B<F.length;B++){D=z?F[B].toUpperCase():F[B];C=D.charAt(0);if(!A[C]){A[C]=[];}A[C].push({value:D,regex:new RegExp(x(D)+E,z?"i":"")});}return A;};var t=function(C){var F=C.reader.current(),E,A=C.reader.getLine(),D=C.reader.getColumn();if(!/\d/.test(F)){if(F!=="."||!/\d/.test(C.reader.peek())){return null;}E=F+C.reader.read();}else{E=F;}var B,z=false;while((B=C.reader.peek())!==C.reader.EOF){if(!/[A-Za-z0-9]/.test(B)){if(B==="."&&!z){E+=C.reader.read();z=true;continue;}break;}E+=C.reader.read();}return C.createToken("number",E,A,D);};var a={tabWidth:4,lineNumbers:"automatic",lineNumberStart:1,lineHighlight:[]};var k={};var n={analyzer:l(w),customTokens:[],namedIdentRules:{},punctuation:/[^\w\s]/,numberParser:t,caseInsensitive:false};h.Sunlight={version:"1.3",Highlighter:g,createAnalyzer:function(){return l(w);},globalOptions:a,highlightAll:function(B){var A=new g(B);var z=o.getElementsByTagName("*");for(var C=0;C<z.length;C++){A.highlightNode(z[C]);}},registerLanguage:function(z,B){if(!z){throw'Languages must be registered with an identifier, e.g. "php" for PHP';}B=e(e({},n),B);B.name=z;B.keywords=s(B.keywords||[],"\\b",B.caseInsensitive);B.operators=s(B.operators||[],"",B.caseInsensitive);for(var A in B.customTokens){B.customTokens[A]=s(B.customTokens[A].values,B.customTokens[A].boundary,B.caseInsensitive);}k[B.name]=B;},util:{escapeSequences:["\\n","\\t","\\r","\\\\","\\v","\\f"],contains:i,matchWord:b,createHashMap:s,createBetweenRule:c,createProceduralRule:j,getNextNonWsToken:function(A,z){return d(A,z,1);},getPreviousNonWsToken:function(A,z){return d(A,z,-1);},whitespace:{token:"default",optional:true}}};h.Sunlight.registerLanguage(q,{punctuation:/(?!x)x/,numberParser:y});}(window,document));
+(function(c,a,d){if(c===d||c.registerLanguage===d){throw"Include sunlight.js before including language files";}var b=[];c.registerLanguage("ruby",{keywords:["BEGIN","END","__ENCODING__","__END__","__FILE__","__LINE__","alias","and","begin","break","case","class","def","defined?","do","else","elsif","end","ensure","false","for","if","in","module","next","nil","not","or","redo","rescue","retry","return","self","super","then","true","undef","unless","until","when","while","yield"],customTokens:{"function":{values:["Array","Float","Integer","String","at_exit","autoload","binding","caller","catch","chop!","chop","chomp!","chomp","eval","exec","exit!","exit","fail","fork","format","gets","global_variables","gsub!","gsub","iterator?","lambda","load","local_variables","loop","open","p","print","printf","proc","putc","puts","raise","rand","readline","readlines","require","select","sleep","split","sprintf","srand","sub!","sub","syscall","system","test","trace_var","trap","untrace_var"],boundary:"\\W"},specialOperator:{values:["defined?","eql?","equal?"],boundary:"\\W"}},customParseRules:[function(g){var f=g.reader.peek();if(g.reader.current()!=="/"||f==="/"||f==="*"){return null;}var l=function(){var n=g.token(g.count()-1);var m=null;if(g.defaultData.text!==""){m=g.createToken("default",g.defaultData.text);}if(!m){m=n;}if(m===d){return true;}if(m.name==="default"&&m.value.indexOf("\n")>-1){return true;}if(n.name==="keyword"||n.name==="ident"||n.name==="number"){return false;}return true;}();if(!l){return null;}var k="/";var e=g.reader.getLine();var i=g.reader.getColumn();var j,h;while(g.reader.peek()!==g.reader.EOF){j=g.reader.peek(2);if(j==="\\/"||j==="\\\\"){k+=g.reader.read(2);continue;}k+=(h=g.reader.read());if(h==="/"){break;}}while(g.reader.peek()!==g.reader.EOF){if(!/[A-Za-z]/.test(g.reader.peek())){break;}k+=g.reader.read();}return g.createToken("regexLiteral",k,e,i);},function(g){if(g.reader.current()!=="<"||g.reader.peek()!=="<"){return null;}var e=c.util.getPreviousNonWsToken(g.getAllTokens(),g.count()-1);if(e&&(e.name==="ident"||e.name==="number"||e.name==="string")){return null;}var o=g.reader.getLine(),i=g.reader.getColumn();var m="<<",j="";g.reader.read(2);var l=g.reader.current();var f="";if(l==="-"){g.reader.read();m+=l;l=g.reader.current();}if(c.util.contains(['"',"'","`"],l)){f=l;}else{j=l;}m+=l;var n;while((n=g.reader.peek())!==g.reader.EOF){if(n==="\n"||(f===""&&/\W/.test(n))){break;}if(n==="\\"){var k=g.reader.peek(2);if(f!==""&&c.util.contains(["\\"+f,"\\\\"],k)){m+=k;j+=g.reader.read(2);continue;}}m+=g.reader.read();if(f!==""&&n===f){break;}j+=n;}b.push(j);var h=g.createToken("heredocDeclaration",m,o,i);return h;},function(g){if(b.length===0){return null;}if(g.defaultData.text.replace(/[^\n]/g,"").length===0){return null;}var j=[],k,f,h,i=g.reader.current();while(b.length>0&&g.reader.peek()!==g.reader.EOF){k=b.shift();f=g.reader.getLine(),h=g.reader.getColumn();while(g.reader.peek()!==g.reader.EOF){var e=g.reader.peek(k.length+2);if(e==="\n"+k||e==="\n"+k+"\n"){i+=g.reader.read(k.length+2);break;}i+=g.reader.read();}j.push(g.createToken("heredoc",i,f,h));i="";}return j.length>0?j:null;},function(h){if(h.reader.current()!=="%"){return null;}var k="%",j=1,l=false;var g=h.reader.peek();if(g==="q"||g==="Q"||g==="r"){j++;if(g==="r"){l=true;}}if(/[A-Za-z0-9=]$/.test(h.reader.peek(j))){return null;}var e=h.reader.getLine(),i=h.reader.getColumn();k+=h.reader.read(j);var f=k.charAt(k.length-1);switch(f){case"(":f=")";break;case"[":f="]";break;case"{":f="}";break;}while((g=h.reader.peek())!==h.reader.EOF){if(g==="\\"&&c.util.contains(["\\"+f,"\\\\"],h.reader.peek(2))){k+=h.reader.read(2);continue;}k+=h.reader.read();if(g===f){break;}}if(l){while(h.reader.peek()!==h.reader.EOF){if(!/[A-Za-z]/.test(h.reader.peek())){break;}k+=h.reader.read();}}return h.createToken(l?"regexLiteral":"rawString",k,e,i);},function(h){if(h.reader.current()!=="="||h.reader.peek(5)!=="begin"){return null;}if((h.count()===0&&h.defaultData.text==="")||h.defaultData.text.charAt(h.defaultData.text.length-1)!=="\n"){return null;}var j="=begin";var f=h.reader.getLine();var i=h.reader.getColumn();h.reader.read(5);var e=false,g;while((g=h.reader.peek())!==h.reader.EOF){if(!e&&h.reader.peek(5)==="\n=end"){e=true;j+=h.reader.read(5);continue;}if(e&&g==="\n"){break;}j+=h.reader.read();}return h.createToken("docComment",j,f,i);}],scopes:{string:[['"','"',c.util.escapeSequences.concat(['\\"'])],["'","'",["\\'","\\\\"]]],comment:[["#","\n",null,true]],subshellCommand:[["`","`",["\\`"]]],globalVariable:[["$",{length:1,regex:/[\W]/},null,true]],instanceVariable:[["@",{length:1,regex:/[\W]/},null,true]]},identFirstLetter:/[A-Za-z_]/,identAfterFirstLetter:/\w/,namedIdentRules:{follows:[[{token:"keyword",values:["class","def"]},c.util.whitespace],[{token:"keyword",values:["class"]},c.util.whitespace,{token:"ident"},c.util.whitespace,{token:"operator",values:["<","<<"]},c.util.whitespace]],precedes:[[c.util.whitespace,{token:"operator",values:["::"]}],[c.util.whitespace,{token:"operator",values:["."]},c.util.whitespace,{token:"ident",values:["new"]},c.util.whitespace,{token:"punctuation",values:["("]}]]},operators:["?","...","..",".","::",":","[]","+=","+","-=","-","**=","*=","**","*","/=","/","%=","%","&&=","&=","&&","&","||=","|=","||","|","^=","^","~","<=>","<<=","<<","<=","<",">>=",">>",">=",">","!~","!=","!","=>","===","==","=~","="]});}(window.Sunlight,document));
+Sunlight.globalOptions.lineNumbers = false;
+Sunlight.highlightAll();
+</script>
+</body>
+</html>

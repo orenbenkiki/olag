@@ -4,17 +4,19 @@ require "olag/gem_specification"
 require "olag/update_version"
 require "olag/version"
 require "rake/clean"
-require "rake/gempackagetask"
-require "rake/rdoctask"
 require "rake/testtask"
 require "rcov/rcovtask"
+require "rdoc/task"
 require "reek/rake/task"
 require "roodi"
+require "rubygems/package_task"
 
 module Olag
 
   # Automate Rake task creation for a gem.
   class Rake
+
+    include ::Rake::DSL
 
     # Define all the Rake tasks.
     def initialize(spec)
@@ -34,12 +36,12 @@ module Olag
       define_verify_task
       define_doc_task
       define_commit_task
-      # This is a problem. If the version number gets updated, GemPackageTask
+      # This is a problem. If the version number gets updated, Gem::PackageTask
       # fails. This is better than if it used the old version number, I
       # suppose, but not as nice as if it just used @spec.version everywhere.
       # The solution for this is to do a dry run before doing the final +rake+
       # +commit+, which is a good idea in general.
-      ::Rake::GemPackageTask.new(@spec) { |package| }
+      Gem::PackageTask.new(@spec) { |package| }
     end
 
     # {{{ Verify gem functionality

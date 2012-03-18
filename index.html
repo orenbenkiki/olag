@@ -800,12 +800,12 @@ The Olag::Rake class sets up the tasks listed above as follows:
 <span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/update_version</span><span class="Special">&quot;</span>
 <span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">olag/version</span><span class="Special">&quot;</span>
 <span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">rake/clean</span><span class="Special">&quot;</span>
-<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">rake/gempackagetask</span><span class="Special">&quot;</span>
-<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">rake/rdoctask</span><span class="Special">&quot;</span>
 <span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">rake/testtask</span><span class="Special">&quot;</span>
 <span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">rcov/rcovtask</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">rdoc/task</span><span class="Special">&quot;</span>
 <span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">reek/rake/task</span><span class="Special">&quot;</span>
 <span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">roodi</span><span class="Special">&quot;</span>
+<span class="PreProc">require</span> <span class="Special">&quot;</span><span class="Constant">rubygems/package_task</span><span class="Special">&quot;</span>
 
 <span class="PreProc">module</span> <span class="Type">Olag</span>
 
@@ -826,6 +826,8 @@ Automate Rake task creation for a gem.
 </table>
 <pre class='ruby code syntax'>
   <span class="PreProc">class</span> <span class="Type">Rake</span>
+
+    <span class="PreProc">include</span> ::<span class="Type">Rake</span>::<span class="Type">DSL</span>
 
 </pre>
     <table class='layout'>
@@ -884,18 +886,18 @@ Define a task that does “everything”.
 <td class='html'>
 <div class='rdoc comment markup'>
 <p>
-This is a problem. If the version number gets updated, GemPackageTask
+This is a problem. If the version number gets updated, Gem::PackageTask
 fails. This is better than if it used the old version number, I suppose,
 but not as nice as if it just used @spec.version everywhere. The solution
-for this is to do a dry run before doing the final <tt>rake</tt>
-<tt>commit</tt>, which is a good idea in general.
+for this is to do a dry run before doing the final <code>rake</code>
+<code>commit</code>, which is a good idea in general.
 </p>
 </div>
 </td>
 </tr>
 </table>
 <pre class='ruby code syntax'>
-      ::<span class="Type">Rake</span>::<span class="Type">GemPackageTask</span>.new(<span class="Identifier">@spec</span>) { |<span class="Identifier">package</span>| }
+      <span class="Type">Gem</span>::<span class="Type">PackageTask</span>.new(<span class="Identifier">@spec</span>) { |<span class="Identifier">package</span>| }
     end
 
 </pre>
@@ -1790,14 +1792,14 @@ This module contains all the Olag code.
 <div class='rdoc comment markup'>
 <p>
 This version number. The third number is automatically updated to track the
-number of Git commits by running <tt>rake version</tt>.
+number of Git commits by running <code>rake version</code>.
 </p>
 </div>
 </td>
 </tr>
 </table>
 <pre class='ruby code syntax'>
-  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.18</span><span class="Special">&quot;</span>
+  <span class="Type">VERSION</span> = <span class="Special">&quot;</span><span class="Constant">0.1.20</span><span class="Special">&quot;</span>
 
 end
 </pre>
@@ -3385,7 +3387,7 @@ when the test is done.
       file = <span class="Type">Tempfile</span>.open(path, directory)
       file.write(content)
       file.close(<span class="Constant">false</span>)
-      (<span class="Identifier">@tempfiles</span> ||= []) &lt;&lt; (path = file.path)
+      (<span class="Identifier">@tempfiles</span> ||= []) &lt;&lt; file
       <span class="Statement">return</span> path
     <span class="PreProc">end</span>
 
@@ -3408,9 +3410,9 @@ complex file tests that can’t use FakeFS.
 </table>
 <pre class='ruby code syntax'>
     <span class="PreProc">def</span> <span class="Identifier">create_tempdir</span>(directory = <span class="Special">&quot;</span><span class="Constant">.</span><span class="Special">&quot;</span>)
-      file = <span class="Type">Tempfile</span>.open(<span class="Special">&quot;</span><span class="Constant">dir</span><span class="Special">&quot;</span>, directory)
-      (<span class="Identifier">@tempfiles</span> ||= []) &lt;&lt; (path = file.path)
-      <span class="Type">File</span>.delete(path)
+      (file = <span class="Type">Tempfile</span>.open(<span class="Special">&quot;</span><span class="Constant">dir</span><span class="Special">&quot;</span>, directory)).close(<span class="Constant">true</span>)
+      (<span class="Identifier">@tempfiles</span> ||= []) &lt;&lt; file
+      <span class="Type">File</span>.delete(path = file.path)
       <span class="Type">Dir</span>.mkdir(path)
       <span class="Statement">return</span> path
     <span class="PreProc">end</span>
@@ -3456,7 +3458,8 @@ Automatically clean up the temporary files when the test is done.
         <span class="PreProc">def</span> <span class="Identifier">teardown</span>
           tempfile_original_teardown
           (<span class="Identifier">@tempfiles</span> || []).each <span class="Statement">do</span> |<span class="Identifier">tempfile</span>|
-            <span class="Type">FileUtils</span>.rm_rf(tempfile) <span class="Statement">if</span> <span class="Type">File</span>.exist?(tempfile)
+            path = tempfile.path
+            <span class="Type">FileUtils</span>.rm_rf(path) <span class="Statement">if</span> <span class="Type">File</span>.exist?(path)
           <span class="Statement">end</span>
         <span class="PreProc">end</span>
 
@@ -4655,7 +4658,8 @@ function contents_lists() {
   var container;
   var indices = [];
   var h_elements = all_h_elements();
-  for (var e in h_elements) {
+  /* Using "for (var e in h_elements)" is too sensitive to other libraries */
+  for (var e = 0; e < h_elements.length; e++) {
     h = h_elements[e];
     var level = h.tagName.substring(1, 2) - 1;
     container = pop_container(container, indices, level);
